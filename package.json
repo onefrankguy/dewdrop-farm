@@ -1,0 +1,17 @@
+{
+  "name": "js13k2020",
+  "private": true,
+  "license": "MIT",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "webpack-dev-server --mode development",
+    "build": "webpack --mode production"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "4.3.0",
+    "react-dev-utils": "10.2.1",
+    "webpack": "4.44.1",
+    "webpack-cli": "3.3.12",
+    "webpack-dev-server": "3.11.0"
+  }
+}

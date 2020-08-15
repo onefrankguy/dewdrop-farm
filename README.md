@@ -8,6 +8,19 @@ This game was built for [js13kGames 2020][js13k].
 
 ```bash
 nvm install
+npm install
+```
+
+The `start` script will launch a development server on 127.0.0.1:3000.
+
+```bash
+npm run start
+```
+
+The `build` script will package the project.
+
+```bash
+npm run build
 ```
 
 ## License ##
