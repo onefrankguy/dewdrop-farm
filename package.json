@@ -5,7 +5,11 @@
   "version": "1.0.0",
   "scripts": {
     "start": "webpack-dev-server --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "postbuild": "npm run zip",
+    "zip": "cd dist && advzip -a -4 ../game.zip $(cat ../manifest.txt)",
+    "postzip": "npm run check-size",
+    "check-size": "node ./check-size.js; exit 0"
   },
   "devDependencies": {
     "html-webpack-plugin": "4.3.0",
