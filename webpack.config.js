@@ -1,17 +1,19 @@
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InlineChunksHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (_, argv) => {
   const isProduction = argv.mode === 'production';
 
   const config = {
     entry: './src',
-    devtool: isProduction ? undefined : 'source-map',
+    devtool: isProduction ? undefined : 'eval-cheap-source-map',
     module: {
       rules: [{
         test: /\.scss$/,
         use: [
-          {loader: 'style-loader', options: {injectType: 'singletonStyleTag'}},
+          MiniCssExtractPlugin.loader,
           'css-loader',
           'sass-loader',
         ],
@@ -22,6 +24,7 @@ module.exports = (_, argv) => {
         template: 'src/index.html',
       }),
       new InlineChunksHtmlPlugin(HtmlWebpackPlugin, ['main']),
+      new MiniCssExtractPlugin(),
     ],
     devServer: {
       host: '127.0.0.1',
@@ -31,8 +34,8 @@ module.exports = (_, argv) => {
         warnings: true,
         errors: true,
       },
-      contentBase: './dist',
-      hot: true,
+      contentBase: path.join(__dirname, 'dist'),
+      watchContentBase: true,
     },
   };
 
