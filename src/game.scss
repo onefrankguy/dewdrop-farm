@@ -1,0 +1,13 @@
+/* COLOPHON */
+abbr[title="and"] {
+  font-family: 'Adobe Caslon Pro', 'Baskerville', 'Goudy Old Style', 'Palatino',
+  'Palatino Linotype', 'Book Antiqua', 'Georgia', 'Times New Roman', 'Times', serif;
+  font-style: italic;
+  text-decoration: none;
+  font-size: 110%;
+  cursor: help;
+  /* Prevent `abbr` affecting the `line-height` */
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
