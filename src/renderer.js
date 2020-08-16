@@ -9,7 +9,7 @@ const renderFarm = (farm) => {
     html += '<div class="row">';
 
     for (let col = 0; col < farm.cols; col += 1) {
-      const klasses = farm.land[row][col].join(' ');
+      const klasses = farm.land[row][col].map((state) => state.type).join(' ');
 
       html += `<div class="${klasses}" id="p${row}${col}"></div>`;
     }

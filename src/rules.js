@@ -2,6 +2,7 @@ const Utils = require('./utils');
 const PRNG = require('./prng');
 
 const RANDOM_TICK_SPEED = 3;
+const DAY_LENGTH_IN_SECONDS = 20;
 
 const Rules = {};
 
@@ -20,18 +21,19 @@ const update = (farm, action) => {
 
   plots = PRNG.shuffle(plots);
 
-  for (let rts = 0; rts < RANDOM_TICK_SPEED; rts += 1) {
-    console.log('random tick', plots[rts]);
+  const now = action.timestamp ? action.timestamp : Utils.timestamp();
 
+  for (let rts = 0; rts < RANDOM_TICK_SPEED; rts += 1) {
     const [row, col] = plots[rts];
-    const action = {
+    const dehydrateAction = {
       tool: 'dehydrate',
       row,
       col,
+      timestamp: now,
     };
 
-    if (shouldDehydrate(farm, action)) {
-      farm = Rules.play(farm, action);
+    if (shouldDehydrate(farm, dehydrateAction)) {
+      farm = Rules.play(farm, dehydrateAction);
     }
   }
 
@@ -44,12 +46,70 @@ const isValid = (farm, action) => {
     && action.col >= 0 && action.col < farm.cols;
 };
 
+const getType = (farm, action, type) => {
+  if (!isValid(farm, action)) {
+    return undefined;
+  }
+
+  return farm.land[action.row][action.col].find((state) => state.type === type);
+};
+
+const hasType = (farm, action, type) => !!getType(farm, action, type);
+
+const addType = (farm, action, type) => {
+  farm.land[action.row][action.col].push({
+    type,
+    timestamp: action.timestamp,
+  });
+};
+
+const removeType = (farm, action, type) => {
+  farm.land[action.row][action.col] =
+    farm.land[action.row][action.col].filter((state) => state.type !== type);
+};
+
+const getAdjacent = (farm, action) => {
+  if (isValid(farm, action)) {
+    const row = action.row;
+    const col = action.col;
+
+    return [{
+      row: row - 1 ,
+      col: col - 1,
+    }, {
+      row: row - 1 ,
+      col: col + 0,
+    }, {
+      row: row - 1 ,
+      col: col + 1,
+    }, {
+      row: row - 0 ,
+      col: col - 1,
+    }, {
+      row: row - 0 ,
+      col: col + 1,
+    }, {
+      row: row + 1 ,
+      col: col - 1,
+    }, {
+      row: row + 1 ,
+      col: col + 0,
+    }, {
+      row: row + 1 ,
+      col: col + 1,
+    }]
+    .filter((action) => isValid(farm, action));
+  }
+
+  return [];
+};
+
 const canHoe = (farm, action) => {
   if (!isValid(farm, action) || action.tool !== 'hoe') {
     return false;
   }
 
-  if (!farm.land[action.row][action.col].includes('till')) {
+  if (!hasType(farm, action, 'till')) {
     return true;
   }
 
@@ -57,11 +117,9 @@ const canHoe = (farm, action) => {
 };
 
 const hoe = (farm, action) => {
-  if (!canHoe(farm, action)) {
-    return farm;
+  if (canHoe(farm, action)) {
+    addType(farm, action, 'till');
   }
-
-  farm.land[action.row][action.col].push('till');
 
   return farm;
 };
@@ -71,19 +129,14 @@ const canWater = (farm, action) => {
     return false;
   }
 
-  if (!farm.land[action.row][action.col].includes('water')) {
-    return true;
-  }
-
-  return false;
+  return true;
 };
 
 const water = (farm, action) => {
-  if (!canWater(farm, action)) {
-    return farm;
+  if (canWater(farm, action)) {
+    removeType(farm, action, 'water');
+    addType(farm, action, 'water');
   }
-
-  farm.land[action.row][action.col].push('water');
 
   return farm;
 };
@@ -93,8 +146,14 @@ const shouldDehydrate = (farm, action) => {
     return false;
   }
 
-  let points = 4;
-  const chance = 1 / (Math.floor(25 / points) + 1);
+  const water = getType(farm, action, 'water');
+
+  if (!water) {
+    return false;
+  }
+
+  const wateredFor = (action.timestamp - water.timestamp) / 1000;
+  const chance = Math.floor(wateredFor / DAY_LENGTH_IN_SECONDS) * 0.01;
 
   return PRNG.random() < chance;
 };
@@ -108,31 +167,33 @@ const canDehydrate = (farm, action) => {
 };
 
 const dehydrate = (farm, action) => {
-  if (!canDehydrate(farm, action)) {
-    return farm;
+  if (canDehydrate(farm, action)) {
+    removeType(farm, action, 'water');
   }
-
-  farm.land[action.row][action.col] =
-    farm.land[action.row][action.col].filter((value) => value !== 'water');
 
   return farm;
 };
 
 Rules.play = (farm, action) => {
   const copy = Utils.clone(farm);
+  const newAction = Utils.clone(action);
+
+  if (!newAction.timestamp) {
+    newAction.timestamp = Utils.timestamp();
+  }
 
   switch (action.tool) {
     case 'update':
-      return update(copy, action);
+      return update(copy, newAction);
 
     case 'hoe':
-      return hoe(copy, action);
+      return hoe(copy, newAction);
 
     case 'water':
-      return water(copy, action);
+      return water(copy, newAction);
 
     case 'dehydrate':
-      return dehydrate(copy, action);
+      return dehydrate(copy, newAction);
 
     default:
       return copy;
