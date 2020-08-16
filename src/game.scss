@@ -1,3 +1,9 @@
+$plotBorderColor: rgba(18, 32, 32, 1);
+$platColor: rgba(27, 122, 62, 1);
+$plotWateredColor: rgba(36, 82, 59, 1);
+$plotTilledColor: rgba(187, 117, 71, 1);
+$plotTilledWateredColor: rgba(142, 82, 82);
+
 /* RESET */
 * {
   cursor: default;
@@ -42,12 +48,20 @@ a, a:visited {
   display: block;
   width: 4.8rem;
   height: 4.8rem;
-  border: 0.1rem solid black;
-  background-color: green;
+  border: 0.1rem solid $plotBorderColor;
+  background-color: $platColor;
 }
 
-.till {
-  background-color: brown;
+.plot.water {
+  background-color: $plotWateredColor;
+};
+
+.plot.till {
+  background-color: $plotTilledColor;
+}
+
+.plot.till.water {
+  background-color: $plotTilledWateredColor;
 }
 
 /* CONTROLS */

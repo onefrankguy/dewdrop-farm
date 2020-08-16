@@ -9,7 +9,7 @@ const isValid = (farm, action) => {
 };
 
 const canHoe = (farm, action) => {
-  if (!isValid(farm, action)) {
+  if (!isValid(farm, action) || action.tool !== 'hoe') {
     return false;
   }
 
@@ -30,12 +30,37 @@ const hoe = (farm, action) => {
   return farm;
 };
 
+const canWater = (farm, action) => {
+  if (!isValid(farm, action) || action.tool !== 'water') {
+    return false;
+  }
+
+  if (!farm.land[action.row][action.col].includes('water')) {
+    return true;
+  }
+
+  return false;
+};
+
+const water = (farm, action) => {
+  if (!canWater(farm, action)) {
+    return farm;
+  }
+
+  farm.land[action.row][action.col].push('water');
+
+  return farm;
+};
+
 Rules.play = (farm, action) => {
   const copy = Utils.clone(farm);
 
   switch (action.tool) {
     case 'hoe':
       return hoe(copy, action);
+
+    case 'water':
+      return water(copy, action);
 
     default:
       return copy;
