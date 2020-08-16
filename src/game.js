@@ -1,21 +1,18 @@
-const $ = require('./jquery');
+const Farm = require('./farm');
+const Renderer = require('./renderer');
 
 const Game = {};
 
+let farm;
+
+Game.reset = () => {
+  farm = Farm.create();
+};
+
 Game.play = () => {
-  let html = '';
+  Game.reset();
 
-  for (let row = 0; row < 6; row += 1) {
-    html += '<div class="row">';
-
-    for (let col = 0; col < 6; col += 1) {
-      html += `<div class="plot" id="p${row}${col}"></div>`;
-    }
-
-    html += '</div>';
-  }
-
-  $('#farm').html(html);
+  Renderer.invalidate(farm);
 };
 
 module.exports = Game;
