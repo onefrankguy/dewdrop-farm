@@ -3,12 +3,13 @@
   cursor: default;
   margin: 0;
   padding: 0;
-  bos-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html {
   font-weight: normal;
   font-size: 100%;
+  font-family: monospace;
 }
 
 a, a:visited {
@@ -20,8 +21,10 @@ a, a:visited {
 .world {
   /* Usable area on an iPhone SE is 320x444 pixels */
   width: 32rem;
-  min-height: 44.4rem;
+  height: 44.4rem;
+  overflow: hidden;
   margin: 0 auto;
+  padding: 1.2rem;
 }
 
 .row {
@@ -43,8 +46,21 @@ a, a:visited {
 }
 
 /* CONTROLS */
+.button {
+  border: 0.1rem solid gold;
+  min-width: 4.8rem;
+  height: 4.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 /* COLOPHON */
+.colophon {
+  font-family: serif;
+  margin-top: 0.8rem;
+}
+
 .colophon > a:hover {
   cursor: pointer;
   text-decoration: underline;
