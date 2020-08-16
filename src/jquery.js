@@ -38,7 +38,7 @@ Fn.prototype.html = function html(value) {
   return this;
 };
 
-Fn.prototype.click = function click(start, end) {
+Fn.prototype.click = function click(start, move, end) {
   const that = this;
 
   if (this.element) {
@@ -49,7 +49,9 @@ Fn.prototype.click = function click(start, end) {
         }
 
         document.onmousemove = function onmousemove(mouseMoveEvent) {
-          mouseMoveEvent.preventDefault();
+          if (move) {
+            move(that, mouseMoveEvent);
+          }
         };
 
         document.onmouseup = function onmouseup(mouseUpEvent) {
@@ -68,7 +70,9 @@ Fn.prototype.click = function click(start, end) {
         }
 
         document.ontouchmove = function ontouchmove(touchMoveEvent) {
-          touchMoveEvent.preventDefault();
+          if (move) {
+            move(that, touchMoveEvent);
+          }
         };
 
         document.ontouchend = function ontouchend(touchEndEvent) {

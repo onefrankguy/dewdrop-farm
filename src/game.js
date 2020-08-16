@@ -40,7 +40,7 @@ Game.play = () => {
   $('#plant').click(onTool('plant'));
   $('#buy').click(onTool('buy'));
   $('#sell').click(onTool('sell'));
-  $('#farm').click(undefined, offFarm);
+  $('#farm').click(undefined, offFarm, offFarm);
 
   Game.reset();
 
