@@ -2,6 +2,7 @@ const $ = require('./jquery');
 const Farm = require('./farm');
 const Renderer = require('./renderer');
 const Rules = require('./rules');
+const Engine = require('./engine');
 
 const Game = {};
 
@@ -29,6 +30,18 @@ const onTool = (aTool) => () => {
   Renderer.invalidate(farm, tool);
 };
 
+const onUpdate = (step) => {
+  const action = {
+    tool: 'update',
+  };
+
+  farm = Rules.play(farm, action);
+  Renderer.invalidate(farm, tool);
+};
+
+const onRender = () => {
+};
+
 Game.reset = () => {
   farm = Farm.create();
   tool = 'hoe';
@@ -43,6 +56,7 @@ Game.play = () => {
   $('#farm').click(undefined, offFarm, offFarm);
 
   Game.reset();
+  Engine.run(onUpdate, onRender);
 
   Renderer.invalidate(farm, tool);
 };

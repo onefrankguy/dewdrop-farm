@@ -3,8 +3,6 @@ const $ = require('./jquery');
 const Renderer = {};
 
 const renderFarm = (farm) => {
-  console.log(farm);
-
   let html = '';
 
   for (let row = 0; row < farm.rows; row += 1) {
