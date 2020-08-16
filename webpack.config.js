@@ -17,6 +17,11 @@ module.exports = (_, argv) => {
           'css-loader',
           'sass-loader',
         ],
+      }, {
+        test: /\.png$/,
+        use: [
+          'file-loader',
+        ],
       }],
     },
     plugins: [

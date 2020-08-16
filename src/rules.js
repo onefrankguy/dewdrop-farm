@@ -35,6 +35,17 @@ const update = (farm, action) => {
     if (shouldDehydrate(farm, dehydrateAction)) {
       farm = Rules.play(farm, dehydrateAction);
     }
+
+    const growAction = {
+      tool: 'grow',
+      row,
+      col,
+      timestamp: now,
+    };
+
+    if (shouldGrow(farm, growAction)) {
+      farm = Rules.play(farm, growAction);
+    }
   }
 
   return farm;
@@ -59,6 +70,7 @@ const hasType = (farm, action, type) => !!getType(farm, action, type);
 const addType = (farm, action, type) => {
   farm.land[action.row][action.col].push({
     type,
+    stage: action.stage || 1,
     timestamp: action.timestamp,
   });
 };
@@ -174,6 +186,53 @@ const dehydrate = (farm, action) => {
   return farm;
 };
 
+const plant = (farm, action) => {
+  if (!isValid(farm, action)) {
+    return farm;
+  }
+
+  if (!hasType(farm, action, 'till')) {
+    return farm;
+  }
+
+  if (!hasType(farm, action, 'strawberry')) {
+    addType(farm, action, 'strawberry');
+  }
+
+  return farm;
+};
+
+const shouldGrow = (farm, action) => {
+  if (!isValid(farm, action) || action.tool !== 'grow') {
+    return false;
+  }
+
+  if (hasType(farm, action, 'strawberry')) {
+    const points = hasType(farm, action, 'water') ? 4 : 2;
+    const chance = 1 / (Math.floor(25 / points) + 1);
+
+    return PRNG.random() < chance;
+  }
+
+  return false;
+};
+
+const grow = (farm, action) => {
+  if (isValid(farm, action)) {
+    const strawberry = getType(farm, action, 'strawberry');
+
+    if (strawberry && strawberry.stage < 5) {
+      action.stage = strawberry.stage + 1;
+      action.timestamp = strawberry.timestamp;
+
+      removeType(farm, action, 'strawberry');
+      addType(farm, action, 'strawberry');
+    }
+  }
+
+  return farm;
+};
+
 Rules.play = (farm, action) => {
   const copy = Utils.clone(farm);
   const newAction = Utils.clone(action);
@@ -194,6 +253,12 @@ Rules.play = (farm, action) => {
 
     case 'dehydrate':
       return dehydrate(copy, newAction);
+
+    case 'strawberry':
+      return plant(copy, newAction);
+
+    case 'grow':
+      return grow(copy, newAction);
 
     default:
       return copy;

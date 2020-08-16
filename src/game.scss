@@ -50,6 +50,7 @@ a, a:visited {
   height: 4.8rem;
   border: 0.1rem solid $plotBorderColor;
   background-color: $platColor;
+  image-rendering: pixelated;
 }
 
 .plot.water {
@@ -62,6 +63,41 @@ a, a:visited {
 
 .plot.till.water {
   background-color: $plotTilledWateredColor;
+}
+
+.plot.strawberry.stage1 {
+  background-size: 57.6rem 48.0rem;
+  background-image: url('../img/farming-crops-16x16.png');
+  background-position-x: calc(-5 * 4.8rem);
+  background-position-y: calc(-6 * 4.8rem);
+}
+
+.plot.strawberry.stage2 {
+  background-size: 57.6rem 48.0rem;
+  background-image: url('../img/farming-crops-16x16.png');
+  background-position-x: calc(-4 * 4.8rem);
+  background-position-y: calc(-6 * 4.8rem);
+}
+
+.plot.strawberry.stage3 {
+  background-size: 57.6rem 48.0rem;
+  background-image: url('../img/farming-crops-16x16.png');
+  background-position-x: calc(-3 * 4.8rem);
+  background-position-y: calc(-6 * 4.8rem);
+}
+
+.plot.strawberry.stage4 {
+  background-size: 57.6rem 48.0rem;
+  background-image: url('../img/farming-crops-16x16.png');
+  background-position-x: calc(-2 * 4.8rem);
+  background-position-y: calc(-6 * 4.8rem);
+}
+
+.plot.strawberry.stage5 {
+  background-size: 57.6rem 48.0rem;
+  background-image: url('../img/farming-crops-16x16.png');
+  background-position-x: calc(-1 * 4.8rem);
+  background-position-y: calc(-6 * 4.8rem);
 }
 
 /* CONTROLS */

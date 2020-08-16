@@ -8,13 +8,14 @@ const Game = {};
 
 let farm;
 let tool;
+let seed;
 
 const offFarm = (_, event) => {
   if (event.target && event.target.matches('.plot') && event.target.id) {
     const [_, row, col] = event.target.id.split('');
 
     const action = {
-      tool,
+      tool: tool !== 'plant' ? tool : seed,
       row,
       col,
     };
@@ -30,7 +31,7 @@ const onTool = (aTool) => () => {
   Renderer.invalidate(farm, tool);
 };
 
-const onUpdate = (step) => {
+const onUpdate = () => {
   const action = {
     tool: 'update',
   };
@@ -45,6 +46,7 @@ const onRender = () => {
 Game.reset = () => {
   farm = Farm.create();
   tool = 'hoe';
+  seed = 'strawberry'
 };
 
 Game.play = () => {

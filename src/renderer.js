@@ -2,6 +2,17 @@ const $ = require('./jquery');
 
 const Renderer = {};
 
+const renderFarmClasses = (farm, row, col) =>
+  farm.land[row][col].map((state) => {
+    const result = [state.type];
+
+    if (state.stage) {
+      result.push(`stage${state.stage}`);
+    }
+
+    return result.join(' ');
+  }).join(' ');
+
 const renderFarm = (farm) => {
   let html = '';
 
@@ -9,7 +20,7 @@ const renderFarm = (farm) => {
     html += '<div class="row">';
 
     for (let col = 0; col < farm.cols; col += 1) {
-      const klasses = farm.land[row][col].map((state) => state.type).join(' ');
+      const klasses = renderFarmClasses(farm, row, col);
 
       html += `<div class="${klasses}" id="p${row}${col}"></div>`;
     }
