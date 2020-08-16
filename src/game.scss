@@ -43,6 +43,11 @@ a, a:visited {
   width: 4.8rem;
   height: 4.8rem;
   border: 0.1rem solid black;
+  background-color: green;
+}
+
+.till {
+  background-color: brown;
 }
 
 /* CONTROLS */
@@ -53,6 +58,10 @@ a, a:visited {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.button.active {
+  border: 0.1rem solid red;
 }
 
 /* COLOPHON */

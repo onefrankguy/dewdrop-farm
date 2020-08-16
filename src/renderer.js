@@ -22,12 +22,28 @@ const renderFarm = (farm) => {
   return html;
 };
 
-Renderer.render = (farm) => {
-  $('#farm').html(renderFarm(farm));
+const renderTool = (tool) => {
+  $(`#${tool}`).addClass('active');
 };
 
-Renderer.invalidate = (farm) => {
-  requestAnimationFrame(() => Renderer.render(farm));
+Renderer.clear = () => {
+  $('#hoe').removeClass('active');
+  $('#water').removeClass('active');
+  $('#plant').removeClass('active');
+  $('#buy').removeClass('active');
+  $('#sell').removeClass('active');
+};
+
+Renderer.render = (farm, tool) => {
+  Renderer.clear();
+
+  $('#farm').html(renderFarm(farm, tool));
+
+  renderTool(tool);
+};
+
+Renderer.invalidate = (farm, tool) => {
+  requestAnimationFrame(() => Renderer.render(farm, tool));
 };
 
 module.exports = Renderer;
