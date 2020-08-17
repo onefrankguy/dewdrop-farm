@@ -32,6 +32,12 @@ const addLand = (farm, {row, col, timestamp, crop, stage}, someType) => {
 const removeLand = (farm, {row, col}, someType) =>
   farm.land[row][col] = farm.land[row][col].filter(({type}) => type !== someType);
 
+const update = (farm) => {
+  farm.updates += 1;
+
+  return farm;
+};
+
 const hoe = (farm, action) => {
   if (hasLand(farm, action, 'plant')) {
     removeLand(farm, action, 'plant');
@@ -47,6 +53,12 @@ const hoe = (farm, action) => {
 const water = (farm, action) => {
   removeLand(farm, action, 'water');
   addLand(farm, action, 'water');
+
+  return farm;
+};
+
+const drain = (farm, action) => {
+  removeLand(farm, action, 'water');
 
   return farm;
 };
@@ -92,6 +104,7 @@ Farm.create = () => {
   }
 
   return {
+    updates: 0,
     rows,
     cols,
     land,
@@ -107,11 +120,17 @@ Farm.dispatch = (farm, action) => {
   }
 
   switch (actionCopy.tool) {
+    case 'update':
+      return update(farmCopy, actionCopy);
+
     case 'hoe':
       return hoe(farmCopy, actionCopy);
 
     case 'water':
       return water(farmCopy, actionCopy);
+
+    case 'drain':
+      return drain(farmCopy, actionCopy);
 
     case 'plant':
       return plant(farmCopy, actionCopy);
@@ -122,6 +141,32 @@ Farm.dispatch = (farm, action) => {
     default:
       return farmCopy;
   }
+};
+
+Farm.plots = (farm) => {
+  const result = [];
+
+  for (let row = 0; row < farm.rows; row += 1) {
+    for (let col = 0; col < farm.cols; col += 1) {
+      result.push({row, col});
+    }
+  }
+
+  return result;
+};
+
+Farm.wateredFor = (farm, action) => {
+  const water = getLand(farm, action, 'water');
+
+  if (!water) {
+    return 0;
+  }
+
+  if (!action.timestamp) {
+    return water.timestamp;
+  }
+
+  return action.timestamp - water.timestamp;
 };
 
 module.exports = Farm;

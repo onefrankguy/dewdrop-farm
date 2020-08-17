@@ -21,7 +21,7 @@ const offFarm = (_, event) => {
       crop,
     };
 
-    farm = Rules.play(farm, action);
+    farm = Rules.dispatch(farm, action);
     Renderer.invalidate(farm, tool);
   }
 };
@@ -42,7 +42,7 @@ const onUpdate = () => {
     tool: 'update',
   };
 
-  farm = Rules.play(farm, action);
+  farm = Rules.dispatch(farm, action);
   Renderer.invalidate(farm, tool);
 };
 
