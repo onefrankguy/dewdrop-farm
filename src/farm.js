@@ -15,10 +15,10 @@ const getLand = (farm, {row, col}, someType) =>
 
 const hasLand = (farm, action, someType) => !!getLand(farm, action, someType);
 
-const addLand = (farm, {row, col, timestamp, crop, stage}, someType) => {
+const addLand = (farm, {row, col, crop, stage}, someType) => {
   const land = {
     type: someType,
-    timestamp,
+    updates: farm.updates,
   };
 
   if (crop) {
@@ -31,6 +31,12 @@ const addLand = (farm, {row, col, timestamp, crop, stage}, someType) => {
 
 const removeLand = (farm, {row, col}, someType) =>
   farm.land[row][col] = farm.land[row][col].filter(({type}) => type !== someType);
+
+const durationLand = (farm, action, someType) => {
+  const land = getLand(farm, action, someType);
+
+  return land ? farm.updates - land.updates : 0;
+}
 
 const update = (farm) => {
   farm.updates += 1;
@@ -77,7 +83,7 @@ const grow = (farm, action) => {
   if (plant && plant.stage < MAX_CROP_STAGE) {
     action.crop = plant.crop;
     action.stage = plant.stage + 1;
-    action.timestamp = plant.timestamp;
+    action.updates = plant.updates;
 
     removeLand(farm, action, 'plant');
     addLand(farm, action, 'plant');
@@ -87,7 +93,7 @@ const grow = (farm, action) => {
 };
 
 Farm.create = () => {
-  const now = Utils.timestamp();
+  const updates = 0;
   const rows = 6;
   const cols = 6;
   const land = [];
@@ -98,13 +104,13 @@ Farm.create = () => {
     for (let col = 0; col < cols; col += 1) {
       land[row][col] = [{
         type: 'plot',
-        timestamp: now,
+        updates,
       }];
     }
   }
 
   return {
-    updates: 0,
+    updates,
     rows,
     cols,
     land,
@@ -112,8 +118,8 @@ Farm.create = () => {
 };
 
 Farm.dispatch = (farm, action) => {
-  const farmCopy = Utils.clone(farm);
   const actionCopy = Utils.clone(action);
+  const farmCopy = Utils.clone(farm);
 
   if (!valid(farmCopy, actionCopy)) {
     return farmCopy;
@@ -155,18 +161,6 @@ Farm.plots = (farm) => {
   return result;
 };
 
-Farm.wateredFor = (farm, action) => {
-  const water = getLand(farm, action, 'water');
-
-  if (!water) {
-    return 0;
-  }
-
-  if (!action.timestamp) {
-    return water.timestamp;
-  }
-
-  return action.timestamp - water.timestamp;
-};
+Farm.wateredFor = (farm, action) => durationLand(farm, action, 'water');
 
 module.exports = Farm;

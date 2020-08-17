@@ -40,6 +40,8 @@ const onTool = (aTool) => () => {
 const onUpdate = () => {
   const action = {
     tool: 'update',
+    row: 0,
+    col: 0,
   };
 
   farm = Rules.dispatch(farm, action);

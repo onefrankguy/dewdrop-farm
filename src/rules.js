@@ -3,12 +3,11 @@ const PRNG = require('./prng');
 const Farm = require('./farm');
 
 const RANDOM_TICK_SPEED = 3;
-const DAY_LENGTH_IN_SECONDS = 20;
+const DAY_LENGTH_IN_TICKS = 400;
 
 const Rules = {};
 
-const update = (farm, action) => {
-  const now = action.timestamp ? action.timestamp : Utils.timestamp();
+const update = (farm) => {
   const plots = PRNG.shuffle(Farm.plots(farm));
 
   for (let rts = 0; rts < RANDOM_TICK_SPEED; rts += 1) {
@@ -18,7 +17,6 @@ const update = (farm, action) => {
       tool: 'drain',
       row,
       col,
-      timestamp: now,
     };
 
     if (shouldDrain(farm, drainAction)) {
@@ -29,7 +27,6 @@ const update = (farm, action) => {
       tool: 'grow',
       row,
       col,
-      timestamp: now,
     };
 
     if (shouldGrow(farm, growAction)) {
@@ -41,8 +38,8 @@ const update = (farm, action) => {
 };
 
 const shouldDrain = (farm, action) => {
-  const wateredFor = Farm.wateredFor(farm, action) / 1000;
-  const chance = Math.floor(wateredFor / DAY_LENGTH_IN_SECONDS) * 0.01;
+  const duration = Farm.wateredFor(farm, action);
+  const chance = Math.floor(duration / DAY_LENGTH_IN_TICKS) * 0.01;
 
   return PRNG.random() < chance;
 };
@@ -57,8 +54,8 @@ const shouldGrow = (farm, action) => {
 Rules.dispatch = (farm, action) => {
   const actionCopy = Utils.clone(action);
 
-  if (!actionCopy.timestamp) {
-    actionCopy.timestamp = Utils.timestamp();
+  if (!action.updates) {
+    action.updates = farm.updates;
   }
 
   const farmCopy = Farm.dispatch(farm, actionCopy);
