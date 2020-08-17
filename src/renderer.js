@@ -3,11 +3,11 @@ const $ = require('./jquery');
 const Renderer = {};
 
 const renderFarmClasses = (farm, row, col) =>
-  farm.land[row][col].map((state) => {
-    const result = [state.type];
+  farm.land[row][col].map((land) => {
+    const result = [land.crop || land.type];
 
-    if (state.stage) {
-      result.push(`stage${state.stage}`);
+    if (land.stage) {
+      result.push(`stage${land.stage}`);
     }
 
     return result.join(' ');

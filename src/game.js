@@ -8,16 +8,17 @@ const Game = {};
 
 let farm;
 let tool;
-let seed;
+let crop;
 
 const offFarm = (_, event) => {
   if (event.target && event.target.matches('.plot') && event.target.id) {
     const [_, row, col] = event.target.id.split('');
 
     const action = {
-      tool: tool !== 'plant' ? tool : seed,
+      tool,
       row,
       col,
+      crop,
     };
 
     farm = Rules.play(farm, action);
@@ -27,6 +28,11 @@ const offFarm = (_, event) => {
 
 const onTool = (aTool) => () => {
   tool = aTool;
+  crop = undefined;
+
+  if (tool === 'plant') {
+    crop = 'strawberry';
+  }
 
   Renderer.invalidate(farm, tool);
 };
@@ -46,7 +52,7 @@ const onRender = () => {
 Game.reset = () => {
   farm = Farm.create();
   tool = 'hoe';
-  seed = 'strawberry'
+  crop = undefined;
 };
 
 Game.play = () => {
