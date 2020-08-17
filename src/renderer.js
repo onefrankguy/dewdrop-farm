@@ -46,7 +46,12 @@ Renderer.clear = () => {
 Renderer.render = (farm, tool) => {
   Renderer.clear();
 
-  $('#farm').html(renderFarm(farm, tool));
+  const newFarm = renderFarm(farm, tool);
+  const oldFarm = $('#farm').html();
+
+  if (newFarm !== oldFarm) {
+    $('#farm').html(newFarm);
+  }
 
   renderTool(tool);
 };

@@ -1,5 +1,21 @@
 # Development Diary #
 
+## 16 August 2020 ##
+
+Day 4 of 31. 4,125 bytes used (30.99%)
+
+It's starting to feel like a game. Maybe? I can till farmland, plant strawberry
+seeds, water the plants, and watch them grow. I'm playing around with timing.
+Everything feels fast right now. I need to figure out how quick I want the
+engine to run, if I want some kind of day/night cycle, those sorts of thing.
+
+I'm currently using a crop tileset made by [josehzz][]. I like it! Crops have
+five stages of growth, and the seeds look unique enough that you can tell
+what's planted. There are also portraits for each crop, so I'll be able to show
+them off in the invetory, store, and market.
+
+Note to self: Allow players to harvest crops early.
+
 ## 15 August 2020 ##
 
 Day 3 of 31. 1,543 bytes used (11.59%).
@@ -17,3 +33,4 @@ Maybe some kind of [idle clicker][] or farming simulation?
 [webpack]: https://webpack.js.org/ "Various: webpack is THE build solution for modern web applications"
 [Rollup]: https://rollupjs.org/ "Various: Rollup is a module bundler for JavaScript"
 [idle clicker]: https://en.wikipedia.org/wiki/Incremental_game "Various (Wikipedia): Incremental game"
+[josehzz]: https://opengameart.org/users/josehzz "josehzz (OpenGameArt.org): Farming crops 16x16 and related tiles"

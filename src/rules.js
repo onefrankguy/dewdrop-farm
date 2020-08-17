@@ -70,7 +70,7 @@ const hasType = (farm, action, type) => !!getType(farm, action, type);
 const addType = (farm, action, type) => {
   farm.land[action.row][action.col].push({
     type,
-    stage: action.stage || 1,
+    stage: action.stage || 0,
     timestamp: action.timestamp,
   });
 };
@@ -196,6 +196,7 @@ const plant = (farm, action) => {
   }
 
   if (!hasType(farm, action, 'strawberry')) {
+    action.stage = 1;
     addType(farm, action, 'strawberry');
   }
 
