@@ -3,6 +3,8 @@ $platColor: rgba(27, 122, 62, 1);
 $plotWateredColor: rgba(36, 82, 59, 1);
 $plotTilledColor: rgba(187, 117, 71, 1);
 $plotTilledWateredColor: rgba(142, 82, 82);
+$tileWidth: 4.8rem;
+$tileHeight: 4.8rem;
 
 /* RESET */
 * {
@@ -46,8 +48,8 @@ a, a:visited {
 /* FARM */
 .plot {
   display: block;
-  width: 4.8rem;
-  height: 4.8rem;
+  width: $tileWidth;
+  height: $tileHeight;
   border: 0.1rem solid $plotBorderColor;
   background-color: $platColor;
   image-rendering: pixelated;
@@ -65,39 +67,34 @@ a, a:visited {
   background-color: $plotTilledWateredColor;
 }
 
+.plot.strawberry {
+  background-size: (5 * $tileWidth) (1 * $tileHeight);
+  background-image: url('../img/tiles.png');
+}
+
 .plot.strawberry.stage1 {
-  background-size: 57.6rem 48.0rem;
-  background-image: url('../img/farming-crops-16x16.png');
-  background-position-x: calc(-5 * 4.8rem);
-  background-position-y: calc(-6 * 4.8rem);
+  background-position-x: (-4 * $tileWidth);
+  background-position-y: (0 * $tileHeight);
 }
 
 .plot.strawberry.stage2 {
-  background-size: 57.6rem 48.0rem;
-  background-image: url('../img/farming-crops-16x16.png');
-  background-position-x: calc(-4 * 4.8rem);
-  background-position-y: calc(-6 * 4.8rem);
+  background-position-x: (-3 * $tileWidth);
+  background-position-y: (0 * $tileHeight);
 }
 
 .plot.strawberry.stage3 {
-  background-size: 57.6rem 48.0rem;
-  background-image: url('../img/farming-crops-16x16.png');
-  background-position-x: calc(-3 * 4.8rem);
-  background-position-y: calc(-6 * 4.8rem);
+  background-position-x: (-2 * $tileWidth);
+  background-position-y: (0 * $tileHeight);
 }
 
 .plot.strawberry.stage4 {
-  background-size: 57.6rem 48.0rem;
-  background-image: url('../img/farming-crops-16x16.png');
-  background-position-x: calc(-2 * 4.8rem);
-  background-position-y: calc(-6 * 4.8rem);
+  background-position-x: (-1 * $tileWidth);
+  background-position-y: (0 * $tileHeight);
 }
 
 .plot.strawberry.stage5 {
-  background-size: 57.6rem 48.0rem;
-  background-image: url('../img/farming-crops-16x16.png');
-  background-position-x: calc(-1 * 4.8rem);
-  background-position-y: calc(-6 * 4.8rem);
+  background-position-x: (0 * $tileWidth);
+  background-position-y: (0 * $tileHeight);
 }
 
 /* CONTROLS */

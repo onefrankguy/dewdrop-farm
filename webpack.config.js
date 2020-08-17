@@ -21,6 +21,26 @@ module.exports = (_, argv) => {
         test: /\.png$/,
         use: [
           'file-loader',
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                enabled: false,
+              },
+              optipng: {
+                enabled: true,
+              },
+              pngquant: {
+                enabled: false,
+              },
+              svgo: {
+                enabled: false,
+              },
+              gifsicle: {
+                enabled: false,
+              },
+            },
+          },
         ],
       }],
     },
