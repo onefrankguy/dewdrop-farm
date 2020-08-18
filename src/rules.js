@@ -3,7 +3,7 @@ const PRNG = require('./prng');
 const Farm = require('./farm');
 
 const RANDOM_TICK_SPEED = 3;
-const SECONDS_PER_DAY = 400;
+const SECONDS_PER_DAY = (14 * 60) / 4 / 28;
 
 const Rules = {};
 

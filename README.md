@@ -15,10 +15,10 @@ nvm install
 npm install
 ```
 
-The `start` script will launch a development server on 127.0.0.1:3000.
+The `dev` script will launch a development server on 127.0.0.1:3000.
 
 ```bash
-npm run start
+npm run dev
 ```
 
 The `build` script will package the project.

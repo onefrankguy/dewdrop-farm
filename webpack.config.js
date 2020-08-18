@@ -1,6 +1,5 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const InlineChunksHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (_, argv) => {
@@ -48,7 +47,6 @@ module.exports = (_, argv) => {
       new HtmlWebpackPlugin({
         template: 'src/index.html',
       }),
-      new InlineChunksHtmlPlugin(HtmlWebpackPlugin, ['main']),
       new MiniCssExtractPlugin(),
     ],
     devServer: {
@@ -58,6 +56,9 @@ module.exports = (_, argv) => {
       overlay: {
         warnings: true,
         errors: true,
+      },
+      headers: {
+        'Cache-Control': 'no-store',
       },
       contentBase: path.join(__dirname, 'dist'),
       watchContentBase: true,
