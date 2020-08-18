@@ -27,10 +27,10 @@ module.exports = (_, argv) => {
                 enabled: false,
               },
               optipng: {
-                enabled: true,
+                enabled: false,
               },
               pngquant: {
-                enabled: false,
+                enabled: true,
               },
               svgo: {
                 enabled: false,

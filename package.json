@@ -4,6 +4,7 @@
   "license": "MIT",
   "version": "1.0.0",
   "scripts": {
+    "predev": "rm -f dist/*",
     "dev": "webpack-dev-server --mode development",
     "prebuild": "rm -f dist/*",
     "build": "webpack --mode production",
