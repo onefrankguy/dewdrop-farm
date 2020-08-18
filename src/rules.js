@@ -3,7 +3,7 @@ const PRNG = require('./prng');
 const Farm = require('./farm');
 
 const RANDOM_TICK_SPEED = 3;
-const DAY_LENGTH_IN_TICKS = 400;
+const SECONDS_PER_DAY = 400;
 
 const Rules = {};
 
@@ -39,7 +39,7 @@ const update = (farm) => {
 
 const shouldDrain = (farm, action) => {
   const duration = Farm.wateredFor(farm, action);
-  const chance = Math.floor(duration / DAY_LENGTH_IN_TICKS) * 0.01;
+  const chance = Math.floor(duration / SECONDS_PER_DAY) * 0.01;
 
   return PRNG.random() < chance;
 };
@@ -54,8 +54,8 @@ const shouldGrow = (farm, action) => {
 Rules.dispatch = (farm, action) => {
   const actionCopy = Utils.clone(action);
 
-  if (!action.updates) {
-    action.updates = farm.updates;
+  if (!action.time) {
+    action.time = farm.time;
   }
 
   const farmCopy = Farm.dispatch(farm, actionCopy);

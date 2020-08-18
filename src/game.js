@@ -37,11 +37,12 @@ const onTool = (aTool) => () => {
   Renderer.invalidate(farm, tool);
 };
 
-const onUpdate = () => {
+const onUpdate = (dt) => {
   const action = {
     tool: 'update',
     row: 0,
     col: 0,
+    dt,
   };
 
   farm = Rules.dispatch(farm, action);

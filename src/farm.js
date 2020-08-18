@@ -18,7 +18,7 @@ const hasLand = (farm, action, someType) => !!getLand(farm, action, someType);
 const addLand = (farm, {row, col, crop, stage}, someType) => {
   const land = {
     type: someType,
-    updates: farm.updates,
+    time: farm.time,
   };
 
   if (crop) {
@@ -35,11 +35,11 @@ const removeLand = (farm, {row, col}, someType) =>
 const durationLand = (farm, action, someType) => {
   const land = getLand(farm, action, someType);
 
-  return land ? farm.updates - land.updates : 0;
+  return land ? farm.time - land.time : 0;
 }
 
-const update = (farm) => {
-  farm.updates += 1;
+const update = (farm, action) => {
+  farm.time += action.dt;
 
   return farm;
 };
@@ -83,7 +83,7 @@ const grow = (farm, action) => {
   if (plant && plant.stage < MAX_CROP_STAGE) {
     action.crop = plant.crop;
     action.stage = plant.stage + 1;
-    action.updates = plant.updates;
+    action.time = plant.time;
 
     removeLand(farm, action, 'plant');
     addLand(farm, action, 'plant');
@@ -93,7 +93,7 @@ const grow = (farm, action) => {
 };
 
 Farm.create = () => {
-  const updates = 0;
+  const time = 0;
   const rows = 6;
   const cols = 6;
   const land = [];
@@ -104,13 +104,13 @@ Farm.create = () => {
     for (let col = 0; col < cols; col += 1) {
       land[row][col] = [{
         type: 'plot',
-        updates,
+        time,
       }];
     }
   }
 
   return {
-    updates,
+    time,
     rows,
     cols,
     land,
