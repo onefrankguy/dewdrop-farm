@@ -1,8 +1,16 @@
 # Development Diary #
 
+## 17 August 2020 ##
+
+Day 5 of 31. 4,130 bytes used (31.02%).
+
+Game time now runs at a constant speed. Plus, the strawberries can now be
+harvested! Kind of. Using a hoe on crops will remove them, but I'm not tracking
+how many fully grown crops are hoed.
+
 ## 16 August 2020 ##
 
-Day 4 of 31. 4,125 bytes used (30.99%)
+Day 4 of 31. 4,125 bytes used (30.99%).
 
 It's starting to feel like a game. Maybe? I can till farmland, plant strawberry
 seeds, water the plants, and watch them grow. I'm playing around with timing.
