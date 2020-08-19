@@ -1,5 +1,18 @@
 # Development Diary #
 
+## 18 August 2020 ##
+
+Day 6 of 31. 5,065 bytes used (38.05%).
+
+Crops grow twice as fast when they're watered every day. Crops can have stages
+to their growth and each stage can take a different number of days. When a crop
+is fully grown, it can be harvested with the hoe. There's now a bit of a market
+interface for seeing how many crops have been harvested and what their current
+price is.
+
+I really need to set up some tests around the grow & drain rules. Those were
+tricky to get right.
+
 ## 17 August 2020 ##
 
 Day 5 of 31. 4,130 bytes used (31.02%).
