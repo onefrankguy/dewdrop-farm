@@ -46,6 +46,10 @@ a, a:visited {
 }
 
 /* FARM */
+.farm {
+  flex-grow: 1;
+}
+
 .plot {
   display: block;
   width: $tileWidth;
@@ -68,33 +72,62 @@ a, a:visited {
 }
 
 .plot.strawberry {
-  background-size: (5 * $tileWidth) (1 * $tileHeight);
+  background-size: (6 * $tileWidth) (1 * $tileHeight);
   background-image: url('../img/tiles.png');
 }
 
 .plot.strawberry.stage1 {
-  background-position-x: (-4 * $tileWidth);
+  background-position-x: (-5 * $tileWidth);
   background-position-y: (0 * $tileHeight);
 }
 
 .plot.strawberry.stage2 {
-  background-position-x: (-3 * $tileWidth);
+  background-position-x: (-4 * $tileWidth);
   background-position-y: (0 * $tileHeight);
 }
 
 .plot.strawberry.stage3 {
-  background-position-x: (-2 * $tileWidth);
+  background-position-x: (-3 * $tileWidth);
   background-position-y: (0 * $tileHeight);
 }
 
 .plot.strawberry.stage4 {
-  background-position-x: (-1 * $tileWidth);
+  background-position-x: (-2 * $tileWidth);
   background-position-y: (0 * $tileHeight);
 }
 
 .plot.strawberry.stage5 {
-  background-position-x: (0 * $tileWidth);
+  background-position-x: (-1 * $tileWidth);
   background-position-y: (0 * $tileHeight);
+}
+
+/* STORE */
+.store {
+  flex-grow: 1;
+}
+
+/* MARKET */
+.market {
+  flex-grow: 1;
+
+  .item {
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .picture {
+    display: inline-block;
+    width: $tileHeight;
+    height: $tileHeight;
+    image-rendering: pixelated;
+    background-size: (6 * $tileWidth) (1 * $tileHeight);
+    background-image: url('../img/tiles.png');
+  }
+
+  .picture.strawberry {
+    background-position-x: (0 * $tileWidth);
+    background-position-y: (0 * $tileHeight);
+  }
 }
 
 /* CONTROLS */
@@ -133,4 +166,9 @@ abbr[title="and"] {
   line-height: 0;
   position: relative;
   vertical-align: baseline;
+}
+
+/* UTILS */
+.hidden {
+  display: none !important;
 }

@@ -32,12 +32,6 @@ const addLand = (farm, {row, col, crop, stage, time}, someType) => {
 const removeLand = (farm, {row, col}, someType) =>
   farm.land[row][col] = farm.land[row][col].filter(({type}) => type !== someType);
 
-const durationLand = (farm, action, someType) => {
-  const land = getLand(farm, action, someType);
-
-  return land ? farm.time - land.time : 0;
-}
-
 const update = (farm, action) => {
   farm.time += action.dt;
 
@@ -45,8 +39,15 @@ const update = (farm, action) => {
 };
 
 const hoe = (farm, action) => {
-  if (hasLand(farm, action, 'plant')) {
+  const plant = getLand(farm, action, 'plant');
+  if (plant) {
     removeLand(farm, action, 'plant');
+    if (plant.stage >= MAX_CROP_STAGE) {
+      if (!farm.market[plant.crop]) {
+        farm.market[plant.crop] = 0;
+      }
+      farm.market[plant.crop] += 1;
+    }
   }
 
   if (!hasLand(farm, action, 'till')) {
@@ -97,6 +98,7 @@ Farm.create = () => {
   const rows = 6;
   const cols = 6;
   const land = [];
+  const market = {};
 
   for (let row = 0; row < rows; row += 1) {
     land[row] = [];
@@ -114,6 +116,7 @@ Farm.create = () => {
     rows,
     cols,
     land,
+    market,
   };
 };
 
@@ -160,10 +163,6 @@ Farm.plots = (farm) => {
 
   return result;
 };
-
-Farm.wateredFor = (farm, action) => durationLand(farm, action, 'water');
-
-Farm.plantedFor = (farm, action) => durationLand(farm, action, 'plant');
 
 Farm.crop = (farm, action) => getLand(farm, action, 'plant');
 

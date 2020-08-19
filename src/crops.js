@@ -4,9 +4,18 @@ const Crops = {};
 
 const dictionary = {
   strawberry: {
+    type: 'strawberry',
+    name: 'Strawberry',
+    season: 'spring',
+    price: 120,
     stages: [0, 1, 1, 2, 2, 2],
   },
 };
+
+Crops.seasonal = (season) =>
+  Object.keys(dictionary)
+    .filter((type) => dictionary[type].season === season)
+    .map(Crops.info);
 
 Crops.info = (type) => Utils.clone(dictionary[type]);
 
