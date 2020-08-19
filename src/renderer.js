@@ -1,4 +1,5 @@
 const $ = require('./jquery');
+const Rules = require('./rules');
 
 const Renderer = {};
 
@@ -45,6 +46,8 @@ Renderer.clear = () => {
 
 Renderer.render = (farm, tool) => {
   Renderer.clear();
+
+  $('#time').html(Rules.time(farm));
 
   const newFarm = renderFarm(farm, tool);
   const oldFarm = $('#farm').html();

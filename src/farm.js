@@ -15,10 +15,10 @@ const getLand = (farm, {row, col}, someType) =>
 
 const hasLand = (farm, action, someType) => !!getLand(farm, action, someType);
 
-const addLand = (farm, {row, col, crop, stage}, someType) => {
+const addLand = (farm, {row, col, crop, stage, time}, someType) => {
   const land = {
     type: someType,
-    time: farm.time,
+    time: time || farm.time,
   };
 
   if (crop) {
@@ -162,5 +162,11 @@ Farm.plots = (farm) => {
 };
 
 Farm.wateredFor = (farm, action) => durationLand(farm, action, 'water');
+
+Farm.plantedFor = (farm, action) => durationLand(farm, action, 'plant');
+
+Farm.crop = (farm, action) => getLand(farm, action, 'plant');
+
+Farm.watered = (farm, action) => getLand(farm, action, 'water');
 
 module.exports = Farm;

@@ -40,4 +40,6 @@ PRNG.shuffle = (array) => {
   return result;
 };
 
+PRNG.between = (min, max) => PRNG.random() * (max - min) + min;
+
 module.exports = PRNG;

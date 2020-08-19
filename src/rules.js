@@ -1,54 +1,115 @@
 const Utils = require('./utils');
 const PRNG = require('./prng');
 const Farm = require('./farm');
+const Crops = require('./crops');
 
-const RANDOM_TICK_SPEED = 3;
-const SECONDS_PER_DAY = (14 * 60) / 4 / 28;
+const SEASONS_PER_YEAR = 4;
+const DAYS_PER_SEASON = 28;
+const SECONDS_PER_DAY = (14 * 60 * 3) / SEASONS_PER_YEAR / DAYS_PER_SEASON;
 
 const Rules = {};
 
-const update = (farm) => {
-  const plots = PRNG.shuffle(Farm.plots(farm));
+const plotLists = {};
 
-  for (let rts = 0; rts < RANDOM_TICK_SPEED; rts += 1) {
-    const {row, col} = plots[rts];
+const getPlotList = (farm, type, test) => {
+  if (!plotLists[type]) {
+    plotLists[type] = {};
+  }
 
-    const drainAction = {
-      tool: 'drain',
-      row,
-      col,
-    };
+  const day = Math.floor(farm.time / SECONDS_PER_DAY);
 
-    if (shouldDrain(farm, drainAction)) {
-      farm = Rules.dispatch(farm, drainAction);
+  if (plotLists[type].day !== day) {
+    let plots = PRNG.shuffle(Farm.plots(farm));
+    const dt = SECONDS_PER_DAY / plots.length;
+    plots = plots.map((plot, index) => {
+      const min = dt * (index + 0);
+      const max = dt * (index + 1);
+      const time = PRNG.between(min, max);
+
+      return {
+        ...plot,
+        time,
+        id: index,
+      };
+    });
+
+    plotLists[type].day = day;
+    plotLists[type].plots = plots;
+  }
+
+  const farmTime = farm.time - (day * SECONDS_PER_DAY);
+  const plots = [];
+  const remaining = [];
+
+  plotLists[type].plots.forEach((plot) => {
+    if (plot.time <= farmTime && test(plot)) {
+      plots.push(plot);
+    } else {
+      remaining.push(plot);
     }
+  });
+  plotLists[type].plots = remaining;
 
+  return plots;
+};
+
+const getGrowable = (farm, test) => getPlotList(farm, 'growable', test);
+
+const getDrainable = (farm, test) => getPlotList(farm, 'drainable', test);
+
+const update = (farm) => {
+  getGrowable(farm, shouldGrow(farm)).forEach(({row, col}) => {
     const growAction = {
       tool: 'grow',
       row,
       col,
     };
 
-    if (shouldGrow(farm, growAction)) {
-      farm = Rules.dispatch(farm, growAction);
-    }
-  }
+    farm = Rules.dispatch(farm, growAction);
+  });
+
+  getDrainable(farm, shouldDrain(farm)).forEach(({row, col}) => {
+    const drainAction = {
+      tool: 'drain',
+      row,
+      col,
+    };
+
+    farm = Rules.dispatch(farm, drainAction);
+  });
 
   return farm;
 };
 
-const shouldDrain = (farm, action) => {
-  const duration = Farm.wateredFor(farm, action);
-  const chance = Math.floor(duration / SECONDS_PER_DAY) * 0.01;
+const shouldDrain = (farm) => (action) => {
+  const day = Math.ceil(farm.time / SECONDS_PER_DAY);
+  const watered = Farm.watered(farm, action);
 
-  return PRNG.random() < chance;
+  if (watered) {
+    const dayWatered = Math.ceil(watered.time / SECONDS_PER_DAY);
+    const duration = day - dayWatered;
+
+    return duration > 0;
+  }
+
+  return false;
 };
 
-const shouldGrow = (farm, action) => {
-  const points = Farm.wateredFor(farm, action) > 0 ? 4 : 2;
-  const chance = 1 / (Math.floor(25 / points) + 1);
+const shouldGrow = (farm) => (action) => {
+  const day = Math.ceil(farm.time / SECONDS_PER_DAY);
+  const crop = Farm.crop(farm, action);
+  const watered = Farm.watered(farm, action);
+  const multiplier = watered && Math.ceil(watered.time / SECONDS_PER_DAY) >= day ? 0.5 : 1;
 
-  return PRNG.random() < chance;
+  if (crop) {
+    const plantedOn = Math.ceil(crop.time / SECONDS_PER_DAY);
+    const aliveFor = day - plantedOn;
+    const needsToBeAliveFor = Crops.days(crop, multiplier);
+
+    return aliveFor >= needsToBeAliveFor;
+  }
+
+  return false;
 };
 
 Rules.dispatch = (farm, action) => {
@@ -67,6 +128,12 @@ Rules.dispatch = (farm, action) => {
     default:
       return farmCopy;
   }
+};
+
+Rules.time = (farm) => {
+  const day = Math.ceil(farm.time / SECONDS_PER_DAY) % DAYS_PER_SEASON;
+
+  return `Day ${day}`;
 };
 
 module.exports = Rules;
