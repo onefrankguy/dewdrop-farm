@@ -46,49 +46,44 @@ Fn.prototype.click = function click(start, move, end) {
   const that = this;
 
   if (this.element) {
-    if ('ontouchstart' in document.documentElement === false) {
-      this.element.onmousedown = function onmousedown(mouseDownEvent) {
-        if (start) {
-          start(that, mouseDownEvent);
+    const hasMouse = 'ontouchstart' in document.documentElement === false;
+    const startEventName = hasMouse ? 'mousedown' : 'touchstart';
+    const moveEventName = hasMouse ? 'mousemove' : 'touchmove';
+    const endEventName = hasMouse ? 'mouseup' : 'touchend';
+
+    const onMove = (moveEvent) => {
+      if (that.canHandleMove) {
+        moveEvent.preventDefault();
+
+        if (move) {
+          move(that, moveEvent);
         }
-
-        document.onmousemove = function onmousemove(mouseMoveEvent) {
-          if (move) {
-            move(that, mouseMoveEvent);
-          }
-        };
-
-        document.onmouseup = function onmouseup(mouseUpEvent) {
-          if (end) {
-            end(that, mouseUpEvent);
-          }
-
-          document.onmousemove = undefined;
-          document.onmouseup = undefined;
-        };
-      };
-    } else {
-      this.element.ontouchstart = function ontouchstart(touchStartEvent) {
-        if (start) {
-          start(that, touchStartEvent);
-        }
-
-        document.ontouchmove = function ontouchmove(touchMoveEvent) {
-          if (move) {
-            move(that, touchMoveEvent);
-          }
-        };
-
-        document.ontouchend = function ontouchend(touchEndEvent) {
-          if (end) {
-            end(that, touchEndEvent);
-          }
-
-          document.ontouchmove = undefined;
-          document.ontouchend = undefined;
-        };
       }
-    }
+    };
+
+    const onEnd = (endEvent) => {
+      that.canHandleMove = undefined;
+
+      if (end) {
+        end(that, endEvent);
+      }
+
+      document.removeEventListener(moveEventName, onMove);
+      document.removeEventListener(endEventName, onEnd);
+    };
+
+    const onStart = (startEvent) => {
+      that.canHandleMove = true;
+
+      if (start) {
+        start(that, startEvent);
+      }
+
+      document.addEventListener(moveEventName, onMove);
+      document.addEventListener(endEventName, onEnd);
+    };
+
+    this.element.addEventListener(startEventName, onStart);
   }
 
   return this;
