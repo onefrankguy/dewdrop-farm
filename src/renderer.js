@@ -10,6 +10,10 @@ const renderTime = (farm) => {
   return `Day ${day} of <span class="capitalize">${season}</span>`;
 };
 
+const renderCash = (farm) => {
+  return `$${farm.cash}`;
+};
+
 const renderFarmClasses = (farm, row, col) =>
   farm.land[row][col].map((land) => {
     const result = land.crop ? ['tile', land.crop] : [land.type];
@@ -39,13 +43,26 @@ const renderFarm = (farm) => {
   return html;
 };
 
+const renderStore = (farm) => {
+  let html = '<div>Store</div>';
+
+  Rules.store(farm).forEach((crop) => {
+    html += `<div class="item row" data-crop="${crop.type}">`;
+    html += `<span class="tile picture ${crop.type}"></span><span class="capitalize">${crop.type}</span>`;
+    html += `<span class="price">${crop.prices.seed}</span>`;
+    html += '</div>';
+  });
+
+  return html;
+};
+
 const renderMarket = (farm) => {
   let html = '<div>Market</div>';
 
   Rules.market(farm).forEach((crop) => {
     const amount = farm.market[crop.type] || 0;
 
-    html += '<div class="item row">';
+    html += `<div class="item row" data-crop="${crop.type}">`;
     html += `<span class="tile picture ${crop.type}"></span><span class="capitalize">${crop.type}</span>`;
     html += `<span class="amount">${amount}</span> &times; <span class="price">${crop.prices.crop}</span>`;
     html += '</div>';
@@ -76,6 +93,14 @@ const renderTool = (tool) => {
   $('#market').addClass('hidden');
 };
 
+const renderInventory = (farm) => {
+  farm.inventory.forEach((seed, index) => {
+    const html = seed ? `${seed.type} ${seed.amount}` : '';
+
+    renderIfChanged(`#slot${index}`, html);
+  });
+};
+
 const renderIfChanged = (selector, newHtml) => {
   const element = $(selector);
   const oldHtml = element.html();
@@ -88,7 +113,10 @@ const renderIfChanged = (selector, newHtml) => {
 Renderer.clear = () => {
   $('#hoe').removeClass('active');
   $('#water').removeClass('active');
-  $('#plant').removeClass('active');
+  $('#slot0').removeClass('active');
+  $('#slot1').removeClass('active');
+  $('#slot2').removeClass('active');
+  $('#slot3').removeClass('active');
   $('#buy').removeClass('active');
   $('#sell').removeClass('active');
 };
@@ -96,8 +124,11 @@ Renderer.clear = () => {
 Renderer.render = (farm, tool) => {
   Renderer.clear();
   renderTool(tool);
+  renderInventory(farm);
   renderIfChanged('#time', renderTime(farm));
+  renderIfChanged('#cash', renderCash(farm));
   renderIfChanged('#farm', renderFarm(farm, tool));
+  renderIfChanged('#store', renderStore(farm));
   renderIfChanged('#market', renderMarket(farm));
 };
 

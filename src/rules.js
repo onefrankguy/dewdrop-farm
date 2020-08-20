@@ -138,13 +138,17 @@ Rules.season = (farm) => {
 
 Rules.day = (farm) => Math.ceil(farm.time / SECONDS_PER_DAY) % DAYS_PER_SEASON;
 
-Rules.market = (farm) => {
+Rules.store = (farm) => {
   const season = Rules.season(farm);
   const seasonalCrops = Crops.seasonal(season);
-  const ownedCrops = Object.keys(farm.market).filter((name) => !seasonalCrops.includes(name));
-  const marketCrops = ownedCrops.concat(seasonalCrops);
 
-  return marketCrops.map(Crops.info);
+  return seasonalCrops.map(Crops.info);
+};
+
+Rules.market = (farm) => {
+  const ownedCrops = Object.keys(farm.market);
+
+  return ownedCrops.map(Crops.info);
 };
 
 module.exports = Rules;

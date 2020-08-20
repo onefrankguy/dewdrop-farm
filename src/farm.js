@@ -1,7 +1,9 @@
 const Utils = require('./utils');
+const Crops = require('./crops');
 
 const MIN_CROP_STAGE = 1;
 const MAX_CROP_STAGE = 5;
+const MAX_INVENTORY_SIZE = 4;
 
 const Farm = {};
 
@@ -72,7 +74,21 @@ const drain = (farm, action) => {
 
 const plant = (farm, action) => {
   if (hasLand(farm, action, 'till') && !hasLand(farm, action, 'plant')) {
-    addLand(farm, action, 'plant');
+    let crop = farm.inventory[action.slot];
+
+    if (crop && crop.amount > 0) {
+      action.type = 'plant';
+      action.crop = crop.type;
+      crop.amount -= 1;
+
+      if (crop.amount <= 0) {
+        crop = undefined;
+      }
+
+      farm.inventory[action.slot] = crop;
+
+      addLand(farm, action, 'plant');
+    }
   }
 
   return farm;
@@ -93,12 +109,43 @@ const grow = (farm, action) => {
   return farm;
 };
 
+const buy = (farm, action) => {
+  const crop = Crops.info(action.crop);
+
+  if (farm.cash < crop.prices.seed) {
+    return farm;
+  }
+
+  const slotIndex = farm.inventory.findIndex((slot) => slot.type === crop.type);
+  if (slotIndex >= 0) {
+    farm.cash -= crop.prices.seed;
+    farm.inventory[slotIndex].amount += 1;
+    return farm;
+  }
+
+  for (let i = 0; i < MAX_INVENTORY_SIZE; i += 1) {
+    if (!farm.inventory[i]) {
+      farm.cash -= crop.prices.seed;
+      farm.inventory[i] = {
+        type: crop.type,
+        amount: 1,
+      };
+
+      break;
+    }
+  }
+
+  return farm;
+};
+
 Farm.create = () => {
   const time = 0;
   const rows = 6;
   const cols = 6;
   const land = [];
   const market = {};
+  const inventory = [];
+  const cash = 500;
 
   for (let row = 0; row < rows; row += 1) {
     land[row] = [];
@@ -117,6 +164,8 @@ Farm.create = () => {
     cols,
     land,
     market,
+    inventory,
+    cash,
   };
 };
 
@@ -141,11 +190,17 @@ Farm.dispatch = (farm, action) => {
     case 'drain':
       return drain(farmCopy, actionCopy);
 
-    case 'plant':
+    case 'slot0':
+    case 'slot1':
+    case 'slot2':
+    case 'slot3':
       return plant(farmCopy, actionCopy);
 
     case 'grow':
       return grow(farmCopy, actionCopy);
+
+    case 'buy':
+      return buy(farmCopy, actionCopy);
 
     default:
       return farmCopy;

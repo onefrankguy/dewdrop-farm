@@ -14,11 +14,9 @@ $tileHeight: 4.8rem;
     }
   }
 
-  .market {
-    .picture.#{$name} {
-      background-position-x: (0 * $tileWidth);
-      background-position-y: (-1 * $row * $tileHeight);
-    }
+  .picture.#{$name} {
+    background-position-x: (0 * $tileWidth);
+    background-position-y: (-1 * $row * $tileHeight);
   }
 }
 
@@ -121,6 +119,7 @@ a, a:visited {
 }
 
 /* MARKET */
+.store,
 .market {
   flex-grow: 1;
 

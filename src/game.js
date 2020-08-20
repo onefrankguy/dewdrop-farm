@@ -8,7 +8,7 @@ const Game = {};
 
 let farm;
 let tool;
-let crop;
+let slot;
 
 const offFarm = (_, event) => {
   if (event.target && event.target.matches('.plot') && event.target.id) {
@@ -18,7 +18,7 @@ const offFarm = (_, event) => {
       tool,
       row,
       col,
-      crop,
+      slot,
     };
 
     farm = Rules.dispatch(farm, action);
@@ -26,12 +26,31 @@ const offFarm = (_, event) => {
   }
 };
 
+const onStore = (_, event) => {
+  console.log(event);
+
+  if (event.target.dataset.crop) {
+    const action = {
+      tool: 'buy',
+      row: 0,
+      col: 0,
+      crop: event.target.dataset.crop,
+    }
+
+    farm = Rules.dispatch(farm, action);
+    Renderer.invalidate(farm, tool);
+  }
+};
+
+const onMarket = (_, event) => {
+};
+
 const onTool = (aTool) => () => {
   tool = aTool;
-  crop = undefined;
+  slot = ['slot0', 'slot1', 'slot2', 'slot3'].findIndex((type) => type === tool);
 
-  if (tool === 'plant') {
-    crop = 'chile';
+  if (slot < 0) {
+    slot = undefined;
   }
 
   Renderer.invalidate(farm, tool);
@@ -61,9 +80,14 @@ Game.reset = () => {
 Game.play = () => {
   $('#hoe').click(onTool('hoe'));
   $('#water').click(onTool('water'));
-  $('#plant').click(onTool('plant'));
+  $('#slot0').click(onTool('slot0'));
+  $('#slot1').click(onTool('slot1'));
+  $('#slot2').click(onTool('slot2'));
+  $('#slot3').click(onTool('slot3'));
   $('#buy').click(onTool('buy'));
   $('#sell').click(onTool('sell'));
+  $('#store').click(onStore);
+  $('#market').click(onMarket);
   $('#farm').click(undefined, offFarm, offFarm);
 
   Game.reset();
