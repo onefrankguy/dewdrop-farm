@@ -172,18 +172,6 @@ const dictionary = {
   },
 };
 
-let perSeason = {};
-Object.keys(dictionary).forEach((type) => {
-  dictionary[type].seasons.forEach((season) => {
-    if (!perSeason[season]) {
-      perSeason[season] = [];
-    }
-    perSeason[season].push(type);
-  });
-});
-console.log(perSeason);
-
-
 Crops.seasonal = (season) =>
   Object.keys(dictionary)
     .filter((type) => dictionary[type].seasons.includes(season));

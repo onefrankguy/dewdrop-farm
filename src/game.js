@@ -27,14 +27,18 @@ const offFarm = (_, event) => {
 };
 
 const onStore = (_, event) => {
-  console.log(event);
+  let element = event.target;
 
-  if (event.target.dataset.crop) {
+  while (element && !element.dataset.crop) {
+    element = element.parentElement;
+  }
+
+  if (element && element.dataset.crop) {
     const action = {
       tool: 'buy',
       row: 0,
       col: 0,
-      crop: event.target.dataset.crop,
+      crop: element.dataset.crop,
     }
 
     farm = Rules.dispatch(farm, action);
@@ -43,6 +47,23 @@ const onStore = (_, event) => {
 };
 
 const onMarket = (_, event) => {
+  let element = event.target;
+
+  while (element && !element.dataset.crop) {
+    element = element.parentElement;
+  }
+
+  if (element && element.dataset.crop) {
+    const action = {
+      tool: 'sell',
+      row: 0,
+      col: 0,
+      crop: element.dataset.crop,
+    }
+
+    farm = Rules.dispatch(farm, action);
+    Renderer.invalidate(farm, tool);
+  }
 };
 
 const onTool = (aTool) => () => {

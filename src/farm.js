@@ -116,7 +116,7 @@ const buy = (farm, action) => {
     return farm;
   }
 
-  const slotIndex = farm.inventory.findIndex((slot) => slot.type === crop.type);
+  const slotIndex = farm.inventory.findIndex((slot) => slot && slot.type === crop.type);
   if (slotIndex >= 0) {
     farm.cash -= crop.prices.seed;
     farm.inventory[slotIndex].amount += 1;
@@ -132,6 +132,21 @@ const buy = (farm, action) => {
       };
 
       break;
+    }
+  }
+
+  return farm;
+};
+
+const sell = (farm, action) => {
+  if (farm.market[action.crop]) {
+    const cash = Crops.info(action.crop).prices.crop;
+
+    farm.market[action.crop] -= 1;
+    farm.cash += cash;
+
+    if (!farm.market[action.crop]) {
+      farm.market[action.crop] = undefined;
     }
   }
 
@@ -201,6 +216,9 @@ Farm.dispatch = (farm, action) => {
 
     case 'buy':
       return buy(farmCopy, actionCopy);
+
+    case 'sell':
+      return sell(farmCopy, actionCopy);
 
     default:
       return farmCopy;
