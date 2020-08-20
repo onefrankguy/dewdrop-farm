@@ -130,10 +130,21 @@ Rules.dispatch = (farm, action) => {
   }
 };
 
-Rules.time = (farm) => {
-  const day = Math.ceil(farm.time / SECONDS_PER_DAY) % DAYS_PER_SEASON;
+Rules.season = (farm) => {
+  const index = Math.floor(farm.time / SECONDS_PER_DAY / DAYS_PER_SEASON);
 
-  return `Day ${day}`;
+  return ['spring', 'summer', 'fall', 'winter'][index];
+};
+
+Rules.day = (farm) => Math.ceil(farm.time / SECONDS_PER_DAY) % DAYS_PER_SEASON;
+
+Rules.market = (farm) => {
+  const season = Rules.season(farm);
+  const seasonalCrops = Crops.seasonal(season);
+  const ownedCrops = Object.keys(farm.market).filter((name) => !seasonalCrops.includes(name));
+  const marketCrops = ownedCrops.concat(seasonalCrops);
+
+  return marketCrops.map(Crops.info);
 };
 
 module.exports = Rules;

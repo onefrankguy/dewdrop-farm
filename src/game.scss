@@ -6,6 +6,22 @@ $plotTilledWateredColor: rgba(142, 82, 82);
 $tileWidth: 4.8rem;
 $tileHeight: 4.8rem;
 
+@mixin crop($name, $row) {
+  @for $i from 1 through 5 {
+    .plot.#{$name}.stage#{$i} {
+      background-position-x: (($i - 6) * $tileWidth);
+      background-position-y: (-1 * $row * $tileHeight);
+    }
+  }
+
+  .market {
+    .picture.#{$name} {
+      background-position-x: (0 * $tileWidth);
+      background-position-y: (-1 * $row * $tileHeight);
+    }
+  }
+}
+
 /* RESET */
 * {
   cursor: default;
@@ -46,6 +62,14 @@ a, a:visited {
 }
 
 /* FARM */
+.tile {
+  width: $tileHeight;
+  height: $tileHeight;
+  background-size: (6 * $tileWidth) (20 * $tileHeight);
+  background-image: url('../img/tiles.png');
+  image-rendering: pixelated;
+}
+
 .farm {
   flex-grow: 1;
 }
@@ -56,7 +80,6 @@ a, a:visited {
   height: $tileHeight;
   border: 0.1rem solid $plotBorderColor;
   background-color: $platColor;
-  image-rendering: pixelated;
 }
 
 .plot.water {
@@ -71,35 +94,26 @@ a, a:visited {
   background-color: $plotTilledWateredColor;
 }
 
-.plot.strawberry {
-  background-size: (6 * $tileWidth) (1 * $tileHeight);
-  background-image: url('../img/tiles.png');
-}
-
-.plot.strawberry.stage1 {
-  background-position-x: (-5 * $tileWidth);
-  background-position-y: (0 * $tileHeight);
-}
-
-.plot.strawberry.stage2 {
-  background-position-x: (-4 * $tileWidth);
-  background-position-y: (0 * $tileHeight);
-}
-
-.plot.strawberry.stage3 {
-  background-position-x: (-3 * $tileWidth);
-  background-position-y: (0 * $tileHeight);
-}
-
-.plot.strawberry.stage4 {
-  background-position-x: (-2 * $tileWidth);
-  background-position-y: (0 * $tileHeight);
-}
-
-.plot.strawberry.stage5 {
-  background-position-x: (-1 * $tileWidth);
-  background-position-y: (0 * $tileHeight);
-}
+@include crop('turnip', 0);
+@include crop('chile', 1);
+@include crop('tomato', 2);
+@include crop('eggplant', 3);
+@include crop('pineapple', 4);
+@include crop('wheat', 5);
+@include crop('strawberry', 6);
+@include crop('potato', 7);
+@include crop('orange', 8);
+@include crop('corn', 9);
+@include crop('rose', 10);
+@include crop('tulip', 11);
+@include crop('melon', 12);
+@include crop('lemon', 13);
+@include crop('rice', 14);
+@include crop('grape', 15);
+@include crop('cassava', 16);
+@include crop('coffee', 17);
+@include crop('avocado', 18);
+@include crop('sunflower', 19);
 
 /* STORE */
 .store {
@@ -117,16 +131,6 @@ a, a:visited {
 
   .picture {
     display: inline-block;
-    width: $tileHeight;
-    height: $tileHeight;
-    image-rendering: pixelated;
-    background-size: (6 * $tileWidth) (1 * $tileHeight);
-    background-image: url('../img/tiles.png');
-  }
-
-  .picture.strawberry {
-    background-position-x: (0 * $tileWidth);
-    background-position-y: (0 * $tileHeight);
   }
 }
 
@@ -171,4 +175,8 @@ abbr[title="and"] {
 /* UTILS */
 .hidden {
   display: none !important;
+}
+
+.capitalize {
+  text-transform: capitalize;
 }

@@ -1,12 +1,18 @@
 const $ = require('./jquery');
 const Rules = require('./rules');
-const Crops = require('./crops');
 
 const Renderer = {};
 
+const renderTime = (farm) => {
+  const day = Rules.day(farm);
+  const season = Rules.season(farm);
+
+  return `Day ${day} of <span class="capitalize">${season}</span>`;
+};
+
 const renderFarmClasses = (farm, row, col) =>
   farm.land[row][col].map((land) => {
-    const result = [land.crop || land.type];
+    const result = land.crop ? ['tile', land.crop] : [land.type];
 
     if (land.stage) {
       result.push(`stage${land.stage}`);
@@ -36,23 +42,13 @@ const renderFarm = (farm) => {
 const renderMarket = (farm) => {
   let html = '<div>Market</div>';
 
-  Object.keys(farm.market).forEach((type) => {
-    const crop = Crops.info(type);
-    const amount = farm.market[type];
+  Rules.market(farm).forEach((crop) => {
+    const amount = farm.market[crop.type] || 0;
 
     html += '<div class="item row">';
-    html += `<span class="picture ${crop.type}"></span><span>${crop.name}</span>`;
-    html += `<span class="amount">${amount}</span> &times; <span class="price">${crop.price}</span>`;
+    html += `<span class="tile picture ${crop.type}"></span><span class="capitalize">${crop.type}</span>`;
+    html += `<span class="amount">${amount}</span> &times; <span class="price">${crop.prices.crop}</span>`;
     html += '</div>';
-  });
-
-  Crops.seasonal('spring').forEach((crop) => {
-    if (!farm.market[crop.type]) {
-      html += '<div class="item row">';
-      html += `<span class="picture ${crop.type}"></span><span>${crop.name}</span>`;
-      html += `<span class="amount">0</span> x <span class="price">${crop.price}</span>`;
-      html += '</div>';
-    }
   });
 
   return html;
@@ -85,7 +81,6 @@ const renderIfChanged = (selector, newHtml) => {
   const oldHtml = element.html();
 
   if (newHtml !== oldHtml) {
-    console.log({newHtml, oldHtml});
     element.html(newHtml);
   }
 };
@@ -101,9 +96,7 @@ Renderer.clear = () => {
 Renderer.render = (farm, tool) => {
   Renderer.clear();
   renderTool(tool);
-
-  $('#time').html(Rules.time(farm));
-
+  renderIfChanged('#time', renderTime(farm));
   renderIfChanged('#farm', renderFarm(farm, tool));
   renderIfChanged('#market', renderMarket(farm));
 };

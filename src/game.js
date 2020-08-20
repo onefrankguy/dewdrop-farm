@@ -31,7 +31,7 @@ const onTool = (aTool) => () => {
   crop = undefined;
 
   if (tool === 'plant') {
-    crop = 'strawberry';
+    crop = 'chile';
   }
 
   Renderer.invalidate(farm, tool);
