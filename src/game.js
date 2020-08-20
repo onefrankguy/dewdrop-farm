@@ -11,8 +11,14 @@ let tool;
 let slot;
 
 const offFarm = (_, event) => {
-  if (event.target && event.target.matches('.plot') && event.target.id) {
-    const [_, row, col] = event.target.id.split('');
+  let element = event.target;
+
+  while (element && !element.dataset.crop) {
+    element = element.parentElement;
+  }
+
+  if (element && element.dataset.crop) {
+    const [_, row, col] = element.dataset.crop.split('');
 
     const action = {
       tool,
@@ -26,7 +32,7 @@ const offFarm = (_, event) => {
   }
 };
 
-const onStore = (_, event) => {
+const offStore = (_, event) => {
   let element = event.target;
 
   while (element && !element.dataset.crop) {
@@ -46,7 +52,7 @@ const onStore = (_, event) => {
   }
 };
 
-const onMarket = (_, event) => {
+const offMarket = (_, event) => {
   let element = event.target;
 
   while (element && !element.dataset.crop) {
@@ -107,9 +113,9 @@ Game.play = () => {
   $('#slot3').click(onTool('slot3'));
   $('#buy').click(onTool('buy'));
   $('#sell').click(onTool('sell'));
-  $('#store').click(onStore);
-  $('#market').click(onMarket);
-  $('#farm').click(undefined, offFarm, offFarm);
+  $('#store').click(undefined, undefined, offStore);
+  $('#market').click(undefined, undefined, offMarket);
+  $('#farm').click(offFarm, offFarm);
 
   Game.reset();
   Engine.run(onUpdate, onRender);

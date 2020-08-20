@@ -1,14 +1,11 @@
-$plotBorderColor: rgba(18, 32, 32, 1);
-$platColor: rgba(27, 122, 62, 1);
-$plotWateredColor: rgba(36, 82, 59, 1);
-$plotTilledColor: rgba(187, 117, 71, 1);
-$plotTilledWateredColor: rgba(142, 82, 82);
+$plotColor: rgb(20, 160, 46);
+$fontColor: rgb(227, 230, 255);
 $tileWidth: 4.8rem;
 $tileHeight: 4.8rem;
 
 @mixin crop($name, $row) {
   @for $i from 1 through 5 {
-    .plot.#{$name}.stage#{$i} {
+    .#{$name}.stage#{$i} {
       background-position-x: (($i - 6) * $tileWidth);
       background-position-y: (-1 * $row * $tileHeight);
     }
@@ -26,12 +23,15 @@ $tileHeight: 4.8rem;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  image-rendering: pixelated;
 }
 
 html {
   font-weight: normal;
-  font-size: 100%;
+  font-size: 62.5%;
   font-family: monospace;
+  background: $plotColor;
+  color: $fontColor;
 }
 
 a, a:visited {
@@ -63,9 +63,8 @@ a, a:visited {
 .tile {
   width: $tileHeight;
   height: $tileHeight;
-  background-size: (6 * $tileWidth) (20 * $tileHeight);
+  background-size: (6 * $tileWidth) (23 * $tileHeight);
   background-image: url('../img/tiles.png');
-  image-rendering: pixelated;
 }
 
 .farm {
@@ -73,23 +72,13 @@ a, a:visited {
 }
 
 .plot {
-  display: block;
-  width: $tileWidth;
-  height: $tileHeight;
-  border: 0.1rem solid $plotBorderColor;
-  background-color: $platColor;
+  background-position-x: (-5 * $tileWidth);
+  background-position-y: (-20 * $tileHeight);
 }
-
-.plot.water {
-  background-color: $plotWateredColor;
-};
 
 .plot.till {
-  background-color: $plotTilledColor;
-}
-
-.plot.till.water {
-  background-color: $plotTilledWateredColor;
+  background-position-x: (0 * $tileWidth);
+  background-position-y: (-20 * $tileHeight);
 }
 
 @include crop('turnip', 0);
@@ -112,6 +101,11 @@ a, a:visited {
 @include crop('coffee', 17);
 @include crop('avocado', 18);
 @include crop('sunflower', 19);
+
+.plot.grass {
+  background-position-x: (-5 * $tileWidth);
+  background-position-y: (20 * $tileHeight);
+};
 
 /* STORE */
 .store {
@@ -178,4 +172,10 @@ abbr[title="and"] {
 
 .capitalize {
   text-transform: capitalize;
+}
+
+@media screen and (min-width:40em) {
+  html {
+    font-size: 100%;
+  }
 }

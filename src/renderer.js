@@ -14,16 +14,19 @@ const renderCash = (farm) => {
   return `$${farm.cash}`;
 };
 
-const renderFarmClasses = (farm, row, col) =>
+const renderFarmPlotClasses = (farm, row, col) =>
+  farm.land[row][col].map((land) => land.crop ? '' : land.type).join(' ').trim();
+
+const renderFarmCropClasses = (farm, row, col) =>
   farm.land[row][col].map((land) => {
-    const result = land.crop ? ['tile', land.crop] : [land.type];
+    const result = land.crop ? ['tile', land.crop] : [];
 
     if (land.stage) {
       result.push(`stage${land.stage}`);
     }
 
     return result.join(' ');
-  }).join(' ');
+  }).join(' ').trim();
 
 const renderFarm = (farm) => {
   let html = '';
@@ -32,9 +35,14 @@ const renderFarm = (farm) => {
     html += '<div class="row">';
 
     for (let col = 0; col < farm.cols; col += 1) {
-      const klasses = renderFarmClasses(farm, row, col);
+      const plotClasses = renderFarmPlotClasses(farm, row, col);
+      const cropClasses = renderFarmCropClasses(farm, row, col);
 
-      html += `<div class="${klasses}" id="p${row}${col}"></div>`;
+      html += `<div class="tile plot ${plotClasses}" data-crop="p${row}${col}">`;
+      if (cropClasses) {
+        html += `<div class="${cropClasses}"></div>`;
+      }
+      html += '</div>';
     }
 
     html += '</div>';
@@ -106,6 +114,7 @@ const renderIfChanged = (selector, newHtml) => {
   const oldHtml = element.html();
 
   if (newHtml !== oldHtml) {
+    console.log({newHtml, oldHtml});
     element.html(newHtml);
   }
 };

@@ -166,10 +166,7 @@ Farm.create = () => {
     land[row] = [];
 
     for (let col = 0; col < cols; col += 1) {
-      land[row][col] = [{
-        type: 'plot',
-        time,
-      }];
+      land[row][col] = [];
     }
   }
 
