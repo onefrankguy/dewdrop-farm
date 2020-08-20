@@ -1,5 +1,16 @@
 # Development Diary #
 
+## 19 August 2020 ##
+
+Day 7 of 31. 11,641 bytes used (87.45%).
+
+Crops can be bought, planted, grown, and sold! But...I just spent 50% of my
+byte budget on graphics.
+
+I tested it out in Chrome on my phone. The touch controls work, but everything
+looks a bit too big. I can only fit about five tiles horizontally on the screen
+and seven tiles vertically. So I need to figure that out.
+
 ## 18 August 2020 ##
 
 Day 6 of 31. 5,065 bytes used (38.05%).
