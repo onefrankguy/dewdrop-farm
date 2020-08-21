@@ -1,5 +1,19 @@
 # Development Diary #
 
+## 20 August 2020 ##
+
+Day 8 of 31. 12,902 bytes used (96.92%).
+
+There's dirt & grass, and it looks really good with non-sharp edges when you
+till it to plant crops. I'm a bit concerned about having spent 97% of my bytes
+on pretty at this point. Hopefully I can figure out some tricks to make things
+smaller.
+
+There's not much challenge. One harvest of turnips, and you've got more cash
+than you need to buy the next round of seeds. I should probably add other
+things to spend cash on. Sprinklers? Levels? Upgrades? Or maybe just some kind
+of exhaustion mechanic where you can only do a small number of things per day.
+
 ## 19 August 2020 ##
 
 Day 7 of 31. 11,641 bytes used (87.45%).
