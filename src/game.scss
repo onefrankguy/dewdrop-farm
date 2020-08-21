@@ -76,9 +76,77 @@ a, a:visited {
   background-position-y: (-20 * $tileHeight);
 }
 
-.plot.till {
+.plot.stage0000 {
+  background-position-x: (-5 * $tileWidth);
+  background-position-y: (-20 * $tileHeight);
+}
+.plot.stage1111 {
+  background-position-x: (-5 * $tileWidth);
+  background-position-y: (-20 * $tileHeight);
+}
+.plot.till.stage0000 {
   background-position-x: (0 * $tileWidth);
   background-position-y: (-20 * $tileHeight);
+}
+.plot.till.stage0001 {
+  background-position-x: (-2 * $tileWidth);
+  background-position-y: (-21 * $tileHeight);
+}
+.plot.till.stage0010 {
+  background-position-x: (-1 * $tileWidth);
+  background-position-y: (-20 * $tileHeight);
+}
+.plot.till.stage0011 {
+  background-position-x: (-5 * $tileWidth);
+  background-position-y: (-21 * $tileHeight);
+}
+.plot.till.stage0100 {
+  background-position-x: (0 * $tileWidth);
+  background-position-y: (-21 * $tileHeight);
+}
+.plot.till.stage0101 {
+  background-position-x: (0 * $tileWidth);
+  background-position-y: (-22 * $tileHeight);
+}
+.plot.till.stage0110 {
+  background-position-x: (-4 * $tileWidth);
+  background-position-y: (-21 * $tileHeight);
+}
+.plot.till.stage0111 {
+  background-position-x: (-3 * $tileWidth);
+  background-position-y: (-22 * $tileHeight);
+}
+.plot.till.stage1000 {
+  background-position-x: (-1 * $tileWidth);
+  background-position-y: (-22 * $tileHeight);
+}
+.plot.till.stage1001 {
+  background-position-x: (-5 * $tileWidth);
+  background-position-y: (-22 * $tileHeight);
+}
+.plot.till.stage1010 {
+  background-position-x: (-2 * $tileWidth);
+  background-position-y: (-22 * $tileHeight);
+}
+.plot.till.stage1011 {
+  background-position-x: (-2 * $tileWidth);
+  background-position-y: (-20 * $tileHeight);
+}
+.plot.till.stage1100 {
+  background-position-x: (-4 * $tileWidth);
+  background-position-y: (-22 * $tileHeight);
+}
+.plot.till.stage1101 {
+  background-position-x: (-3 * $tileWidth);
+  background-position-y: (-21 * $tileHeight);
+}
+.plot.till.stage1110 {
+  background-position-x: (-3 * $tileWidth);
+  background-position-y: (-20 * $tileHeight);
+}
+.plot.till.stage1111 {
+  background-position-x: (-1 * $tileWidth);
+  background-position-y: (-21 * $tileHeight);
 }
 
 @include crop('turnip', 0);

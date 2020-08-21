@@ -14,8 +14,33 @@ const renderCash = (farm) => {
   return `$${farm.cash}`;
 };
 
-const renderFarmPlotClasses = (farm, row, col) =>
-  farm.land[row][col].map((land) => land.crop ? '' : land.type).join(' ').trim();
+const getFarmPlotClasses = (farm, row, col) => {
+  if (row < 0 || row >= farm.rows) {
+    return '';
+  }
+
+  if (col < 0 || col >= farm.cols) {
+    return '';
+  }
+
+  return farm.land[row][col].map((land) => land.crop ? '' : land.type).join(' ').trim();
+};
+
+const isTilled = (farm, row, col) =>
+  getFarmPlotClasses(farm, row, col).indexOf('till') >= 0;
+
+const renderFarmPlotClasses = (farm, row, col) => {
+  const klasses = getFarmPlotClasses(farm, row, col);
+
+  const upTilled = isTilled(farm, row - 1, col) ? 1 : 0;
+  const downTilled = isTilled(farm, row + 1, col) ? 1 : 0;
+  const leftTilled = isTilled(farm, row, col - 1) ? 1 : 0;
+  const rightTilled = isTilled(farm, row, col + 1) ? 1 : 0;
+
+  const stage = `stage${upTilled}${rightTilled}${downTilled}${leftTilled}`;
+
+  return `${klasses} ${stage}`;
+};
 
 const renderFarmCropClasses = (farm, row, col) =>
   farm.land[row][col].map((land) => {
