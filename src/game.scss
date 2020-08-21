@@ -71,6 +71,11 @@ a, a:visited {
   flex-grow: 1;
 }
 
+.farm > .row {
+  justify-content: center;
+  align-items: center;
+}
+
 .plot {
   background-position-x: (-5 * $tileWidth);
   background-position-y: (-20 * $tileHeight);
@@ -196,17 +201,29 @@ a, a:visited {
 }
 
 /* CONTROLS */
+.controls {
+  justify-content: space-around;
+}
+
 .button {
-  border: 0.1rem solid gold;
-  min-width: 4.8rem;
-  height: 4.8rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 4.4rem;
+  height: (4.4rem / 1.618);
+  margin: 0.4rem;
+  border: 0.1rem solid black;
+  border-radius: 0.4rem;
+  color: black;
+  background: #fcd947;
+  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.75);
+  box-shadow: 2px 2px #e8ab27, 6px 6px black;
+  transition: all 100ms ease;
 }
 
 .button.active {
-  border: 0.1rem solid red;
+  transform: translateX(4px) translateY(4px);
+  box-shadow: 0px 0px #e8ab27, 0px 0px black;
 }
 
 /* COLOPHON */

@@ -13,7 +13,7 @@ const valid = (farm, {row, col}) =>
   && col >= 0 && col < farm.cols;
 
 const getLand = (farm, {row, col}, someType) =>
-  farm.land[row][col].find(({type}) => type === someType);
+  valid(farm, {row, col}) ? farm.land[row][col].find(({type}) => type === someType) : undefined;
 
 const hasLand = (farm, action, someType) => !!getLand(farm, action, someType);
 
@@ -237,5 +237,7 @@ Farm.plots = (farm) => {
 Farm.crop = (farm, action) => getLand(farm, action, 'plant');
 
 Farm.watered = (farm, action) => getLand(farm, action, 'water');
+
+Farm.tilled = (farm, action) => getLand(farm, action, 'till');
 
 module.exports = Farm;

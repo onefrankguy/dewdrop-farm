@@ -1,5 +1,6 @@
 const $ = require('./jquery');
 const Rules = require('./rules');
+const Farm = require('./farm');
 
 const Renderer = {};
 
@@ -14,28 +15,16 @@ const renderCash = (farm) => {
   return `$${farm.cash}`;
 };
 
-const getFarmPlotClasses = (farm, row, col) => {
-  if (row < 0 || row >= farm.rows) {
-    return '';
-  }
-
-  if (col < 0 || col >= farm.cols) {
-    return '';
-  }
-
-  return farm.land[row][col].map((land) => land.crop ? '' : land.type).join(' ').trim();
-};
-
-const isTilled = (farm, row, col) =>
-  getFarmPlotClasses(farm, row, col).indexOf('till') >= 0;
+const getFarmPlotClasses = (farm, row, col) =>
+  farm.land[row][col].map((land) => land.crop ? '' : land.type).join(' ').trim();
 
 const renderFarmPlotClasses = (farm, row, col) => {
   const klasses = getFarmPlotClasses(farm, row, col);
 
-  const upTilled = isTilled(farm, row - 1, col) ? 1 : 0;
-  const downTilled = isTilled(farm, row + 1, col) ? 1 : 0;
-  const leftTilled = isTilled(farm, row, col - 1) ? 1 : 0;
-  const rightTilled = isTilled(farm, row, col + 1) ? 1 : 0;
+  const upTilled = Farm.tilled(farm, {row: row - 1, col}) ? 1 : 0
+  const downTilled = Farm.tilled(farm, {row: row + 1, col}) ? 1 : 0;
+  const leftTilled = Farm.tilled(farm, {row, col: col - 1}) ? 1 : 0;
+  const rightTilled = Farm.tilled(farm, {row, col: col + 1}) ? 1 : 0;
 
   const stage = `stage${upTilled}${rightTilled}${downTilled}${leftTilled}`;
 
@@ -77,7 +66,7 @@ const renderFarm = (farm) => {
 };
 
 const renderStore = (farm) => {
-  let html = '<div>Store</div>';
+  let html = '';
 
   Rules.store(farm).forEach((crop) => {
     html += `<div class="item row" data-crop="${crop.type}">`;
@@ -90,7 +79,7 @@ const renderStore = (farm) => {
 };
 
 const renderMarket = (farm) => {
-  let html = '<div>Market</div>';
+  let html = '';
 
   Rules.market(farm).forEach((crop) => {
     const amount = farm.market[crop.type] || 0;
