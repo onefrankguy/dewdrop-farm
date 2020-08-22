@@ -162,6 +162,10 @@ Farm.create = () => {
   const inventory = [];
   const cash = 500;
 
+  while (inventory.length < MAX_INVENTORY_SIZE) {
+    inventory.push(undefined);
+  }
+
   for (let row = 0; row < rows; row += 1) {
     land[row] = [];
 

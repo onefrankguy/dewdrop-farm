@@ -20,12 +20,24 @@ const renderCash = (cash) => {
   return html;
 };
 
+const renderSeeds = (crop, klass = '') => {
+  let html = '';
+  html += `<span class="tile seeds ${klass}">`;
+  html += `<span class="tile ${crop.type} stage6 small"></span>`;
+  html += '</span>';
+  return html;
+};
+
 const renderCrop = (crop, type) => {
   const name = type === 'store' ? `${crop.type} ${crop.seed}` : crop.type;
 
   let html = '';
   html += '<div class="row crop">';
-  html += `<span class="tile ${crop.type} stage6"></span>`;
+  if (type === 'store') {
+    html += renderSeeds(crop, 'small');
+  } else {
+    html += `<span class="tile ${crop.type} stage6 small"></span>`;
+  }
   html += `<span class="capitalize name">${name}</span>`;
   html += '</div>';
   return html;
@@ -166,7 +178,15 @@ const renderTool = (tool) => {
 
 const renderInventory = (farm) => {
   farm.inventory.forEach((seed, index) => {
-    const html = seed ? `${seed.type} ${seed.amount}` : '';
+    let html  = '';
+
+    if (seed) {
+      html += renderSeeds(seed);
+      html += '<span></span>';
+    } else {
+      html += '<span class="tile"></span>';
+      html += '<span></span>';
+    }
 
     renderIfChanged(`#slot${index}`, html);
   });
