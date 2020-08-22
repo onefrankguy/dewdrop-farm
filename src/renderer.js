@@ -42,25 +42,55 @@ const renderStoreRow = (crop, amount, type) => {
   return html;
 };
 
-const getFarmPlotClasses = (farm, row, col) =>
-  farm.land[row][col].map((land) => land.crop ? '' : land.type).join(' ').trim();
-
 const renderFarmPlotClasses = (farm, row, col) => {
-  const klasses = getFarmPlotClasses(farm, row, col);
-
   const upTilled = Farm.tilled(farm, {row: row - 1, col}) ? 1 : 0
   const downTilled = Farm.tilled(farm, {row: row + 1, col}) ? 1 : 0;
   const leftTilled = Farm.tilled(farm, {row, col: col - 1}) ? 1 : 0;
   const rightTilled = Farm.tilled(farm, {row, col: col + 1}) ? 1 : 0;
 
+  const tilled = Farm.tilled(farm, {row, col}) ? 'till' : '';
   const stage = `stage${upTilled}${rightTilled}${downTilled}${leftTilled}`;
 
-  return `${klasses} ${stage}`;
+  return [tilled, stage].join(' ').trim();
 };
 
-const renderFarmCropClasses = (farm, row, col) =>
+const renderFarmCrop = (farm, row, col) => {
+  const watered = Farm.watered(farm, {row, col});
+  const crop = Farm.crop(farm, {row, col});
+
+  if (!watered && !crop) {
+    return '';
+  }
+
+  let html = '';
+
+  if (watered) {
+    html += '<div class="tile water">';
+  }
+
+  if (crop) {
+    const klasses = ['tile', crop.crop];
+    if (crop.stage) {
+      klasses.push(`stage${crop.stage}`);
+    }
+
+    html += `<div class="${klasses.join(' ').trim()}"></div>`;
+  }
+
+  if (watered) {
+    html += '</div>';
+  }
+
+  return html;
+};
+/*
   farm.land[row][col].map((land) => {
-    const result = land.crop ? ['tile', land.crop] : [];
+    const result = [];
+
+    if (land.crop) {
+      result.push('tile');
+      result.push(land.crop);
+    }
 
     if (land.stage) {
       result.push(`stage${land.stage}`);
@@ -68,6 +98,7 @@ const renderFarmCropClasses = (farm, row, col) =>
 
     return result.join(' ');
   }).join(' ').trim();
+*/
 
 const renderFarm = (farm) => {
   let html = '';
@@ -77,12 +108,9 @@ const renderFarm = (farm) => {
 
     for (let col = 0; col < farm.cols; col += 1) {
       const plotClasses = renderFarmPlotClasses(farm, row, col);
-      const cropClasses = renderFarmCropClasses(farm, row, col);
 
       html += `<div class="tile plot ${plotClasses}" data-crop="p${row}${col}">`;
-      if (cropClasses) {
-        html += `<div class="${cropClasses}"></div>`;
-      }
+      html += renderFarmCrop(farm, row, col);
       html += '</div>';
     }
 
