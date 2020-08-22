@@ -41,7 +41,6 @@ a, a:visited {
   height: 44.4rem;
   overflow: hidden;
   margin: 0 auto;
-  padding: 1.2rem;
 }
 
 .row {
@@ -58,6 +57,10 @@ a, a:visited {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.buffer {
+  flex-grow: 1;
 }
 
 /* FARM */
@@ -233,6 +236,8 @@ $itemDetailBackground: rgb(219, 164, 99);
 
     .crop {
       align-items: center;
+      position: relative;
+      padding: 0 0 0.4rem 0.4rem;
 
       .name {
         font-size: 1.6rem;
@@ -242,14 +247,8 @@ $itemDetailBackground: rgb(219, 164, 99);
 
       .amount {
         position: absolute;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        padding: 0.4rem;
-        left: 0;
-        bottom: 0;
-        font-size: 1.6rem;
-        text-shadow: 0.05rem 0.05rem 0.1rem rgb(18, 32, 32);
+        left: 0.4rem;
+        bottom: 0.4rem;
       }
     }
   }

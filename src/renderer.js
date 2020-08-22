@@ -39,7 +39,7 @@ const renderStoreSeeds = (crop) => {
   return html;
 };
 
-const renderStoreCrop = (crop, type) => {
+const renderStoreCrop = (crop, amount, type) => {
   const name = type === 'store' ? `${crop.type} ${crop.seed}` : crop.type;
 
   let html = '';
@@ -47,6 +47,9 @@ const renderStoreCrop = (crop, type) => {
   if (type === 'store') {
     html += renderStoreSeeds(crop);
   } else {
+    if (+amount > 0) {
+      html += `<span class="row amount sticker"><span class="inner">${amount}</span></span>`;
+    }
     html += `<span class="tile ${crop.type} stage6 small"></span>`;
   }
   html += `<span class="capitalize name">${name}</span>`;
@@ -59,7 +62,7 @@ const renderStoreRow = (crop, amount, type) => {
 
   let html = '';
   html += `<div class="row slot item" data-crop="${crop.type}">`;
-  html += renderStoreCrop(crop, type);
+  html += renderStoreCrop(crop, amount, type);
   html += renderCash(cash, amount);
   html += '</div>';
   return html;

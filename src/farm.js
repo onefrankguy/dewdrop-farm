@@ -4,6 +4,7 @@ const Crops = require('./crops');
 const MIN_CROP_STAGE = 1;
 const MAX_CROP_STAGE = 5;
 const MAX_INVENTORY_SIZE = 4;
+const MAX_STACK_SIZE = 16;
 
 const Farm = {};
 
@@ -116,22 +117,25 @@ const buy = (farm, action) => {
     return farm;
   }
 
-  const slotIndex = farm.inventory.findIndex((slot) => slot && slot.type === crop.type);
-  if (slotIndex >= 0) {
-    farm.cash -= crop.prices.seed;
-    farm.inventory[slotIndex].amount += 1;
-    return farm;
+  let slotIndex = farm.inventory.findIndex((slot) => {
+    return slot && slot.type === crop.type && slot.amount < MAX_STACK_SIZE;
+  });
+
+  if (slotIndex < 0) {
+    slotIndex = farm.inventory.findIndex((slot) => !slot);
   }
 
-  for (let i = 0; i < MAX_INVENTORY_SIZE; i += 1) {
-    if (!farm.inventory[i]) {
-      farm.cash -= crop.prices.seed;
-      farm.inventory[i] = {
+  if (slotIndex >= 0 && slotIndex < MAX_INVENTORY_SIZE) {
+    if (!farm.inventory[slotIndex]) {
+      farm.inventory[slotIndex] = {
         type: crop.type,
-        amount: 1,
+        amount: 0,
       };
+    }
 
-      break;
+    if (farm.inventory[slotIndex].amount < MAX_STACK_SIZE) {
+      farm.cash -= crop.prices.seed;
+      farm.inventory[slotIndex].amount += 1;
     }
   }
 
