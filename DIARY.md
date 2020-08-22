@@ -1,5 +1,20 @@
 # Development Diary #
 
+## 21 August 2020 ##
+
+Day 9 of 31. 13,351 bytes used (100.29%).
+
+The buttons look like buttons! I borrowed the CSS from [Wizard Zines][] just to
+see what it looks like. I'll swap them out for something keeping with my
+pixelated theme later.
+
+I recolored one of the coin stacks from the [DawnLike][] tileset to use as a
+cash icon. And I figured out how to resize it smaller so it doesn't have to be
+a full tile height.
+
+I need to figure out a font stack and do some graphics compression
+(fewer crops?) because I've now gone over the byte limit.
+
 ## 20 August 2020 ##
 
 Day 8 of 31. 12,902 bytes used (96.92%).
@@ -80,3 +95,5 @@ Maybe some kind of [idle clicker][] or farming simulation?
 [Rollup]: https://rollupjs.org/ "Various: Rollup is a module bundler for JavaScript"
 [idle clicker]: https://en.wikipedia.org/wiki/Incremental_game "Various (Wikipedia): Incremental game"
 [josehzz]: https://opengameart.org/users/josehzz "josehzz (OpenGameArt.org): Farming crops 16x16 and related tiles"
+[Wizard Zines]: https://wizardzines.com/ "Julia (Wizard Zines): "
+[DawnLike]: https://opengameart.org/content/dawnlike-16x16-universal-rogue-like-tileset-v181 "Dragon DePlatino (OpenGameArt.org): DawnLike - 16x16 Universal Rogue-like tileset v1.81"
