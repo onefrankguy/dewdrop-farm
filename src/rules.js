@@ -53,19 +53,21 @@ const getPlotList = (farm, type, test) => {
   return plots;
 };
 
-const getGrowable = (farm, test) => getPlotList(farm, 'growable', test);
+const getGrassable = (farm, test) => getPlotList(farm, 'grassable', test);
 
 const getDrainable = (farm, test) => getPlotList(farm, 'drainable', test);
 
+const getGrowable = (farm, test) => getPlotList(farm, 'growable', test);
+
 const update = (farm) => {
-  getGrowable(farm, shouldGrow(farm)).forEach(({row, col}) => {
-    const growAction = {
-      tool: 'grow',
+  getGrassable(farm, shouldGrass(farm)).forEach(({row, col}) => {
+    const grassAction = {
+      tool: 'grass',
       row,
       col,
     };
 
-    farm = Rules.dispatch(farm, growAction);
+    farm = Rules.dispatch(farm, grassAction);
   });
 
   getDrainable(farm, shouldDrain(farm)).forEach(({row, col}) => {
@@ -78,7 +80,35 @@ const update = (farm) => {
     farm = Rules.dispatch(farm, drainAction);
   });
 
+  getGrowable(farm, shouldGrow(farm)).forEach(({row, col}) => {
+    const growAction = {
+      tool: 'grow',
+      row,
+      col,
+    };
+
+    farm = Rules.dispatch(farm, growAction);
+  });
+
   return farm;
+};
+
+const shouldGrass = (farm) => (action) => {
+  const day = Math.ceil(farm.time / SECONDS_PER_DAY);
+  const tilled = Farm.tilled(farm, action);
+
+  if (tilled) {
+    const dayTilled = Math.ceil(tilled.time / SECONDS_PER_DAY);
+    const duration = day - dayTilled;
+    const adjacent = Farm.adjacent(farm, action);
+    const fallow = adjacent.filter((action) => !Farm.tilled(farm, action));
+
+    if (duration > adjacent.length - fallow.length) {
+      return true;
+    }
+  }
+
+  return false;
 };
 
 const shouldDrain = (farm) => (action) => {

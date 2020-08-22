@@ -53,8 +53,15 @@ const hoe = (farm, action) => {
     }
   }
 
-  if (!hasLand(farm, action, 'till')) {
-    addLand(farm, action, 'till');
+  removeLand(farm, action, 'till');
+  addLand(farm, action, 'till');
+
+  return farm;
+};
+
+const grass = (farm, action) => {
+  if (!hasLand(farm, action, 'plant')) {
+    removeLand(farm, action, 'till');
   }
 
   return farm;
@@ -204,6 +211,9 @@ Farm.dispatch = (farm, action) => {
     case 'hoe':
       return hoe(farmCopy, actionCopy);
 
+    case 'grass':
+      return grass(farmCopy, actionCopy);
+
     case 'water':
       return water(farmCopy, actionCopy);
 
@@ -240,6 +250,39 @@ Farm.plots = (farm) => {
   }
 
   return result;
+};
+
+Farm.adjacent = (farm, action) => {
+  if (valid(farm, action)) {
+    const {row, col} = action;
+    return [{
+      row: row - 1,
+      col: col,
+    }, {
+      row: row - 1,
+      col: col + 1,
+    }, {
+      row: row,
+      col: col + 1,
+    }, {
+      row: row + 1,
+      col: col + 1,
+    }, {
+      row: row + 1,
+      col: col,
+    }, {
+      row: row + 1,
+      col: col - 1,
+    }, {
+      row: row,
+      col: col - 1,
+    }, {
+      row: row - 1,
+      col: col - 1,
+    }];
+  }
+
+  return [];
 };
 
 Farm.crop = (farm, action) => getLand(farm, action, 'plant');

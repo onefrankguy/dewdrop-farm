@@ -195,7 +195,6 @@ const renderIfChanged = (selector, newHtml) => {
   const oldHtml = element.html();
 
   if (newHtml !== oldHtml) {
-    console.log({newHtml, oldHtml});
     element.html(newHtml);
   }
 };
