@@ -11,8 +11,12 @@ const renderTime = (farm) => {
   return `Day ${day} of <span class="capitalize">${season}</span>`;
 };
 
-const renderCash = (farm) => {
-  return `$${farm.cash}`;
+const renderCash = (value) => {
+  let html = '';
+  html += '<div class="cash">';
+  html += `<span class="value">${value}</span><span class="image cash"></span>`;
+  html += '</div>';
+  return html;
 };
 
 const getFarmPlotClasses = (farm, row, col) =>
@@ -71,7 +75,7 @@ const renderStore = (farm) => {
   Rules.store(farm).forEach((crop) => {
     html += `<div class="item row" data-crop="${crop.type}">`;
     html += `<span class="tile picture ${crop.type}"></span><span class="capitalize">${crop.type}</span>`;
-    html += `<span class="price">${crop.prices.seed}</span>`;
+    html += renderCash(crop.prices.seed);
     html += '</div>';
   });
 
@@ -149,7 +153,7 @@ Renderer.render = (farm, tool) => {
   renderTool(tool);
   renderInventory(farm);
   renderIfChanged('#time', renderTime(farm));
-  renderIfChanged('#cash', renderCash(farm));
+  renderIfChanged('#cash', renderCash(farm.cash));
   renderIfChanged('#farm', renderFarm(farm, tool));
   renderIfChanged('#store', renderStore(farm));
   renderIfChanged('#market', renderMarket(farm));

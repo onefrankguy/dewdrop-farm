@@ -2,6 +2,8 @@ $plotColor: rgb(20, 160, 46);
 $fontColor: rgb(227, 230, 255);
 $tileWidth: 4.8rem;
 $tileHeight: 4.8rem;
+$imageWidth: 3.6rem;
+$imageHeight: 3.6rem;
 
 @mixin crop($name, $row) {
   @for $i from 1 through 5 {
@@ -29,7 +31,8 @@ $tileHeight: 4.8rem;
 html {
   font-weight: normal;
   font-size: 62.5%;
-  font-family: monospace;
+  font-family: sans-serif;
+  font-family: Goudy Old Style,Garamond,Big Caslon,Times New Roman,serif;
   background: $plotColor;
   color: $fontColor;
 }
@@ -61,9 +64,18 @@ a, a:visited {
 
 /* FARM */
 .tile {
+  display: inline-block;
   width: $tileHeight;
   height: $tileHeight;
-  background-size: (6 * $tileWidth) (23 * $tileHeight);
+  background-size: (6 * $tileWidth) (24 * $tileHeight);
+  background-image: url('../img/tiles.png');
+}
+
+.image {
+  display: inline-block;
+  width: $imageWidth;
+  height: $imageHeight;
+  background-size: (6 * $imageWidth) (24 * $imageHeight);
   background-image: url('../img/tiles.png');
 }
 
@@ -175,14 +187,34 @@ a, a:visited {
 @include crop('avocado', 18);
 @include crop('sunflower', 19);
 
-.plot.grass {
-  background-position-x: (-5 * $tileWidth);
-  background-position-y: (20 * $tileHeight);
-};
+/* STATS */
+.stats {
+  justify-content: space-between;
+  align-items: center;
+}
 
 /* STORE */
 .store {
   flex-grow: 1;
+}
+.cash {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .value {
+    font-size: 1.6rem;
+    margin-right: 0.4rem;
+    color: rgb(59, 23, 37);
+    text-shadow: 0.05rem 0.05rem 0.1rem rgb(254, 243, 192, .5);
+    text-shadow: 0.05rem 0.05rem 0.1rem rgb(18, 32, 32);
+    font-family: 'Georgia', 'Times', 'Times New Roman', serif;
+    font-family: Goudy Old Style,Garamond,Big Caslon,Times New Roman,serif;
+  }
+}
+.image.cash {
+  background-position-x: (-5 * $imageWidth);
+  background-position-y: (-23 * $imageHeight);
 }
 
 /* MARKET */
@@ -261,6 +293,6 @@ abbr[title="and"] {
 
 @media screen and (min-width:40em) {
   html {
-    font-size: 100%;
+    font-size: 150%;
   }
 }
