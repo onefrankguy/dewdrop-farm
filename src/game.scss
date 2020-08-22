@@ -54,9 +54,15 @@ a, a:visited {
   flex-direction: column;
 }
 
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* FARM */
 .tile {
-  display: inline-block;
+  display: inline-flex;
   width: $tileHeight;
   height: $tileHeight;
   background-size: (6 * $tileWidth) (24 * $tileHeight);
@@ -231,7 +237,6 @@ $itemDetailBackground: rgb(219, 164, 99);
       .name {
         font-size: 1.6rem;
         margin-left: 0.4rem;
-        text-shadow: 0.05rem 0.05rem 0.1rem rgb(254, 243, 192, .5);
         text-shadow: 0.05rem 0.05rem 0.1rem rgb(18, 32, 32);
       }
 
@@ -244,14 +249,12 @@ $itemDetailBackground: rgb(219, 164, 99);
         left: 0;
         bottom: 0;
         font-size: 1.6rem;
-        text-shadow: 0.05rem 0.05rem 0.1rem rgb(254, 243, 192, .5);
         text-shadow: 0.05rem 0.05rem 0.1rem rgb(18, 32, 32);
       }
     }
   }
 }
 
-.inventory > *.active,
 .slot {
   background-color: $itemBackground;
   border: 0.1rem solid $itemBorder;
@@ -298,14 +301,38 @@ $itemDetailBackground: rgb(219, 164, 99);
 
 /* CONTROLS */
 .inventory {
-  background: $storeBackground;
-  border: 0.1rem solid $storeBorder;
-  padding: 0.1rem;
 }
-.inventory > * {
-  background-color: $itemBackground;
-  border: 0.1rem solid $itemBorder;
-  position: relative;
+.sticker {
+  justify-content: center;
+  align-items: center;
+  width: ($tileWidth / 2);
+  height: ($tileHeight / 2);
+  font-size: 1.6rem;
+  text-shadow: 0.05rem 0.05rem 0.1rem rgb(18, 32, 32);
+  background: rgb(18, 32, 32);
+  border-radius: 50%;
+
+  > .inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: (($tileWidth / 2) - 0.4rem);
+    height: (($tileHeight/ 2) - 0.4rem);
+    background: rgb(254, 243, 192);
+    border-radius: 50%;
+  }
+}
+
+.inventory {
+  .seeds {
+    position: relative;
+
+    .amount {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+    }
+  }
 }
 .controls {
   justify-content: space-around;

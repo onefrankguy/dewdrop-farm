@@ -20,21 +20,32 @@ const renderCash = (cash) => {
   return html;
 };
 
-const renderSeeds = (crop, klass = '') => {
+const renderInventorySeeds = (crop) => {
   let html = '';
-  html += `<span class="tile seeds ${klass}">`;
+  html += '<span class="row tile seeds">';
+  if (+crop.amount > 0) {
+    html += `<span class="row amount sticker"><span class="inner">${crop.amount}</span></span>`;
+  }
   html += `<span class="tile ${crop.type} stage6 small"></span>`;
   html += '</span>';
   return html;
 };
 
-const renderCrop = (crop, type) => {
+const renderStoreSeeds = (crop) => {
+  let html = '';
+  html += '<span class="tile seeds small">';
+  html += `<span class="tile ${crop.type} stage6 small"></span>`;
+  html += '</span>';
+  return html;
+};
+
+const renderStoreCrop = (crop, type) => {
   const name = type === 'store' ? `${crop.type} ${crop.seed}` : crop.type;
 
   let html = '';
   html += '<div class="row crop">';
   if (type === 'store') {
-    html += renderSeeds(crop, 'small');
+    html += renderStoreSeeds(crop);
   } else {
     html += `<span class="tile ${crop.type} stage6 small"></span>`;
   }
@@ -48,7 +59,7 @@ const renderStoreRow = (crop, amount, type) => {
 
   let html = '';
   html += `<div class="row slot item" data-crop="${crop.type}">`;
-  html += renderCrop(crop, type);
+  html += renderStoreCrop(crop, type);
   html += renderCash(cash, amount);
   html += '</div>';
   return html;
@@ -95,22 +106,6 @@ const renderFarmCrop = (farm, row, col) => {
 
   return html;
 };
-/*
-  farm.land[row][col].map((land) => {
-    const result = [];
-
-    if (land.crop) {
-      result.push('tile');
-      result.push(land.crop);
-    }
-
-    if (land.stage) {
-      result.push(`stage${land.stage}`);
-    }
-
-    return result.join(' ');
-  }).join(' ').trim();
-*/
 
 const renderFarm = (farm) => {
   let html = '';
@@ -181,7 +176,7 @@ const renderInventory = (farm) => {
     let html  = '';
 
     if (seed) {
-      html += renderSeeds(seed);
+      html += renderInventorySeeds(seed);
       html += '<span></span>';
     } else {
       html += '<span class="tile"></span>';
