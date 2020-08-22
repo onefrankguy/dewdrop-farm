@@ -2,20 +2,13 @@ $plotColor: rgb(20, 160, 46);
 $fontColor: rgb(227, 230, 255);
 $tileWidth: 4.8rem;
 $tileHeight: 4.8rem;
-$imageWidth: 3.6rem;
-$imageHeight: 3.6rem;
 
 @mixin crop($name, $row) {
-  @for $i from 1 through 5 {
+  @for $i from 1 through 6 {
     .#{$name}.stage#{$i} {
       background-position-x: (($i - 6) * $tileWidth);
       background-position-y: (-1 * $row * $tileHeight);
     }
-  }
-
-  .picture.#{$name} {
-    background-position-x: (0 * $tileWidth);
-    background-position-y: (-1 * $row * $tileHeight);
   }
 }
 
@@ -31,8 +24,7 @@ $imageHeight: 3.6rem;
 html {
   font-weight: normal;
   font-size: 62.5%;
-  font-family: sans-serif;
-  font-family: Goudy Old Style,Garamond,Big Caslon,Times New Roman,serif;
+  font-family: 'Goudy Old Style', 'Garamond', 'Big Caslon', 'Times New Roman', serif;
   background: $plotColor;
   color: $fontColor;
 }
@@ -68,14 +60,6 @@ a, a:visited {
   width: $tileHeight;
   height: $tileHeight;
   background-size: (6 * $tileWidth) (24 * $tileHeight);
-  background-image: url('../img/tiles.png');
-}
-
-.image {
-  display: inline-block;
-  width: $imageWidth;
-  height: $imageHeight;
-  background-size: (6 * $imageWidth) (24 * $imageHeight);
   background-image: url('../img/tiles.png');
 }
 
@@ -194,41 +178,121 @@ a, a:visited {
 }
 
 /* STORE */
-.store {
-  flex-grow: 1;
-}
 .cash {
   display: flex;
   flex-direction: row;
   align-items: center;
+  font-size: 1.6rem;
+  color: rgb(59, 23, 37);
+  text-shadow: 0.05rem 0.05rem 0.1rem rgb(254, 243, 192, .5);
+  text-shadow: 0.05rem 0.05rem 0.1rem rgb(18, 32, 32);
 
-  .value {
-    font-size: 1.6rem;
-    margin-right: 0.4rem;
-    color: rgb(59, 23, 37);
-    text-shadow: 0.05rem 0.05rem 0.1rem rgb(254, 243, 192, .5);
-    text-shadow: 0.05rem 0.05rem 0.1rem rgb(18, 32, 32);
-    font-family: 'Georgia', 'Times', 'Times New Roman', serif;
-    font-family: Goudy Old Style,Garamond,Big Caslon,Times New Roman,serif;
+  .tile {
+    margin-left: 0.4rem;
   }
 }
-.image.cash {
-  background-position-x: (-5 * $imageWidth);
-  background-position-y: (-23 * $imageHeight);
+
+.tile.cash {
+  transform: scale(0.75);
+  background-position-x: (-5 * $tileWidth);
+  background-position-y: (-23 * $tileHeight);
 }
+
+$storeBorder: rgb(113, 65, 59);
+$storeBackground: rgb(228, 210, 170);
+$itemBorder: rgb(113, 65, 59);
+$itemBackground: rgb(244, 210, 156);
+$itemDetailBorder: rgb(187, 117, 71);
+$itemDetailBackground: rgb(219, 164, 99);
 
 /* MARKET */
+.buffer {
+  flex-grow: 1;
+}
+
 .store,
 .market {
-  flex-grow: 1;
+  background: $storeBackground;
+  border: 0.1rem solid $storeBorder;
 
   .item {
-    align-items: center;
+    margin: 0.1rem;
     justify-content: space-between;
+
+    .crop {
+      align-items: center;
+      position: relative;
+
+      .name {
+        font-size: 1.6rem;
+        margin-left: 0.4rem;
+        color: rgb(59, 23, 37);
+        text-shadow: 0.05rem 0.05rem 0.1rem rgb(254, 243, 192, .5);
+        text-shadow: 0.05rem 0.05rem 0.1rem rgb(18, 32, 32);
+      }
+
+      .tile {
+        transform: scale(0.75);
+      }
+
+      .amount {
+        position: absolute;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0.4rem;
+        left: 0;
+        bottom: 0;
+        font-size: 1.6rem;
+        color: rgb(59, 23, 37);
+        text-shadow: 0.05rem 0.05rem 0.1rem rgb(254, 243, 192, .5);
+        text-shadow: 0.05rem 0.05rem 0.1rem rgb(18, 32, 32);
+      }
+    }
+  }
+}
+
+.slot {
+  background-color: $itemBackground;
+  border: 0.1rem solid $itemBorder;
+  position: relative;
+
+  > *:first-child:before,
+  > *:first-child:after,
+  > *:last-child:before,
+  > *:last-child:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    width: 0.4rem;
+    height: 0.4rem;
+    margin: 0.1rem;
+    background: $itemDetailBackground;
+    border: 0.1rem solid $itemDetailBorder;
   }
 
-  .picture {
-    display: inline-block;
+  > *:first-child:before {
+    top: 0;
+    left: 0;
+    border-bottom-right-radius: 0.4rem;
+  }
+
+  > *:first-child:after {
+    bottom: 0;
+    left: 0;
+    border-top-right-radius: 0.4rem;
+  }
+
+  > *:last-child:before {
+    top: 0;
+    right: 0;
+    border-bottom-left-radius: 0.4rem;
+  }
+
+  > *:last-child:after {
+    bottom: 0;
+    right: 0;
+    border-top-left-radius: 0.4rem;
   }
 }
 
@@ -260,7 +324,6 @@ a, a:visited {
 
 /* COLOPHON */
 .colophon {
-  font-family: serif;
   margin-top: 0.8rem;
 }
 
@@ -293,6 +356,6 @@ abbr[title="and"] {
 
 @media screen and (min-width:40em) {
   html {
-    font-size: 150%;
+    font-size: 120%;
   }
 }

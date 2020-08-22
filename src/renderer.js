@@ -11,10 +11,33 @@ const renderTime = (farm) => {
   return `Day ${day} of <span class="capitalize">${season}</span>`;
 };
 
-const renderCash = (value) => {
+const renderCash = (cash) => {
   let html = '';
   html += '<div class="cash">';
-  html += `<span class="value">${value}</span><span class="image cash"></span>`;
+  html += `<span class="value">${cash}</span>`;
+  html += '<span class="tile cash"></span>';
+  html += '</div>';
+  return html;
+};
+
+const renderCrop = (crop, type) => {
+  const name = type === 'store' ? `${crop.type} ${crop.seed}` : crop.type;
+
+  let html = '';
+  html += '<div class="row crop">';
+  html += `<span class="tile ${crop.type} stage6"></span>`;
+  html += `<span class="capitalize name">${name}</span>`;
+  html += '</div>';
+  return html;
+};
+
+const renderStoreRow = (crop, amount, type) => {
+  const cash = type === 'store' ? crop.prices.seed : crop.prices.crop;
+
+  let html = '';
+  html += `<div class="row slot item" data-crop="${crop.type}">`;
+  html += renderCrop(crop, type);
+  html += renderCash(cash, amount);
   html += '</div>';
   return html;
 };
@@ -73,10 +96,7 @@ const renderStore = (farm) => {
   let html = '';
 
   Rules.store(farm).forEach((crop) => {
-    html += `<div class="item row" data-crop="${crop.type}">`;
-    html += `<span class="tile picture ${crop.type}"></span><span class="capitalize">${crop.type}</span>`;
-    html += renderCash(crop.prices.seed);
-    html += '</div>';
+    html += renderStoreRow(crop, 1, 'store');
   });
 
   return html;
@@ -88,10 +108,7 @@ const renderMarket = (farm) => {
   Rules.market(farm).forEach((crop) => {
     const amount = farm.market[crop.type] || 0;
 
-    html += `<div class="item row" data-crop="${crop.type}">`;
-    html += `<span class="tile picture ${crop.type}"></span><span class="capitalize">${crop.type}</span>`;
-    html += `<span class="amount">${amount}</span> &times; <span class="price">${crop.prices.crop}</span>`;
-    html += '</div>';
+    html += renderStoreRow(crop, amount, 'market');
   });
 
   return html;

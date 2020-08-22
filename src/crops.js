@@ -4,6 +4,7 @@ const Crops = {};
 
 const dictionary = {
   turnip: {
+    seed: 'bulb',
     seasons: ['spring'],
     prices: {
       crop: 35,
@@ -12,7 +13,8 @@ const dictionary = {
     stages: [0, ,1, 1, 1, 1],
   },
   rose: {
-    seasons: ['fall'],
+    seed: 'seed',
+    // seasons: ['fall'],
     prices: {
       crop: 290,
       seed: 200,
@@ -20,6 +22,7 @@ const dictionary = {
     stages: [0, 1, 4, 4, 0, 3],
   },
   chile: {
+    seed: 'seed',
     seasons: ['summer'],
     prices: {
       crop: 40,
@@ -29,7 +32,8 @@ const dictionary = {
     regrow: 3,
   },
   tulip: {
-    seasons: ['spring'],
+    seed: 'bulb',
+    // seasons: ['spring'],
     prices: {
       crop: 30,
       seed: 25,
@@ -37,6 +41,7 @@ const dictionary = {
     stages: [0, 1, 1, 2, 0, 2],
   },
   tomato: {
+    seed: 'seed',
     seasons: ['summer'],
     prices: {
       crop: 60,
@@ -46,6 +51,7 @@ const dictionary = {
     regrow: 4
   },
   melon: {
+    seed: 'seed',
     seasons: ['summer'],
     prices: {
       crop: 250,
@@ -54,6 +60,7 @@ const dictionary = {
     stages: [0, 1, 2, 3, 3, 3],
   },
   eggplant: {
+    seed: 'seed',
     seasons: ['fall'],
     prices: {
       crop: 60,
@@ -63,6 +70,7 @@ const dictionary = {
     regrow: 5,
   },
   lemon: {
+    seed: 'seed',
     seasons: [''],
     prices: {
       crop: 0,
@@ -71,6 +79,7 @@ const dictionary = {
     stages: [0],
   },
   pineapple: {
+    seed: 'seed',
     seasons: [''],
     prices: {
       crop: 0,
@@ -79,7 +88,8 @@ const dictionary = {
     stages: [0],
   },
   rice: {
-    seasons: ['spring'],
+    seed: 'grain',
+    // seasons: ['spring'],
     prices: {
       crop: 30,
       seed: 40,
@@ -87,6 +97,7 @@ const dictionary = {
     stages: [0, 1, 2, 2, 0, 3],
   },
   wheat: {
+    seed: 'seed',
     seasons: ['summer', 'fall'],
     prices: {
       crop: 25,
@@ -95,6 +106,7 @@ const dictionary = {
     stages: [0, 1, 1, 1, 0, 1],
   },
   grape: {
+    seed: 'seed',
     seasons: ['fall'],
     prices: {
       crop: 80,
@@ -104,6 +116,7 @@ const dictionary = {
     regrow: 3,
   },
   strawberry: {
+    seed: 'seed',
     seasons: ['spring'],
     prices: {
       crop: 120,
@@ -112,6 +125,7 @@ const dictionary = {
     stages: [0, 1, 1, 2, 2, 2],
   },
   cassava: {
+    seed: '',
     seasons: ['fall'],
     prices: {
       crop: 160,
@@ -120,6 +134,7 @@ const dictionary = {
     stages: [0, 1, 3, 3, 0, 3],
   },
   potato: {
+    seed: '',
     seasons: ['spring'],
     prices: {
       crop: 80,
@@ -128,7 +143,8 @@ const dictionary = {
     stages: [0, 1, 1, 1, 2, 1],
   },
   coffee: {
-    seasons: ['spring', 'summer'],
+    seed: 'bean',
+    // seasons: ['spring', 'summer'],
     prices: {
       crop: 15,
       seed: 100,
@@ -137,6 +153,7 @@ const dictionary = {
     regrow: 2,
   },
   orange: {
+    seed: 'seed',
     seasons: [''],
     prices: {
       crop: 0,
@@ -145,6 +162,7 @@ const dictionary = {
     stages: [0],
   },
   avocado: {
+    seed: 'pit',
     seasons: ['spring', 'summer'],
     prices: {
       crop: 260,
@@ -153,6 +171,7 @@ const dictionary = {
     stages: [0, 2, 1, 2, 2, 2],
   },
   corn: {
+    seed: 'seed',
     seasons: ['summer', 'fall'],
     prices: {
       crop: 50,
@@ -162,19 +181,19 @@ const dictionary = {
     regrow: 4,
   },
   sunflower: {
+    seed: 'seed',
     seasons: ['summer', 'fall'],
     prices: {
       crop: 80,
       seed: 200,
     },
     stages: [0, 1, 2, 3, 0, 2],
-
   },
 };
 
 Crops.seasonal = (season) =>
   Object.keys(dictionary)
-    .filter((type) => dictionary[type].seasons.includes(season));
+    .filter((type) => (dictionary[type].seasons || []).includes(season));
 
 Crops.info = (type) => {
   const crop = Utils.clone(dictionary[type]);
