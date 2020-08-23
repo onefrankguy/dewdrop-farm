@@ -1,5 +1,18 @@
 # Development Diary #
 
+## 22 August 2020 ##
+
+Day 10 of 31. 12,009 bytes used (90.21%).
+
+Graphics are starting to take shape. I made an envelope for the seeds, since I'm
+reusing the picked crop graphic. I fixed a bug where the seasons didn't cycle.
+I probably need to add some tests at the point. I also removed all the extra
+crops I'm not using.
+
+Oh! And the grass grows back after a bit. The timing on that feels off though.
+It starts slow and goes quick. I want it to feel more slow over a longer period
+of time. So that needs tweaking.
+
 ## 21 August 2020 ##
 
 Day 9 of 31. 13,351 bytes used (100.29%).
