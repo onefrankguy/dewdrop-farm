@@ -129,12 +129,12 @@ const shouldGrow = (farm) => (action) => {
   const day = Math.ceil(farm.time / SECONDS_PER_DAY);
   const crop = Farm.crop(farm, action);
   const watered = Farm.watered(farm, action);
-  const multiplier = watered && Math.ceil(watered.time / SECONDS_PER_DAY) >= day ? 0.5 : 1;
+  const adjust = watered && Math.ceil(watered.time / SECONDS_PER_DAY) >= day ? -1 : 0;
 
   if (crop) {
     const plantedOn = Math.ceil(crop.time / SECONDS_PER_DAY);
     const aliveFor = day - plantedOn;
-    const needsToBeAliveFor = Crops.days(crop, multiplier);
+    const needsToBeAliveFor = Crops.days(crop, (value) => value - adjust);
 
     return aliveFor >= needsToBeAliveFor;
   }
@@ -161,9 +161,10 @@ Rules.dispatch = (farm, action) => {
 };
 
 Rules.season = (farm) => {
-  const index = Math.floor(farm.time / SECONDS_PER_DAY / DAYS_PER_SEASON);
+  const seasons = ['spring', 'summer', 'fall', 'winter'];
+  const index = Math.floor(farm.time / SECONDS_PER_DAY / DAYS_PER_SEASON) % seasons.length;
 
-  return ['spring', 'summer', 'fall', 'winter'][index];
+  return seasons[index];
 };
 
 Rules.day = (farm) => Math.ceil(farm.time / SECONDS_PER_DAY) % DAYS_PER_SEASON;

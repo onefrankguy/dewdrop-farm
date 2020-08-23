@@ -133,7 +133,7 @@ const renderFarm = (farm) => {
 const renderStore = (farm) => {
   let html = '';
 
-  Rules.store(farm).forEach((crop) => {
+  Rules.store(farm).slice(0, 5).forEach((crop) => {
     html += renderStoreRow(crop, 1, 'store');
   });
 
@@ -143,7 +143,7 @@ const renderStore = (farm) => {
 const renderMarket = (farm) => {
   let html = '';
 
-  Rules.market(farm).forEach((crop) => {
+  Rules.market(farm).slice(0, 5).forEach((crop) => {
     const amount = farm.market[crop.type] || 0;
 
     html += renderStoreRow(crop, amount, 'market');
