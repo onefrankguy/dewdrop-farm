@@ -252,6 +252,15 @@ $itemDetailBackground: rgb(219, 164, 99);
       }
     }
   }
+
+  .title {
+    font-size: 2.4rem;
+  }
+
+  .message {
+    font-size: 1.6rem;
+    padding: 0.8rem;
+  }
 }
 
 .slot {
@@ -299,8 +308,6 @@ $itemDetailBackground: rgb(219, 164, 99);
 }
 
 /* CONTROLS */
-.inventory {
-}
 .sticker {
   justify-content: center;
   align-items: center;

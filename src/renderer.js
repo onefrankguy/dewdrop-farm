@@ -130,12 +130,32 @@ const renderFarm = (farm) => {
   return html;
 };
 
+const renderNotFound = (type) => {
+  let html = '';
+  let message = `The store is closed right now. Come back again later!`;
+
+  if (type === 'market') {
+    message = `It looks like you don't have any crops to sell. You can use seeds to grow crops.`;
+  }
+
+  html += '<div class="slot">';
+  html += '<div class="center title">404 Not Found</div>';
+  html += `<div class="message">${message}</div>`;
+  html += '</div>';
+
+  return html;
+};
+
 const renderStore = (farm) => {
   let html = '';
 
   Rules.store(farm).slice(0, 5).forEach((crop) => {
     html += renderStoreRow(crop, 1, 'store');
   });
+
+  if (!html) {
+    html = renderNotFound('store');
+  }
 
   return html;
 };
@@ -148,6 +168,10 @@ const renderMarket = (farm) => {
 
     html += renderStoreRow(crop, amount, 'market');
   });
+
+  if (!html) {
+    html = renderNotFound('market');
+  }
 
   return html;
 };
