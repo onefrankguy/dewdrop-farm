@@ -169,6 +169,14 @@ a, a:visited {
   background-position-x: (-3 * $tileWidth);
   background-position-y: (-23 * $tileHeight);
 }
+.tile.hoe {
+  background-position-x: (-2 * $tileWidth);
+  background-position-y: (-23 * $tileHeight);
+}
+.tile.can {
+  background-position-x: (-1 * $tileWidth);
+  background-position-y: (-23 * $tileHeight);
+}
 
 @include crop('turnip', 0);
 @include crop('chile', 1);
