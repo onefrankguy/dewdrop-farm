@@ -42,24 +42,6 @@ const dictionary = {
     stages: [0, 1, 1, 1, 1, 1],
     regrow: 5,
   },
-  pineapple: {
-    seed: '',
-    // seasons: [''],
-    prices: {
-      crop: 0,
-      seed: 0,
-    },
-    stages: [0],
-  },
-  wheat: {
-    seed: 'seed',
-    // seasons: ['summer', 'fall'],
-    prices: {
-      crop: 25,
-      seed: 10,
-    },
-    stages: [0, 1, 1, 1, 0, 1],
-  },
   strawberry: {
     seed: 'seed',
     seasons: ['spring'],
@@ -78,15 +60,6 @@ const dictionary = {
     },
     stages: [0, 1, 1, 1, 2, 1],
   },
-  orange: {
-    seed: 'seed',
-    // seasons: [''],
-    prices: {
-      crop: 0,
-      seed: 0,
-    },
-    stages: [0],
-  },
   corn: {
     seed: 'seed',
     seasons: ['summer', 'fall'],
@@ -97,50 +70,14 @@ const dictionary = {
     stages: [0, 2, 3, 3, 3, 3],
     regrow: 4,
   },
-  rose: {
-    seed: 'seed',
-    // seasons: ['fall'],
-    prices: {
-      crop: 290,
-      seed: 200,
-    },
-    stages: [0, 1, 4, 4, 0, 3],
-  },
-  tulip: {
-    seed: 'bulb',
-    // seasons: ['spring'],
-    prices: {
-      crop: 30,
-      seed: 25,
-    },
-    stages: [0, 1, 1, 2, 0, 2],
-  },
   melon: {
     seed: 'seed',
-    seasons: ['summer'],
+    // seasons: ['summer'],
     prices: {
       crop: 250,
       seed: 80,
     },
     stages: [0, 1, 2, 3, 3, 3],
-  },
-  lemon: {
-    seed: 'seed',
-    // seasons: [''],
-    prices: {
-      crop: 0,
-      seed: 0,
-    },
-    stages: [0],
-  },
-  rice: {
-    seed: 'grain',
-    // seasons: ['spring'],
-    prices: {
-      crop: 30,
-      seed: 40,
-    },
-    stages: [0, 1, 2, 2, 0, 3],
   },
   grape: {
     seed: 'seed',
@@ -161,16 +98,6 @@ const dictionary = {
     },
     stages: [0, 1, 3, 3, 0, 3],
   },
-  coffee: {
-    seed: 'bean',
-    // seasons: ['spring', 'summer'],
-    prices: {
-      crop: 15,
-      seed: 100,
-    },
-    stages: [0, 1, 2, 2, 3, 2],
-    regrow: 2,
-  },
   avocado: {
     seed: 'pit',
     seasons: ['spring', 'summer'],
@@ -182,12 +109,22 @@ const dictionary = {
   },
   sunflower: {
     seed: 'seed',
-    seasons: ['summer', 'fall'],
+    // seasons: ['summer', 'fall'],
     prices: {
       crop: 80,
       seed: 200,
     },
     stages: [0, 1, 2, 3, 0, 2],
+  },
+  sprinkler: {
+    seed: '',
+    tool: true,
+    seasons: ['spring', 'summer', 'fall', 'winter'],
+    prices: {
+      crop: 100,
+      seed: 200,
+    },
+    stages: [0, 0, 0, 0, 0, 0],
   },
 };
 
@@ -214,7 +151,10 @@ Crops.days = (({crop, stage}, adjust = (value) => value) => {
     let i = stage % info.stages.length;
 
     while (i >= 0) {
-      result += Math.max(1, Math.ceil(adjust(info.stages[i])));
+      const original = info.stages[i];
+      const adjusted = Math.ceil(adjust(original));
+
+      result += Math.max(original, adjusted);
       i -= 1;
     }
   }

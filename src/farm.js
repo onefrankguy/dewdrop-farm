@@ -74,6 +74,42 @@ const water = (farm, action) => {
   return farm;
 };
 
+const sprinkler = (farm, action) => {
+  const crop = Farm.crop(farm, action);
+
+  if (crop && crop.crop === 'sprinkler') {
+    const {row, col} = action;
+    const plots = [{
+      row,
+      col,
+    }, {
+      row: row - 1,
+      col: col + 0,
+    }, {
+      row: row + 1,
+      col: col + 0,
+    }, {
+      row: row + 0,
+      col: col - 1,
+    }, {
+      row: row + 0,
+      col: col + 1,
+    }];
+
+    plots.forEach(({row, col}) => {
+      const waterAction = {
+        tool: 'water',
+        row,
+        col,
+      };
+
+      farm = Farm.dispatch(farm, waterAction);
+    });
+  }
+
+  return farm;
+};
+
 const drain = (farm, action) => {
   removeLand(farm, action, 'water');
 
@@ -87,8 +123,12 @@ const plant = (farm, action) => {
     if (crop && crop.amount > 0) {
       action.type = 'plant';
       action.crop = crop.type;
-      crop.amount -= 1;
 
+      if (crop.type === 'sprinkler') {
+        action.stage = MAX_CROP_STAGE;
+      }
+
+      crop.amount -= 1;
       if (crop.amount <= 0) {
         crop = undefined;
       }
@@ -216,6 +256,9 @@ Farm.dispatch = (farm, action) => {
 
     case 'water':
       return water(farmCopy, actionCopy);
+
+    case 'sprinkler':
+      return sprinkler(farmCopy, actionCopy);
 
     case 'drain':
       return drain(farmCopy, actionCopy);

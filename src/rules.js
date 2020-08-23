@@ -55,6 +55,8 @@ const getPlotList = (farm, type, test) => {
 
 const getGrassable = (farm, test) => getPlotList(farm, 'grassable', test);
 
+const getSprinklerable = (farm, test) => getPlotList(farm, 'sprinklerable', test);
+
 const getDrainable = (farm, test) => getPlotList(farm, 'drainable', test);
 
 const getGrowable = (farm, test) => getPlotList(farm, 'growable', test);
@@ -68,6 +70,16 @@ const update = (farm) => {
     };
 
     farm = Rules.dispatch(farm, grassAction);
+  });
+
+  getSprinklerable(farm, shouldSprinkler(farm)).forEach(({row, col}) => {
+    const sprinklerAction = {
+      tool: 'sprinkler',
+      row,
+      col,
+    };
+
+    farm = Rules.dispatch(farm, sprinklerAction);
   });
 
   getDrainable(farm, shouldDrain(farm)).forEach(({row, col}) => {
@@ -106,6 +118,21 @@ const shouldGrass = (farm) => (action) => {
     if (duration > adjacent.length - fallow.length) {
       return true;
     }
+  }
+
+  return false;
+};
+
+const shouldSprinkler = (farm) => (action) => {
+  const day = Math.ceil(farm.time / SECONDS_PER_DAY);
+  const crop = Farm.crop(farm, action);
+
+  if (crop && crop.crop === 'sprinkler') {
+    const watered = Farm.watered(farm, action);
+    const dayWatered = watered ? Math.ceil(watered.time / SECONDS_PER_DAY) : 0;
+    const duration = day - dayWatered;
+
+    return duration > 0;
   }
 
   return false;
