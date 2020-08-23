@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <style>
+      * {
+        cursor: default;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        image-rendering: pixelated;
+      }
+      body {
+        padding: 12px;
+      }
+      .tile {
+        display: inline-flex;
+        width: 96px;
+        height: 96px;
+        background-image: url('../img/tiles.png');
+        background-size: calc(6 * 96px) calc(24 * 96px);
+        background-position-x: calc(-0 * 96px);
+        background-position-y: calc(-23 * 96px);
+      }
+      .envelope {
+        background-position-x: calc(-3 * 96px);
+        background-position-y: calc(-23 * 96px);
+      }
+      .strawberry.stage6 {
+        background-position-x: calc(-0 * 96px);
+        background-position-y: calc(-6 * 96px);
+      }
+      .till.stage000 {
+        background-position-x: calc(-0 * 96px);
+        background-position-y: calc(-20 * 96px);
+      }
+      .water {
+        background-position-x: calc(-4 * 96px);
+        background-position-y: calc(-23 * 96px);
+      }
+      .turnip.stage5 {
+        background-position-x: calc(-1 * 96px);
+        background-position-y: calc(-0 * 96px);
+      }
+
+      .seed {
+        display: grid;
+        grid-template: 50% 50% / 50% 50%;
+      }
+      .seed > .envelope {
+        grid-area: 1 / 1 / -1 / -1;
+      }
+      .seed > .crop {
+        transform: scale(0.75);
+        grid-area: 1 / 1 / -1 / -1;
+      }
+      .seed > .sticker {
+        font-size: 32px;
+        font-weight: bold;
+        grid-area: 2 / 1 / 2 / 1;
+        place-self: center;
+        background: black;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        display: grid;
+      }
+      .seed > .sticker > .inner {
+        background: white;
+        width: calc(100% - 8px);
+        height: calc(100% - 8px);
+        border-radius: 50%;
+        place-self: center;
+        display: grid;
+        place-items: center;
+      }
+
+      .plot {
+        display: grid;
+      }
+      .plot > .ground {
+        grid-area: 1 / 1 / -1 / -1;
+      }
+      .plot > .water {
+        grid-area: 1 / 1 / -1 / -1;
+      }
+      .plot > .crop {
+        grid-area: 1 / 1 / -1 / -1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="tile seed">
+      <div class="tile envelope"></div>
+      <div class="tile strawberry stage6 crop"></div>
+      <div class="sticker"><div class="inner">3</div></div>
+    </div>
+    <div class="tile plot">
+      <div class="tile till stage000 ground"></div>
+      <div class="tile water"></div>
+      <div class="tile turnip stage5 crop"></div>
+    </div>
+  </body>
+</html>

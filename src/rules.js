@@ -161,7 +161,7 @@ Rules.dispatch = (farm, action) => {
 };
 
 Rules.season = (farm) => {
-  const seasons = ['spring', 'summer', 'fall', 'winter'];
+  const seasons = ['summer', 'fall', 'winter', 'spring'];
   const index = Math.floor(farm.time / SECONDS_PER_DAY / DAYS_PER_SEASON) % seasons.length;
 
   return seasons[index];

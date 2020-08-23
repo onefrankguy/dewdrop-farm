@@ -60,6 +60,7 @@ a, a:visited {
 }
 
 .buffer {
+  min-height: (6 * $tileHeight);
   flex-grow: 1;
 }
 
@@ -330,6 +331,10 @@ $itemDetailBackground: rgb(219, 164, 99);
 }
 
 .inventory {
+  background: $storeBackground;
+  border: 0.1rem solid $storeBorder;
+  padding: 0.1rem;
+
   .seeds {
     position: relative;
 
@@ -338,6 +343,33 @@ $itemDetailBackground: rgb(219, 164, 99);
       left: 0;
       bottom: 0;
     }
+  }
+
+  $itemShadow: rgb(160, 134, 98);
+  $itemHighlight: rgb(254, 243, 192);
+  $itemActiveShadow: rgb(115, 23, 45);
+  $itemActiveHighlight: rgb(180, 32, 42);
+  $itemBorderSize: 0.2rem;
+
+  .slot {
+    flex-grow: 1;
+  }
+
+  .slot .item {
+    margin: 0.1rem;
+    background: $storeBackground;
+    border-top: $itemBorderSize solid $itemShadow;
+    border-right: $itemBorderSize solid $itemHighlight;
+    border-bottom: $itemBorderSize solid $itemHighlight;
+    border-left: $itemBorderSize solid $itemShadow;
+    border-radius: 0.4rem;
+  }
+
+  .slot .item.active {
+    border-top: $itemBorderSize solid $itemActiveHighlight;
+    border-right: $itemBorderSize solid $itemActiveShadow;
+    border-bottom: $itemBorderSize solid $itemActiveShadow;
+    border-left: $itemBorderSize solid $itemActiveHighlight;
   }
 }
 .controls {
