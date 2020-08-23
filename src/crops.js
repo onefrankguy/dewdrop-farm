@@ -126,7 +126,7 @@ const dictionary = {
   },
   lemon: {
     seed: 'seed',
-    seasons: [''],
+    // seasons: [''],
     prices: {
       crop: 0,
       seed: 0,
