@@ -1,5 +1,30 @@
 # Development Diary #
 
+## 23 August 2020 ##
+
+Day 11 of 31. 12,418 bytes used (93.28%).
+
+I added sprinklers! The sprinkler graphic is a "food" from the [DawnLike][]
+tileset. I have no idea what kind of food it is. A mushroom maybe? The
+sprinklers water the four squares orthogonal to them. Maybe I should charge
+more for them and make it eight?
+
+I redid the water graphic based on one from the [DawnLike][] tileset. I
+included some transparency, and I'm not sure I like it. I used Jerom's
+[32x32 Fantasy Tileset][Jerom] as a basis for the hoe graphic. It looks a bit
+too much like an axe, so I need to tweak it some more. The watering can graphic
+started life as a potion from the [DawnLike][] tileset. I think it came out
+pretty well.
+
+I theory it's possilbe to get yourself down to no cash, and not have a way to
+generate more cash. I'm not sure what I should do in that case. Maybe give
+web monitized players a way to pay real money for in-game cash? I could have
+a zero cost crop that's always available. Birdseed! Flowers will sell for one
+cash each. And it'll only be available for sale & use in the winter.
+
+I'm wondering if I should change the background color with the seasons? Slowly
+fade from one color to another.
+
 ## 22 August 2020 ##
 
 Day 10 of 31. 12,009 bytes used (90.21%).
@@ -110,3 +135,4 @@ Maybe some kind of [idle clicker][] or farming simulation?
 [josehzz]: https://opengameart.org/users/josehzz "josehzz (OpenGameArt.org): Farming crops 16x16 and related tiles"
 [Wizard Zines]: https://wizardzines.com/ "Julia (Wizard Zines): "
 [DawnLike]: https://opengameart.org/content/dawnlike-16x16-universal-rogue-like-tileset-v181 "Dragon DePlatino (OpenGameArt.org): DawnLike - 16x16 Universal Rogue-like tileset v1.81"
+[Jerom]: https://opengameart.org/content/32x32-fantasy-tileset "Jerom (OpenGameArt.org): 32x32 Fantasy Tileset"
