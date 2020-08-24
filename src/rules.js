@@ -3,9 +3,9 @@ const PRNG = require('./prng');
 const Farm = require('./farm');
 const Crops = require('./crops');
 
-const SEASONS_PER_YEAR = 4;
+const SEASONS = ['summer', 'fall', 'winter', 'spring'];
 const DAYS_PER_SEASON = 28;
-const SECONDS_PER_DAY = (14 * 60 * 3) / SEASONS_PER_YEAR / DAYS_PER_SEASON;
+const SECONDS_PER_DAY = (14 * 60 * 3) / SEASONS.length / DAYS_PER_SEASON;
 
 const Rules = {};
 
@@ -188,13 +188,12 @@ Rules.dispatch = (farm, action) => {
 };
 
 Rules.season = (farm) => {
-  const seasons = ['summer', 'fall', 'winter', 'spring'];
-  const index = Math.floor(farm.time / SECONDS_PER_DAY / DAYS_PER_SEASON) % seasons.length;
+  const index = Math.floor(farm.time / SECONDS_PER_DAY / DAYS_PER_SEASON) % SEASONS.length;
 
-  return seasons[index];
+  return SEASONS[index];
 };
 
-Rules.day = (farm) => Math.ceil(farm.time / SECONDS_PER_DAY) % DAYS_PER_SEASON;
+Rules.day = (farm) => Math.ceil((farm.time / SECONDS_PER_DAY) % DAYS_PER_SEASON);
 
 Rules.store = (farm) => {
   const season = Rules.season(farm);
