@@ -9,6 +9,7 @@ const Game = {};
 let farm;
 let tool;
 let slot;
+let screen;
 
 const offFarm = (_, event) => {
   let element = event.target;
@@ -28,7 +29,7 @@ const offFarm = (_, event) => {
     };
 
     farm = Rules.dispatch(farm, action);
-    Renderer.invalidate(farm, tool);
+    Renderer.invalidate(farm, tool, screen);
   }
 };
 
@@ -48,7 +49,7 @@ const offStore = (_, event) => {
     }
 
     farm = Rules.dispatch(farm, action);
-    Renderer.invalidate(farm, tool);
+    Renderer.invalidate(farm, tool, screen);
   }
 };
 
@@ -68,7 +69,7 @@ const offMarket = (_, event) => {
     }
 
     farm = Rules.dispatch(farm, action);
-    Renderer.invalidate(farm, tool);
+    Renderer.invalidate(farm, tool, screen);
   }
 };
 
@@ -80,7 +81,13 @@ const onTool = (aTool) => () => {
     slot = undefined;
   }
 
-  Renderer.invalidate(farm, tool);
+  Renderer.invalidate(farm, tool, screen);
+};
+
+const onScreen = (aScreen) => () => {
+  screen = aScreen;
+
+  Renderer.invalidate(farm, tool, screen);
 };
 
 const onUpdate = (dt) => {
@@ -92,7 +99,7 @@ const onUpdate = (dt) => {
   };
 
   farm = Rules.dispatch(farm, action);
-  Renderer.invalidate(farm, tool);
+  Renderer.invalidate(farm, tool, screen);
 };
 
 const onRender = () => {
@@ -102,6 +109,7 @@ Game.reset = () => {
   farm = Farm.create();
   tool = 'hoe';
   crop = undefined;
+  screen = 'tend';
 };
 
 Game.play = () => {
@@ -111,8 +119,9 @@ Game.play = () => {
   $('#slot1').click(onTool('slot1'));
   $('#slot2').click(onTool('slot2'));
   $('#slot3').click(onTool('slot3'));
-  $('#buy').click(onTool('buy'));
-  $('#sell').click(onTool('sell'));
+  $('#tend').click(onScreen('tend'));
+  $('#buy').click(onScreen('buy'));
+  $('#sell').click(onScreen('sell'));
   $('#store').click(undefined, undefined, offStore);
   $('#market').click(undefined, undefined, offMarket);
   $('#farm').click(offFarm, offFarm);
@@ -120,7 +129,7 @@ Game.play = () => {
   Game.reset();
   Engine.run(onUpdate, onRender);
 
-  Renderer.invalidate(farm, tool);
+  Renderer.invalidate(farm, tool, screen);
 };
 
 module.exports = Game;

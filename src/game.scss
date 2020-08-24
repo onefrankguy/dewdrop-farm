@@ -243,8 +243,11 @@ $itemDetailBackground: rgb(219, 164, 99);
   background: $storeBackground;
   border: 0.1rem solid $storeBorder;
 
-  .item {
+  > .slot {
     margin: 0.1rem;
+  }
+
+  .item {
     justify-content: space-between;
 
     .crop {

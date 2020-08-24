@@ -176,26 +176,30 @@ const renderMarket = (farm) => {
   return html;
 };
 
-const renderTool = (tool) => {
+const renderTool = (tool, screen) => {
   $(`#${tool}`).addClass('active');
+  $(`#${screen}`).addClass('active');
 
-  if (tool === 'buy') {
+  if (screen === 'tend') {
+    $('#farm').removeClass('hidden');
+    $('#store').addClass('hidden');
+    $('#market').addClass('hidden');
+    return;
+  }
+
+  if (screen === 'buy') {
     $('#farm').addClass('hidden');
     $('#store').removeClass('hidden');
     $('#market').addClass('hidden');
     return;
   }
 
-  if (tool === 'sell') {
+  if (screen === 'sell') {
     $('#farm').addClass('hidden');
     $('#store').addClass('hidden');
     $('#market').removeClass('hidden');
     return;
   }
-
-  $('#farm').removeClass('hidden');
-  $('#store').addClass('hidden');
-  $('#market').addClass('hidden');
 };
 
 const renderInventory = (farm) => {
@@ -230,23 +234,24 @@ Renderer.clear = () => {
   $('#slot1').removeClass('active');
   $('#slot2').removeClass('active');
   $('#slot3').removeClass('active');
+  $('#tend').removeClass('active');
   $('#buy').removeClass('active');
   $('#sell').removeClass('active');
 };
 
-Renderer.render = (farm, tool) => {
+Renderer.render = (farm, tool, screen) => {
   Renderer.clear();
-  renderTool(tool);
+  renderTool(tool, screen);
   renderInventory(farm);
   renderIfChanged('#time', renderTime(farm));
   renderIfChanged('#cash', renderCash(farm.cash));
-  renderIfChanged('#farm', renderFarm(farm, tool));
+  renderIfChanged('#farm', renderFarm(farm));
   renderIfChanged('#store', renderStore(farm));
   renderIfChanged('#market', renderMarket(farm));
 };
 
-Renderer.invalidate = (farm, tool) => {
-  requestAnimationFrame(() => Renderer.render(farm, tool));
+Renderer.invalidate = (farm, tool, screen) => {
+  requestAnimationFrame(() => Renderer.render(farm, tool, screen));
 };
 
 module.exports = Renderer;
