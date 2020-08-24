@@ -124,10 +124,6 @@ const plant = (farm, action) => {
       action.type = 'plant';
       action.crop = crop.type;
 
-      if (crop.type === 'sprinkler') {
-        action.stage = MAX_CROP_STAGE;
-      }
-
       crop.amount -= 1;
       if (crop.amount <= 0) {
         crop = undefined;

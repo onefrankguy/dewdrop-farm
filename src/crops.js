@@ -70,15 +70,6 @@ const dictionary = {
     stages: [0, 2, 3, 3, 3, 3],
     regrow: 4,
   },
-  melon: {
-    seed: 'seed',
-    // seasons: ['summer'],
-    prices: {
-      crop: 250,
-      seed: 80,
-    },
-    stages: [0, 1, 2, 3, 3, 3],
-  },
   grape: {
     seed: 'seed',
     seasons: ['fall'],
@@ -107,18 +98,8 @@ const dictionary = {
     },
     stages: [0, 2, 1, 2, 2, 2],
   },
-  sunflower: {
-    seed: 'seed',
-    // seasons: ['summer', 'fall'],
-    prices: {
-      crop: 80,
-      seed: 200,
-    },
-    stages: [0, 1, 2, 3, 0, 2],
-  },
   sprinkler: {
     seed: '',
-    tool: true,
     seasons: ['spring', 'summer', 'fall', 'winter'],
     prices: {
       crop: 100,
