@@ -4,6 +4,9 @@ const Farm = require('./farm');
 
 const Renderer = {};
 
+const renderClasses = (klasses) =>
+  klasses.filter((klass) => klass).join(' ').trim();
+
 const renderTime = (farm) => {
   const day = Rules.day(farm);
   const season = Rules.season(farm);
@@ -68,7 +71,7 @@ const renderStoreRow = (crop, amount, type) => {
   return html;
 };
 
-const renderFarmPlotClasses = (farm, row, col) => {
+const renderFarmPlotGround = (farm, row, col) => {
   const upTilled = Farm.tilled(farm, {row: row - 1, col}) ? 1 : 0
   const downTilled = Farm.tilled(farm, {row: row + 1, col}) ? 1 : 0;
   const leftTilled = Farm.tilled(farm, {row, col: col - 1}) ? 1 : 0;
@@ -76,36 +79,43 @@ const renderFarmPlotClasses = (farm, row, col) => {
 
   const tilled = Farm.tilled(farm, {row, col}) ? 'till' : '';
   const stage = `stage${upTilled}${rightTilled}${downTilled}${leftTilled}`;
+  const klasses = renderClasses(['tile', 'ground', tilled, stage]);
 
-  return [tilled, stage].join(' ').trim();
+  return `<div class="${klasses}"></div>`
 };
 
-const renderFarmCrop = (farm, row, col) => {
-  const watered = Farm.watered(farm, {row, col});
-  const crop = Farm.crop(farm, {row, col});
-
-  if (!watered && !crop) {
-    return '';
-  }
-
+const renderFarmPlotWater = (farm, row, col) => {
   let html = '';
 
-  if (watered) {
-    html += '<div class="tile water">';
+  if (Farm.watered(farm, {row, col})) {
+    html += '<div class="tile water"></div>';
   }
+
+  return html;
+};
+
+const renderFarmPlotCrop = (farm, row, col) => {
+  let html = '';
+
+  const crop = Farm.crop(farm, {row, col});
 
   if (crop) {
-    const klasses = ['tile', crop.crop];
-    if (crop.stage) {
-      klasses.push(`stage${crop.stage}`);
-    }
-
-    html += `<div class="${klasses.join(' ').trim()}"></div>`;
+    const stage = crop.stage ? `stage${crop.stage}` : '';
+    const klasses = renderClasses(['tile', 'crop', crop.crop, stage]);
+    html += `<div class="${klasses}"></div>`;
   }
 
-  if (watered) {
-    html += '</div>';
-  }
+  return html;
+};
+
+const renderFarmPlot = (farm, row, col) => {
+  let html = '';
+
+  html += `<div class="tile plot" data-crop="p${row}${col}">`;
+  html += renderFarmPlotGround(farm, row, col);
+  html += renderFarmPlotWater(farm, row, col);
+  html += renderFarmPlotCrop(farm, row, col);
+  html += '</div>';
 
   return html;
 };
@@ -117,11 +127,7 @@ const renderFarm = (farm) => {
     html += '<div class="row">';
 
     for (let col = 0; col < farm.cols; col += 1) {
-      const plotClasses = renderFarmPlotClasses(farm, row, col);
-
-      html += `<div class="tile plot ${plotClasses}" data-crop="p${row}${col}">`;
-      html += renderFarmCrop(farm, row, col);
-      html += '</div>';
+      html += renderFarmPlot(farm, row, col);
     }
 
     html += '</div>';
@@ -223,6 +229,11 @@ const renderIfChanged = (selector, newHtml) => {
   const oldHtml = element.html();
 
   if (newHtml !== oldHtml) {
+    console.log({
+      oldHtml,
+      newHtml,
+    });
+
     element.html(newHtml);
   }
 };

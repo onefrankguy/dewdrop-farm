@@ -85,79 +85,86 @@ a, a:visited {
 }
 
 .plot {
+  display: grid;
   background-position-x: (-5 * $tileWidth);
   background-position-y: (-20 * $tileHeight);
 }
 
-.plot.stage0000 {
+.plot > .ground,
+.plot > .water,
+.plot > .crop {
+  grid-area: 1 / 1 / -1 / -1;
+}
+
+.stage0000 {
   background-position-x: (-5 * $tileWidth);
   background-position-y: (-20 * $tileHeight);
 }
-.plot.stage1111 {
+.stage1111 {
   background-position-x: (-5 * $tileWidth);
   background-position-y: (-20 * $tileHeight);
 }
-.plot.till.stage0000 {
+.till.stage0000 {
   background-position-x: (0 * $tileWidth);
   background-position-y: (-20 * $tileHeight);
 }
-.plot.till.stage0001 {
+.till.stage0001 {
   background-position-x: (-2 * $tileWidth);
   background-position-y: (-21 * $tileHeight);
 }
-.plot.till.stage0010 {
+.till.stage0010 {
   background-position-x: (-1 * $tileWidth);
   background-position-y: (-20 * $tileHeight);
 }
-.plot.till.stage0011 {
+.till.stage0011 {
   background-position-x: (-5 * $tileWidth);
   background-position-y: (-21 * $tileHeight);
 }
-.plot.till.stage0100 {
+.till.stage0100 {
   background-position-x: (0 * $tileWidth);
   background-position-y: (-21 * $tileHeight);
 }
-.plot.till.stage0101 {
+.till.stage0101 {
   background-position-x: (0 * $tileWidth);
   background-position-y: (-22 * $tileHeight);
 }
-.plot.till.stage0110 {
+.till.stage0110 {
   background-position-x: (-4 * $tileWidth);
   background-position-y: (-21 * $tileHeight);
 }
-.plot.till.stage0111 {
+.till.stage0111 {
   background-position-x: (-3 * $tileWidth);
   background-position-y: (-22 * $tileHeight);
 }
-.plot.till.stage1000 {
+.till.stage1000 {
   background-position-x: (-1 * $tileWidth);
   background-position-y: (-22 * $tileHeight);
 }
-.plot.till.stage1001 {
+.till.stage1001 {
   background-position-x: (-5 * $tileWidth);
   background-position-y: (-22 * $tileHeight);
 }
-.plot.till.stage1010 {
+.till.stage1010 {
   background-position-x: (-2 * $tileWidth);
   background-position-y: (-22 * $tileHeight);
 }
-.plot.till.stage1011 {
+.till.stage1011 {
   background-position-x: (-2 * $tileWidth);
   background-position-y: (-20 * $tileHeight);
 }
-.plot.till.stage1100 {
+.till.stage1100 {
   background-position-x: (-4 * $tileWidth);
   background-position-y: (-22 * $tileHeight);
 }
-.plot.till.stage1101 {
+.till.stage1101 {
   background-position-x: (-3 * $tileWidth);
   background-position-y: (-21 * $tileHeight);
 }
-.plot.till.stage1110 {
+.till.stage1110 {
   background-position-x: (-3 * $tileWidth);
   background-position-y: (-20 * $tileHeight);
 }
-.plot.till.stage1111 {
+.till.stage1111 {
   background-position-x: (-1 * $tileWidth);
   background-position-y: (-21 * $tileHeight);
 }
@@ -186,22 +193,12 @@ a, a:visited {
 @include crop('chile', 1);
 @include crop('tomato', 2);
 @include crop('eggplant', 3);
-// @include crop('pineapple', 4);
-// @include crop('wheat', 5);
 @include crop('strawberry', 6);
 @include crop('potato', 7);
-// @include crop('orange', 8);
 @include crop('corn', 9);
-// @include crop('rose', 10);
-// @include crop('tulip', 11);
-@include crop('melon', 12);
-// @include crop('lemon', 13);
-// @include crop('rice', 14);
 @include crop('grape', 15);
 @include crop('cassava', 16);
-@include crop('coffee', 17);
 @include crop('avocado', 18);
-@include crop('sunflower', 19);
 
 /* STATS */
 .stats {
