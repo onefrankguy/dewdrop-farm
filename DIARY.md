@@ -1,5 +1,12 @@
 # Development Diary #
 
+## 24 August 2020 ##
+
+Day 12 of 31. 12,433 bytes used (93.40%).
+
+I added an explicit "Farm" button to canel out of buying or selling. I kept
+getting confused when touching the inventory bar switched me out of the store.
+
 ## 23 August 2020 ##
 
 Day 11 of 31. 12,418 bytes used (93.28%).
