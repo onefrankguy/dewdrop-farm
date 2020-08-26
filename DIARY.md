@@ -1,5 +1,20 @@
 # Development Diary #
 
+## 25 August 2020 ##
+
+Day 13 of 31. 12,686 bytes used (95.30%).
+
+I redid the crop graphic layout with CSS grid so I can layer them. That made it
+much easier to add a bunny that hops around the farm. I recolored one from the
+[DawnLike][] tileset. The hard edge outline is probably a bit too dark, so I
+think I'll make that lighter.
+
+Next steps will be to make the bunny appear when you're not looking. Maybe
+tiggered by the first sale of crops? And then to make it eat the crops when it
+hops over them. I think poking the bunny (with any tool) should make it scared.
+When it's scared it'll hop to the edge and off the farm. Then it can reappear
+when you're not looking.
+
 ## 24 August 2020 ##
 
 Day 12 of 31. 12,433 bytes used (93.40%).
