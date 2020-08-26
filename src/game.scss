@@ -92,7 +92,8 @@ a, a:visited {
 
 .plot > .ground,
 .plot > .water,
-.plot > .crop {
+.plot > .crop,
+.plot > .animal {
   grid-area: 1 / 1 / -1 / -1;
 }
 
@@ -186,6 +187,10 @@ a, a:visited {
 }
 .tile.sprinkler {
   background-position-x: (-5 * $tileWidth);
+  background-position-y: (-4 * $tileHeight);
+}
+.tile.bunny {
+  background-position-x: (-4 * $tileWidth);
   background-position-y: (-4 * $tileHeight);
 }
 

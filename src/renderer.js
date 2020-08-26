@@ -108,6 +108,18 @@ const renderFarmPlotCrop = (farm, row, col) => {
   return html;
 };
 
+const renderFarmPlotBunny = (farm, row, col) => {
+  let html = '';
+
+  const bunny = Farm.bunny(farm, {row, col});
+
+  if (bunny) {
+    html += '<div class="tile bunny animal"></div>';
+  }
+
+  return html;
+};
+
 const renderFarmPlot = (farm, row, col) => {
   let html = '';
 
@@ -115,6 +127,7 @@ const renderFarmPlot = (farm, row, col) => {
   html += renderFarmPlotGround(farm, row, col);
   html += renderFarmPlotWater(farm, row, col);
   html += renderFarmPlotCrop(farm, row, col);
+  html += renderFarmPlotBunny(farm, row, col);
   html += '</div>';
 
   return html;

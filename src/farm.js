@@ -1,5 +1,6 @@
 const Utils = require('./utils');
 const Crops = require('./crops');
+const PRNG = require('./prng');
 
 const MIN_CROP_STAGE = 1;
 const MAX_CROP_STAGE = 5;
@@ -200,6 +201,41 @@ const sell = (farm, action) => {
   return farm;
 };
 
+const bunny = (farm, action) => {
+  if (hasLand(farm, action, 'bunny')) {
+    const {row, col} = action;
+
+    const possible = PRNG.shuffle([{
+      row: row + 0,
+      col: col + 0,
+    }, {
+      row: row + 1,
+      col: col + 0,
+    }, {
+      row: row - 1,
+      col: col + 0,
+    }, {
+      row: row + 0,
+      col: col + 1,
+    }, {
+      row: row + 0,
+      col: col - 1,
+    }]
+    .filter((plot) => valid(farm, plot)));
+
+    if (possible.length) {
+      removeLand(farm, action, 'bunny');
+
+      action.row = possible[0].row;
+      action.col = possible[0].col;
+
+      addLand(farm, action, 'bunny');
+    }
+  }
+
+  return farm;
+};
+
 Farm.create = () => {
   const time = 0;
   const rows = 6;
@@ -220,6 +256,11 @@ Farm.create = () => {
       land[row][col] = [];
     }
   }
+
+  land[0][0] = [{
+    type: 'bunny',
+    time: 0,
+  }];
 
   return {
     time,
@@ -273,6 +314,9 @@ Farm.dispatch = (farm, action) => {
 
     case 'sell':
       return sell(farmCopy, actionCopy);
+
+    case 'bunny':
+      return bunny(farmCopy, actionCopy);
 
     default:
       return farmCopy;
@@ -329,5 +373,7 @@ Farm.crop = (farm, action) => getLand(farm, action, 'plant');
 Farm.watered = (farm, action) => getLand(farm, action, 'water');
 
 Farm.tilled = (farm, action) => getLand(farm, action, 'till');
+
+Farm.bunny = (farm, action) => getLand(farm, action, 'bunny');
 
 module.exports = Farm;
