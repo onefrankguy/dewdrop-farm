@@ -299,6 +299,12 @@ const hop = (farm) => {
       action.time = farm.time;
 
       addLand(farm, action, 'bunny');
+
+      const crop = Farm.crop(farm, action);
+
+      if (crop && crop.crop !== 'sprinkler') {
+        removeLand(farm, action, 'plant');
+      }
     }
   }
 
