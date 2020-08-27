@@ -14,6 +14,23 @@ const valid = (farm, {row, col}) =>
   && row >= 0 && row < farm.rows
   && col >= 0 && col < farm.cols;
 
+const isEdge = (farm) => ({row, col}) =>
+  row === 0 || row === farm.rows - 1 || col === 0 || col === farm.cols - 1;
+
+const getPlots = (farm) => {
+  const result = [];
+
+  for (let row = 0; row < farm.rows; row += 1) {
+    for (let col = 0; col < farm.cols; col += 1) {
+      result.push({row, col});
+    }
+  }
+
+  return result;
+};
+
+const getEdges = (farm) => getPlots(farm).filter(isEdge(farm));
+
 const getLand = (farm, {row, col}, someType) =>
   valid(farm, {row, col}) ? farm.land[row][col].find(({type}) => type === someType) : undefined;
 
@@ -36,8 +53,40 @@ const addLand = (farm, {row, col, crop, stage, time}, someType) => {
 const removeLand = (farm, {row, col}, someType) =>
   farm.land[row][col] = farm.land[row][col].filter(({type}) => type !== someType);
 
+const getBunny = (farm) => {
+  const plots = getPlots(farm);
+  const action = plots.find((plot) => hasLand(farm, plot, 'bunny'));
+
+  if (action) {
+    const rabbit = getLand(farm, action, 'bunny');
+
+    return {
+      ...action,
+      ...rabbit,
+    }
+  }
+
+  return undefined;
+};
+
 const update = (farm, action) => {
   farm.time += action.dt;
+
+  const bunnyAction = {
+    tool: 'bunny',
+    row: 0,
+    col: 0,
+  };
+
+  farm = Farm.dispatch(farm, bunnyAction);
+
+  const hopAction = {
+    tool: 'hop',
+    row: 0,
+    col: 0,
+  };
+
+  farm = Farm.dispatch(farm, hopAction);
 
   return farm;
 };
@@ -201,6 +250,19 @@ const sell = (farm, action) => {
   return farm;
 };
 
+const bunny = (farm) => {
+  const action = getBunny(farm);
+
+  if (!action) {
+    const edges = PRNG.shuffle(getEdges(farm));
+
+    addLand(farm, edges[0], 'bunny');
+  }
+
+  return farm;
+};
+
+/*
 const bunny = (farm, action) => {
   if (hasLand(farm, action, 'bunny')) {
     const {row, col} = action;
@@ -235,6 +297,7 @@ const bunny = (farm, action) => {
 
   return farm;
 };
+*/
 
 Farm.create = () => {
   const time = 0;
@@ -256,11 +319,6 @@ Farm.create = () => {
       land[row][col] = [];
     }
   }
-
-  land[0][0] = [{
-    type: 'bunny',
-    time: 0,
-  }];
 
   return {
     time,
@@ -323,17 +381,7 @@ Farm.dispatch = (farm, action) => {
   }
 };
 
-Farm.plots = (farm) => {
-  const result = [];
-
-  for (let row = 0; row < farm.rows; row += 1) {
-    for (let col = 0; col < farm.cols; col += 1) {
-      result.push({row, col});
-    }
-  }
-
-  return result;
-};
+Farm.plots = (farm) => getPlots(farm);
 
 Farm.adjacent = (farm, action) => {
   if (valid(farm, action)) {

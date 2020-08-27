@@ -61,8 +61,6 @@ const getDrainable = (farm, test) => getPlotList(farm, 'drainable', test);
 
 const getGrowable = (farm, test) => getPlotList(farm, 'growable', test);
 
-const getBunnyable = (farm, test) => getPlotList(farm, 'bunnyable', test);
-
 const update = (farm) => {
   getGrassable(farm, shouldGrass(farm)).forEach(({row, col}) => {
     const grassAction = {
@@ -102,16 +100,6 @@ const update = (farm) => {
     };
 
     farm = Rules.dispatch(farm, growAction);
-  });
-
-  getBunnyable(farm, shouldBunny(farm)).forEach(({row, col}) => {
-    const bunnyAction = {
-      tool: 'bunny',
-      row,
-      col,
-    };
-
-    farm = Rules.dispatch(farm, bunnyAction);
   });
 
   return farm;
@@ -180,9 +168,6 @@ const shouldGrow = (farm) => (action) => {
 
   return false;
 };
-
-const shouldBunny = (farm) => (action) =>
-  !!Farm.bunny(farm, action);
 
 Rules.dispatch = (farm, action) => {
   const actionCopy = Utils.clone(action);
