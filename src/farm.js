@@ -7,6 +7,10 @@ const MAX_CROP_STAGE = 5;
 const MAX_INVENTORY_SIZE = 4;
 const MAX_STACK_SIZE = 16;
 
+const SEASONS = ['summer', 'fall', 'winter', 'spring'];
+const DAYS_PER_SEASON = 28;
+const SECONDS_PER_DAY = (14 * 60 * 3) / SEASONS.length / DAYS_PER_SEASON;
+
 const Farm = {};
 
 const valid = (farm, {row, col}) =>
@@ -262,34 +266,37 @@ const bunny = (farm) => {
   return farm;
 };
 
-/*
-const bunny = (farm, action) => {
-  if (hasLand(farm, action, 'bunny')) {
-    const {row, col} = action;
+const hop = (farm) => {
+  const action = getBunny(farm);
 
-    const possible = PRNG.shuffle([{
-      row: row + 0,
-      col: col + 0,
-    }, {
-      row: row + 1,
-      col: col + 0,
-    }, {
-      row: row - 1,
-      col: col + 0,
-    }, {
-      row: row + 0,
-      col: col + 1,
-    }, {
-      row: row + 0,
-      col: col - 1,
-    }]
-    .filter((plot) => valid(farm, plot)));
+  if (action) {
+    const day = Math.ceil(farm.time / SECONDS_PER_DAY);
+    const lastHop = Math.ceil(action.time / SECONDS_PER_DAY);
+    const duration = day - lastHop;
 
-    if (possible.length) {
+    if (duration > 0) {
+      const {row, col} = action;
+
+      const possible = PRNG.shuffle([{
+        row: row + 1,
+        col: col + 0,
+      }, {
+        row: row - 1,
+        col: col + 0,
+      }, {
+        row: row + 0,
+        col: col + 1,
+      }, {
+        row: row + 0,
+        col: col - 1,
+      }]
+      .filter((plot) => valid(farm, plot)));
+
       removeLand(farm, action, 'bunny');
 
       action.row = possible[0].row;
       action.col = possible[0].col;
+      action.time = farm.time;
 
       addLand(farm, action, 'bunny');
     }
@@ -297,7 +304,6 @@ const bunny = (farm, action) => {
 
   return farm;
 };
-*/
 
 Farm.create = () => {
   const time = 0;
@@ -375,6 +381,9 @@ Farm.dispatch = (farm, action) => {
 
     case 'bunny':
       return bunny(farmCopy, actionCopy);
+
+    case 'hop':
+      return hop(farmCopy, actionCopy);
 
     default:
       return farmCopy;
