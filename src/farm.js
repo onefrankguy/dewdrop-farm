@@ -284,11 +284,15 @@ const sell = (farm, action) => {
 
 const bunny = (farm) => {
   const action = getBunny(farm);
+  const day = Math.ceil(farm.time / SECONDS_PER_DAY);
+  const lastBunny = Math.ceil(farm.bunny / SECONDS_PER_DAY);
+  const duration = day - lastBunny;
 
-  if (!action) {
+  if (!action && duration > 1) {
     const edges = PRNG.shuffle(getEdges(farm));
 
     addLand(farm, edges[0], 'bunny');
+    farm.bunny = farm.time;
   }
 
   return farm;
@@ -321,12 +325,14 @@ const hop = (farm) => {
       .filter((plot) => valid(farm, plot)));
 
       removeLand(farm, action, 'bunny');
+      farm.bunny = farm.time;
 
       action.row = possible[0].row;
       action.col = possible[0].col;
       action.time = farm.time;
 
       addLand(farm, action, 'bunny');
+      farm.bunny = farm.time;
 
       const crop = Farm.crop(farm, action);
 
@@ -348,6 +354,7 @@ const poke = (farm, action) => {
 
   if (isEdge(farm)(action)) {
     removeLand(farm, action, 'bunny');
+    farm.bunny = farm.time;
 
     return farm;
   }
@@ -362,6 +369,7 @@ const poke = (farm, action) => {
   });
 
   removeLand(farm, action, 'bunny');
+  farm.bunny = farm.time;
 
   const edge = edges[0];
 
@@ -380,6 +388,7 @@ const poke = (farm, action) => {
   action.time = farm.time;
 
   addLand(farm, action, 'bunny');
+  farm.bunny = farm.time;
 
   const crop = Farm.crop(farm, action);
 
@@ -398,6 +407,7 @@ Farm.create = () => {
   const market = {};
   const inventory = [];
   const cash = 500;
+  const bunny = 0;
 
   while (inventory.length < MAX_INVENTORY_SIZE) {
     inventory.push(undefined);
@@ -419,6 +429,7 @@ Farm.create = () => {
     market,
     inventory,
     cash,
+    bunny,
   };
 };
 
