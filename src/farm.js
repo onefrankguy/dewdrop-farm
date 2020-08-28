@@ -18,6 +18,13 @@ const valid = (farm, {row, col}) =>
   && row >= 0 && row < farm.rows
   && col >= 0 && col < farm.cols;
 
+const getDistance = (plot1, plot2) => {
+  const dx = plot2.col - plot1.col;
+  const dy = plot2.row - plot2.row;
+
+  return Math.abs(dx) + Math.abs(dy);
+};
+
 const isEdge = (farm) => ({row, col}) =>
   row === 0 || row === farm.rows - 1 || col === 0 || col === farm.cols - 1;
 
@@ -110,6 +117,13 @@ const hoe = (farm, action) => {
   removeLand(farm, action, 'till');
   addLand(farm, action, 'till');
 
+  const pokeAction = {
+    ...action,
+    tool: 'poke',
+  };
+
+  farm = Farm.dispatch(farm, pokeAction);
+
   return farm;
 };
 
@@ -124,6 +138,13 @@ const grass = (farm, action) => {
 const water = (farm, action) => {
   removeLand(farm, action, 'water');
   addLand(farm, action, 'water');
+
+  const pokeAction = {
+    ...action,
+    tool: 'poke',
+  };
+
+  farm = Farm.dispatch(farm, pokeAction);
 
   return farm;
 };
@@ -188,6 +209,13 @@ const plant = (farm, action) => {
       addLand(farm, action, 'plant');
     }
   }
+
+  const pokeAction = {
+    ...action,
+    tool: 'poke',
+  };
+
+  farm = Farm.dispatch(farm, pokeAction);
 
   return farm;
 };
@@ -311,6 +339,57 @@ const hop = (farm) => {
   return farm;
 };
 
+const poke = (farm, action) => {
+  const rabbit = Farm.bunny(farm, action);
+
+  if (!rabbit) {
+    return farm;
+  }
+
+  if (isEdge(farm)(action)) {
+    removeLand(farm, action, 'bunny');
+
+    return farm;
+  }
+
+  const edges = PRNG.shuffle(getEdges(farm));
+
+  edges.sort((a, b) => {
+    const da = getDistance(a, action);
+    const db = getDistance(b, action);
+
+    return da - db;
+  });
+
+  removeLand(farm, action, 'bunny');
+
+  const edge = edges[0];
+
+  if (edge.row < action.row) {
+    action.row -= 1;
+  } else if (edge.row > action.row) {
+    action.row += 1;
+  }
+
+  if (edge.col < action.col) {
+    action.col -= 1;
+  } else if (edge.col > action.col) {
+    action.col += 1;
+  }
+
+  action.time = farm.time;
+
+  addLand(farm, action, 'bunny');
+
+  const crop = Farm.crop(farm, action);
+
+  if (crop && crop.crop !== 'sprinkler') {
+    removeLand(farm, action, 'plant');
+  }
+
+  return farm;
+};
+
 Farm.create = () => {
   const time = 0;
   const rows = 6;
@@ -390,6 +469,9 @@ Farm.dispatch = (farm, action) => {
 
     case 'hop':
       return hop(farmCopy, actionCopy);
+
+    case 'poke':
+      return poke(farmCopy, actionCopy);
 
     default:
       return farmCopy;

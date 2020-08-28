@@ -171,6 +171,8 @@ const shouldGrow = (farm) => (action) => {
 
 Rules.dispatch = (farm, action) => {
   const actionCopy = Utils.clone(action);
+  actionCopy.row = parseInt(actionCopy.row, 10);
+  actionCopy.col = parseInt(actionCopy.col, 10);
 
   if (!action.time) {
     action.time = farm.time;
