@@ -1,5 +1,16 @@
 # Development Diary #
 
+## 27 August 2020 ##
+
+Day 15 of 31. 13,028 bytes used (97.87%).
+
+The bunny now longer jitters around the farm. Each time a new day starts, it
+hops one square. If you poke it with the hoe, the watering can, or seeds, it
+hops toward the edge of the farm. If it hops onto a crop, it eats that crop.
+
+Once the bunny gets to the edge of the farm, it hops off and you get a day
+without a bunny.
+
 ## 25 August 2020 ##
 
 Day 13 of 31. 12,686 bytes used (95.30%).
