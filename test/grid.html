@@ -42,7 +42,9 @@
         background-position-x: calc(-1 * 96px);
         background-position-y: calc(-0 * 96px);
       }
-
+      .rotate90 {
+        transform: rotate(90deg);
+      }
       .seed {
         display: grid;
         grid-template: 50% 50% / 50% 50%;
@@ -98,7 +100,7 @@
     </div>
     <div class="tile plot">
       <div class="tile till stage000 ground"></div>
-      <div class="tile water"></div>
+      <div class="tile water rotate90"></div>
       <div class="tile turnip stage5 crop"></div>
     </div>
   </body>

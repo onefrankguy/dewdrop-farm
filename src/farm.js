@@ -50,10 +50,11 @@ const getLand = (farm, {row, col}, someType) =>
 
 const hasLand = (farm, action, someType) => !!getLand(farm, action, someType);
 
-const addLand = (farm, {row, col, crop, stage, time, regrow}, someType) => {
+const addLand = (farm, {row, col, crop, stage, time, regrow, rotate}, someType) => {
   const land = {
     type: someType,
     time: time || farm.time,
+    rotate,
   };
 
   if (crop) {
@@ -186,12 +187,18 @@ const grass = (farm, action) => {
 };
 
 const water = (farm, action) => {
+  const watered = getLand(farm, action, 'water');
+  const rotate = (watered && watered.rotate) ? watered.rotate : PRNG.shuffle([90, 180, 270, 360])[0];
+
+  action.rotate = rotate;
+
   removeLand(farm, action, 'water');
   addLand(farm, action, 'water');
 
   const pokeAction = {
-    ...action,
     tool: 'poke',
+    row: action.row,
+    col: action.col,
   };
 
   farm = enqueue(farm, pokeAction);

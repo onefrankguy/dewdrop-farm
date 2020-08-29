@@ -86,9 +86,11 @@ const renderFarmPlotGround = (farm, row, col) => {
 
 const renderFarmPlotWater = (farm, row, col) => {
   let html = '';
+  const water = Farm.watered(farm, {row, col});
 
-  if (Farm.watered(farm, {row, col})) {
-    html += '<div class="tile water"></div>';
+  if (water) {
+    const klasses = ['tile', 'water', water.rotate ? `rotate${water.rotate}` : ''];
+    html += `<div class="${renderClasses(klasses)}"></div>`;
   }
 
   return html;
