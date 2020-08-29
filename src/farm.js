@@ -287,14 +287,23 @@ const plant = (farm, action) => {
 const grow = (farm, action) => {
   const plant = getLand(farm, action, 'plant');
 
-  if (plant && plant.stage < MAX_CROP_STAGE) {
-    action.crop = plant.crop;
-    action.stage = plant.stage + 1;
-    action.time = plant.time;
-
-    removeLand(farm, action, 'plant');
-    addLand(farm, action, 'plant');
+  if (!plant || plant.stage >= MAX_CROP_STAGE) {
+    return farm;
   }
+
+  const info = Crops.info(plant.crop);
+  const season = Farm.season(farm);
+
+  if (!info.seasons.includes(season)) {
+    return farm;
+  }
+
+  action.crop = plant.crop;
+  action.stage = plant.stage + 1;
+  action.time = plant.time;
+
+  removeLand(farm, action, 'plant');
+  addLand(farm, action, 'plant');
 
   return farm;
 };
@@ -599,5 +608,13 @@ Farm.watered = (farm, action) => getLand(farm, action, 'water');
 Farm.tilled = (farm, action) => getLand(farm, action, 'till');
 
 Farm.bunny = (farm, action) => getLand(farm, action, 'bunny');
+
+Farm.season = (farm) => {
+  const index = Math.floor(farm.time / SECONDS_PER_DAY / DAYS_PER_SEASON) % SEASONS.length;
+
+  return SEASONS[index];
+};
+
+Farm.day = (farm) => Math.ceil((farm.time / SECONDS_PER_DAY) % DAYS_PER_SEASON);
 
 module.exports = Farm;

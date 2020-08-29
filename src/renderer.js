@@ -8,8 +8,8 @@ const renderClasses = (klasses) =>
   klasses.filter((klass) => klass).join(' ').trim();
 
 const renderTime = (farm) => {
-  const day = Rules.day(farm);
-  const season = Rules.season(farm);
+  const day = Farm.day(farm);
+  const season = Farm.season(farm);
 
   return `Day ${day} of <span class="capitalize">${season}</span>`;
 };

@@ -97,6 +97,11 @@ a, a:visited {
   grid-area: 1 / 1 / -1 / -1;
 }
 
+.plot > .crop,
+.plot > .animal {
+  z-index: 1;
+}
+
 .stage0000 {
   background-position-x: (-5 * $tileWidth);
   background-position-y: (-20 * $tileHeight);

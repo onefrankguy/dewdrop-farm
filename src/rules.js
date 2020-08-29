@@ -189,16 +189,8 @@ Rules.dispatch = (farm, action) => {
   }
 };
 
-Rules.season = (farm) => {
-  const index = Math.floor(farm.time / SECONDS_PER_DAY / DAYS_PER_SEASON) % SEASONS.length;
-
-  return SEASONS[index];
-};
-
-Rules.day = (farm) => Math.ceil((farm.time / SECONDS_PER_DAY) % DAYS_PER_SEASON);
-
 Rules.store = (farm) => {
-  const season = Rules.season(farm);
+  const season = Farm.season(farm);
   const seasonalCrops = Crops.seasonal(season);
 
   return seasonalCrops.map(Crops.info);
