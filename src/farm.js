@@ -83,7 +83,20 @@ const getBunny = (farm) => {
   return undefined;
 };
 
+const enqueue = (farm, action) => {
+  farm.actions.push(action);
+
+  return farm;
+};
+
 const update = (farm, action) => {
+  const actions = farm.actions.slice().filter(({tool}) => tool !== 'update');
+  farm.actions = [];
+
+  actions.forEach((action) => {
+    farm = Farm.dispatch(farm, action);
+  });
+
   farm.time += action.dt;
   farm.bunny -= action.dt;
 
@@ -93,7 +106,7 @@ const update = (farm, action) => {
     col: 0,
   };
 
-  farm = Farm.dispatch(farm, bunnyAction);
+  farm = enqueue(farm, bunnyAction);
 
   const hopAction = {
     tool: 'hop',
@@ -101,7 +114,7 @@ const update = (farm, action) => {
     col: 0,
   };
 
-  farm = Farm.dispatch(farm, hopAction);
+  farm = enqueue(farm, hopAction);
 
   return farm;
 };
@@ -126,7 +139,7 @@ const hoe = (farm, action) => {
     tool: 'poke',
   };
 
-  farm = Farm.dispatch(farm, pokeAction);
+  farm = enqueue(farm, pokeAction);
 
   return farm;
 };
@@ -148,7 +161,7 @@ const water = (farm, action) => {
     tool: 'poke',
   };
 
-  farm = Farm.dispatch(farm, pokeAction);
+  farm = enqueue(farm, pokeAction);
 
   return farm;
 };
@@ -182,7 +195,7 @@ const sprinkler = (farm, action) => {
         col,
       };
 
-      farm = Farm.dispatch(farm, waterAction);
+      farm = enqueue(farm, waterAction);
     });
   }
 
@@ -219,7 +232,7 @@ const plant = (farm, action) => {
     tool: 'poke',
   };
 
-  farm = Farm.dispatch(farm, pokeAction);
+  farm = enqueue(farm, pokeAction);
 
   return farm;
 };
@@ -293,7 +306,6 @@ const bunny = (farm) => {
     const plots = PRNG.shuffle(getPlots(farm).filter(isNotEdge(farm)));
 
     addLand(farm, plots[0], 'bunny');
-    farm.bunny = 1 * SECONDS_PER_DAY;
   }
 
   return farm;
@@ -353,6 +365,7 @@ const poke = (farm, action) => {
 
   if (isEdge(farm)(action)) {
     removeLand(farm, action, 'bunny');
+    farm.bunny = 1 * SECONDS_PER_DAY;
 
     return farm;
   }
@@ -395,38 +408,37 @@ const poke = (farm, action) => {
   return farm;
 };
 
-Farm.create = () => {
-  const time = 0;
-  const rows = 6;
-  const cols = 6;
-  const land = [];
-  const market = {};
-  const inventory = [];
-  const cash = 500;
-  const bunny = 1 * SECONDS_PER_DAY;
+Farm.create = (options = {}) => {
+  const defaults = {
+    actions: [],
+    time: 0,
+    rows: 6,
+    cols: 6,
+    land: [],
+    market: {},
+    inventory: [],
+    cash: 500,
+    bunny: 1 * SECONDS_PER_DAY,
+  };
 
-  while (inventory.length < MAX_INVENTORY_SIZE) {
-    inventory.push(undefined);
+  const farm = {
+    ...defaults,
+    ...options,
+  };
+
+  while (farm.inventory.length < MAX_INVENTORY_SIZE) {
+    farm.inventory.push(undefined);
   }
 
-  for (let row = 0; row < rows; row += 1) {
-    land[row] = [];
+  for (let row = 0; row < farm.rows; row += 1) {
+    farm.land[row] = [];
 
-    for (let col = 0; col < cols; col += 1) {
-      land[row][col] = [];
+    for (let col = 0; col < farm.cols; col += 1) {
+      farm.land[row][col] = [];
     }
   }
 
-  return {
-    time,
-    rows,
-    cols,
-    land,
-    market,
-    inventory,
-    cash,
-    bunny,
-  };
+  return farm;
 };
 
 Farm.dispatch = (farm, action) => {

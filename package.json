@@ -4,6 +4,7 @@
   "license": "MIT",
   "version": "1.0.0",
   "scripts": {
+    "test": "jest",
     "predev": "rm -f dist/*",
     "dev": "webpack-dev-server --mode development",
     "prebuild": "rm -f dist/*",
@@ -19,6 +20,7 @@
     "file-loader": "6.0.0",
     "html-webpack-plugin": "4.3.0",
     "image-webpack-loader": "6.0.0",
+    "jest": "26.4.2",
     "mini-css-extract-plugin": "0.10.0",
     "optipng": "2.2.0",
     "pngquant": "3.1.0",
