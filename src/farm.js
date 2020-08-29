@@ -50,7 +50,7 @@ const getLand = (farm, {row, col}, someType) =>
 
 const hasLand = (farm, action, someType) => !!getLand(farm, action, someType);
 
-const addLand = (farm, {row, col, crop, stage, time}, someType) => {
+const addLand = (farm, {row, col, crop, stage, time, regrow}, someType) => {
   const land = {
     type: someType,
     time: time || farm.time,
@@ -59,6 +59,7 @@ const addLand = (farm, {row, col, crop, stage, time}, someType) => {
   if (crop) {
     land.crop = crop;
     land.stage = stage || MIN_CROP_STAGE;
+    land.regrow = regrow;
   }
 
   farm.land[row][col].push(land);
@@ -115,6 +116,38 @@ const update = (farm, action) => {
   };
 
   farm = enqueue(farm, hopAction);
+
+  return farm;
+};
+
+const harvest = (farm, action) => {
+  const plant = getLand(farm, action, 'plant');
+
+  if (plant && plant.crop !== 'sprinkler') {
+    if (plant.stage >= MAX_CROP_STAGE) {
+      removeLand(farm, action, 'plant');
+
+      if (!farm.market[plant.crop]) {
+        farm.market[plant.crop] = 0;
+      }
+      farm.market[plant.crop] += 1;
+
+      const info = Crops.info(plant.crop);
+
+      if (info.regrow) {
+        const plantAction = {
+          type: 'plant',
+          row: action.row,
+          col: action.col,
+          crop: plant.crop,
+          regrow: info.regrow,
+          stage: MAX_CROP_STAGE - 1,
+        };
+
+        addLand(farm, plantAction, 'plant');
+      }
+    }
+  }
 
   return farm;
 };
@@ -233,6 +266,13 @@ const plant = (farm, action) => {
   };
 
   farm = enqueue(farm, pokeAction);
+
+  const harvestAction = {
+    ...action,
+    tool: 'harvest',
+  };
+
+  farm = enqueue(farm, harvestAction);
 
   return farm;
 };
@@ -459,6 +499,9 @@ Farm.dispatch = (farm, action) => {
   switch (actionCopy.tool) {
     case 'update':
       return update(farmCopy, actionCopy);
+
+    case 'harvest':
+      return harvest(farmCopy, actionCopy);
 
     case 'hoe':
       return hoe(farmCopy, actionCopy);

@@ -93,10 +93,10 @@ const dictionary = {
     seed: 'pit',
     seasons: ['spring', 'summer'],
     prices: {
-      crop: 260,
-      seed: 100,
+      crop: 90,
+      seed: 40,
     },
-    stages: [0, 2, 1, 2, 2, 2],
+    stages: [0, 2, 1, 2, 1, 1],
   },
   sprinkler: {
     seed: '',
@@ -123,8 +123,12 @@ Crops.info = (type) => {
   return crop;
 };
 
-Crops.days = (({crop, stage}, adjust = (value) => value) => {
+Crops.days = (({crop, stage, regrow}, adjust = (value) => value) => {
   const info = Crops.info(crop);
+
+  if (regrow) {
+    info.stages = [regrow];
+  }
 
   let result = 0;
 
