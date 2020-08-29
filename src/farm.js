@@ -311,6 +311,23 @@ const bunny = (farm) => {
   return farm;
 };
 
+const move = (farm, action) => {
+  const rabbit = getBunny(farm);
+
+  if (rabbit) {
+    removeLand(farm, rabbit, 'bunny');
+    addLand(farm, action, 'bunny');
+
+    const crop = Farm.crop(farm, action);
+
+    if (crop && crop.crop !== 'sprinkler') {
+      removeLand(farm, action, 'plant');
+    }
+  }
+
+  return farm;
+};
+
 const hop = (farm) => {
   const action = getBunny(farm);
 
@@ -337,19 +354,12 @@ const hop = (farm) => {
       }]
       .filter((plot) => valid(farm, plot)));
 
-      removeLand(farm, action, 'bunny');
+      const moveAction = {
+        tool: 'move',
+        ...possible[0],
+      };
 
-      action.row = possible[0].row;
-      action.col = possible[0].col;
-      action.time = farm.time;
-
-      addLand(farm, action, 'bunny');
-
-      const crop = Farm.crop(farm, action);
-
-      if (crop && crop.crop !== 'sprinkler') {
-        removeLand(farm, action, 'plant');
-      }
+      farm = enqueue(farm, moveAction);
     }
   }
 
@@ -379,31 +389,28 @@ const poke = (farm, action) => {
     return da - db;
   });
 
-  removeLand(farm, action, 'bunny');
-
   const edge = edges[0];
+  let {row, col} = action;
 
-  if (edge.row < action.row) {
-    action.row -= 1;
-  } else if (edge.row > action.row) {
-    action.row += 1;
+  if (edge.row < row) {
+    row -= 1;
+  } else if (edge.row > row) {
+    row += 1;
   }
 
-  if (edge.col < action.col) {
-    action.col -= 1;
-  } else if (edge.col > action.col) {
-    action.col += 1;
+  if (edge.col < col) {
+    col -= 1;
+  } else if (edge.col > col) {
+    col += 1;
   }
 
-  action.time = farm.time;
+  const moveAction = {
+    tool: 'move',
+    row,
+    col,
+  };
 
-  addLand(farm, action, 'bunny');
-
-  const crop = Farm.crop(farm, action);
-
-  if (crop && crop.crop !== 'sprinkler') {
-    removeLand(farm, action, 'plant');
-  }
+  farm = enqueue(farm, moveAction);
 
   return farm;
 };
@@ -482,6 +489,9 @@ Farm.dispatch = (farm, action) => {
 
     case 'sell':
       return sell(farmCopy, actionCopy);
+
+    case 'move':
+      return move(farmCopy, actionCopy);
 
     case 'bunny':
       return bunny(farmCopy, actionCopy);

@@ -111,3 +111,110 @@ test('Farm#dispatch update dispatches queued actions', () => {
     col: 0,
   }]);
 });
+
+test('Farm#dispatch poke scares the bunny', () => {
+  const action = {
+    tool: 'poke',
+    row: 1,
+    col: 2,
+  };
+
+  const bunny = {
+    type: 'bunny',
+    time: 0,
+  };
+
+  let farm = Farm.create();
+  farm.land[1][2] = [bunny];
+  farm.bunny = 0;
+
+  farm = Farm.dispatch(farm, action);
+
+  expect(farm.bunny).toEqual(0);
+  expect(farm.land[1][2]).toEqual([bunny]);
+  expect(farm.land[0][2]).toEqual([]);
+  expect(farm.actions).toEqual([{
+    tool: 'move',
+    row: 0,
+    col: 2,
+  }]);
+});
+
+test('Farm#dispatch poke scares the bunny away', () => {
+  const action = {
+    tool: 'poke',
+    row: 0,
+    col: 2,
+  };
+
+  const bunny = {
+    type: 'bunny',
+    time: 0,
+  };
+
+  let farm = Farm.create();
+  farm.land[0][2] = [bunny];
+  farm.bunny = 0;
+
+  farm = Farm.dispatch(farm, action);
+
+  expect(farm.bunny).toBeGreaterThan(0);
+  expect(farm.land[0][2]).toEqual([]);
+  expect(farm.actions).toEqual([]);
+});
+
+test('Farm#dispatch move destroys crops', () => {
+  const action = {
+    tool: 'move',
+    row: 0,
+    col: 0,
+  };
+
+  const plant = {
+    type: 'plant',
+    crop: 'corn',
+  };
+
+  const bunny = {
+    type: 'bunny',
+    time: 0,
+  };
+
+  let farm = Farm.create();
+  farm.land[0][0] = [plant]
+  farm.land[1][1] = [bunny];
+
+  farm = Farm.dispatch(farm, action);
+
+  expect(farm.land[0][0]).toEqual([bunny]);
+  expect(farm.land[1][1]).toEqual([]);
+  expect(farm.actions).toEqual([]);
+});
+
+test('Farm#dispatch move keeps sprinklers', () => {
+  const action = {
+    tool: 'move',
+    row: 0,
+    col: 0,
+  };
+
+  const plant = {
+    type: 'plant',
+    crop: 'sprinkler',
+  };
+
+  const bunny = {
+    type: 'bunny',
+    time: 0,
+  };
+
+  let farm = Farm.create();
+  farm.land[0][0] = [plant]
+  farm.land[1][1] = [bunny];
+
+  farm = Farm.dispatch(farm, action);
+
+  expect(farm.land[0][0]).toEqual([plant, bunny]);
+  expect(farm.land[1][1]).toEqual([]);
+  expect(farm.actions).toEqual([]);
+});
