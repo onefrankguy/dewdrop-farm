@@ -393,25 +393,48 @@ $itemDetailBackground: rgb(219, 164, 99);
   justify-content: space-around;
 }
 
+$buttonBackground: rgb(255, 213, 65);
+$buttonEdgeLight: rgb(249, 163, 27);
+$buttonEdgeDark: rgb(250, 106, 10);
+$buttonBorder: rgb(115, 23, 45);
+$buttonShadowLight: rgb(74, 84, 98);
+$buttonShadowDark: rgb(20, 16, 19);
+$buttonHighlight: rgb(227, 230, 255);
+
 .button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  place-items: center;
+  font-variant: small-caps;
+  font-weight: bold;
   width: 4.4rem;
   height: (4.4rem / 1.618);
   margin: 0.4rem;
-  border: 0.1rem solid black;
+  background: $buttonBackground;
   border-radius: 0.4rem;
-  color: black;
-  background: #fcd947;
-  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.75);
-  box-shadow: 2px 2px #e8ab27, 6px 6px black;
-  transition: all 100ms ease;
-}
+  border-top: 0.1rem solid $buttonEdgeLight;
+  border-right: 0.1rem solid $buttonEdgeDark;
+  border-bottom: 0.1rem solid $buttonEdgeDark;
+  border-left: 0.1rem solid $buttonEdgeLight;
+  box-shadow: 0.2rem 0.2rem $buttonShadowDark, 0.4rem 0.4rem $buttonShadowLight;
+  transition: all 0.1s ease;
 
-.button.active {
-  transform: translateX(4px) translateY(4px);
-  box-shadow: 0px 0px #e8ab27, 0px 0px black;
+  &:before {
+    content: '';
+    width: calc(100% + (0.1rem * 2));
+    height: calc(100% + (0.1rem * 2));
+    grid-area: 1 / 1 / -1 / -1;
+    border: 0.1rem solid $buttonBorder;
+    border-radius: 0.4rem;
+  }
+
+  > .label {
+    grid-area: 1 / 1 / -1 / -1;
+  }
+
+  &.active {
+    transform: translate(0.2rem, 0.2rem);
+    box-shadow: 0 0 $buttonShadowDark, 0 0 $buttonShadowLight;
+  }
 }
 
 /* COLOPHON */
