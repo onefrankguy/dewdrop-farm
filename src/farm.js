@@ -20,13 +20,16 @@ const valid = (farm, {row, col}) =>
 
 const getDistance = (plot1, plot2) => {
   const dx = plot2.col - plot1.col;
-  const dy = plot2.row - plot2.row;
+  const dy = plot2.row - plot1.row;
 
   return Math.abs(dx) + Math.abs(dy);
 };
 
 const isEdge = (farm) => ({row, col}) =>
-  row === 0 || row === farm.rows - 1 || col === 0 || col === farm.cols - 1;
+  row <= 0 || row >= farm.rows - 1 || col <= 0 || col >= farm.cols - 1;
+
+const isNotEdge = (farm) => ({row, col}) =>
+  row > 0 && row < farm.rows - 1 && col > 0 && col < farm.rows - 1;
 
 const getPlots = (farm) => {
   const result = [];
@@ -82,6 +85,7 @@ const getBunny = (farm) => {
 
 const update = (farm, action) => {
   farm.time += action.dt;
+  farm.bunny -= action.dt;
 
   const bunnyAction = {
     tool: 'bunny',
@@ -284,15 +288,12 @@ const sell = (farm, action) => {
 
 const bunny = (farm) => {
   const action = getBunny(farm);
-  const day = Math.ceil(farm.time / SECONDS_PER_DAY);
-  const lastBunny = Math.ceil(farm.bunny / SECONDS_PER_DAY);
-  const duration = day - lastBunny;
 
-  if (!action && duration > 1) {
-    const edges = PRNG.shuffle(getEdges(farm));
+  if (!action && farm.bunny <= 0) {
+    const plots = PRNG.shuffle(getPlots(farm).filter(isNotEdge(farm)));
 
-    addLand(farm, edges[0], 'bunny');
-    farm.bunny = farm.time;
+    addLand(farm, plots[0], 'bunny');
+    farm.bunny = 1 * SECONDS_PER_DAY;
   }
 
   return farm;
@@ -325,14 +326,12 @@ const hop = (farm) => {
       .filter((plot) => valid(farm, plot)));
 
       removeLand(farm, action, 'bunny');
-      farm.bunny = farm.time;
 
       action.row = possible[0].row;
       action.col = possible[0].col;
       action.time = farm.time;
 
       addLand(farm, action, 'bunny');
-      farm.bunny = farm.time;
 
       const crop = Farm.crop(farm, action);
 
@@ -354,7 +353,6 @@ const poke = (farm, action) => {
 
   if (isEdge(farm)(action)) {
     removeLand(farm, action, 'bunny');
-    farm.bunny = farm.time;
 
     return farm;
   }
@@ -369,7 +367,6 @@ const poke = (farm, action) => {
   });
 
   removeLand(farm, action, 'bunny');
-  farm.bunny = farm.time;
 
   const edge = edges[0];
 
@@ -388,7 +385,6 @@ const poke = (farm, action) => {
   action.time = farm.time;
 
   addLand(farm, action, 'bunny');
-  farm.bunny = farm.time;
 
   const crop = Farm.crop(farm, action);
 
@@ -407,7 +403,7 @@ Farm.create = () => {
   const market = {};
   const inventory = [];
   const cash = 500;
-  const bunny = 0;
+  const bunny = 1 * SECONDS_PER_DAY;
 
   while (inventory.length < MAX_INVENTORY_SIZE) {
     inventory.push(undefined);
