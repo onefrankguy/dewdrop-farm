@@ -50,6 +50,7 @@ Fn.prototype.click = function click(start, move, end) {
     const startEventName = hasMouse ? 'mousedown' : 'touchstart';
     const moveEventName = hasMouse ? 'mousemove' : 'touchmove';
     const endEventName = hasMouse ? 'mouseup' : 'touchend';
+    const contextEventName = 'contextmenu';
 
     const onMove = (moveEvent) => {
       if (that.canHandleMove) {
@@ -70,6 +71,7 @@ Fn.prototype.click = function click(start, move, end) {
 
       document.removeEventListener(moveEventName, onMove);
       document.removeEventListener(endEventName, onEnd);
+      document.removeEventListener(contextEventName, onEnd);
     };
 
     const onStart = (startEvent) => {
@@ -81,6 +83,7 @@ Fn.prototype.click = function click(start, move, end) {
 
       document.addEventListener(moveEventName, onMove);
       document.addEventListener(endEventName, onEnd);
+      document.addEventListener(contextEventName, onEnd);
     };
 
     this.element.addEventListener(startEventName, onStart);
