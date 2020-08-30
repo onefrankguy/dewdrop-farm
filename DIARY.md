@@ -1,5 +1,19 @@
 # Development Diary #
 
+## 29 August 2020 ##
+
+Day 17 of 31. 13,371 bytes used (100.44%).
+
+Crops will regrow if they're havested with seeds. Harvesting them with the
+hoe still destroys them. Crops also stop growing if they're out of season.
+The water texture is now randomly rotate. It look so much better! I'm thinking
+of doing that for the grass too.
+
+I think I want to move harvested crops into the inventory. It'll provide a
+reason for the market to exist and add an element of inventory management.
+I'm also thinking land expansion might be the way to go in terms of purchased
+upgrades. Start with a 4x4 farm. Grow it to 4x6. Grow it to 6x6.
+
 ## 27 August 2020 ##
 
 Day 15 of 31. 13,028 bytes used (97.87%).
