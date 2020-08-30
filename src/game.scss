@@ -12,6 +12,11 @@ $tileHeight: 4.8rem;
   }
 }
 
+@mixin textWithShadow() {
+  font-size: 1.6rem;
+  text-shadow: 0.05rem 0.05rem 0.1rem rgb(18, 32, 32);
+}
+
 /* RESET */
 * {
   cursor: default;
@@ -221,10 +226,7 @@ a, a:visited {
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-size: 1.6rem;
-  color: rgb(59, 23, 37);
-  text-shadow: 0.05rem 0.05rem 0.1rem rgb(254, 243, 192, .5);
-  text-shadow: 0.05rem 0.05rem 0.1rem rgb(18, 32, 32);
+  @include textWithShadow();
 
   .tile {
     margin-left: 0.4rem;
@@ -263,9 +265,8 @@ $itemDetailBackground: rgb(219, 164, 99);
       padding: 0 0 0.4rem 0.4rem;
 
       .name {
-        font-size: 1.6rem;
         margin-left: 0.4rem;
-        text-shadow: 0.05rem 0.05rem 0.1rem rgb(18, 32, 32);
+        @include textWithShadow();
       }
 
       .amount {
@@ -336,8 +337,7 @@ $itemDetailBackground: rgb(219, 164, 99);
   align-items: center;
   width: ($tileWidth / 2);
   height: ($tileHeight / 2);
-  font-size: 1.6rem;
-  text-shadow: 0.05rem 0.05rem 0.1rem rgb(18, 32, 32);
+  @include textWithShadow();
   background: rgb(18, 32, 32);
   border-radius: 50%;
 
