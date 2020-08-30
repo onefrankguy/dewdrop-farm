@@ -362,16 +362,6 @@ $itemDetailBackground: rgb(219, 164, 99);
   border: 0.1rem solid $storeBorder;
   padding: 0.1rem;
 
-  .seeds {
-    position: relative;
-
-    .amount {
-      position: absolute;
-      left: 0;
-      bottom: 0;
-    }
-  }
-
   $itemShadow: rgb(160, 134, 98);
   $itemHighlight: rgb(254, 243, 192);
   $itemActiveShadow: rgb(115, 23, 45);
@@ -390,6 +380,18 @@ $itemDetailBackground: rgb(219, 164, 99);
     border-bottom: $itemBorderSize solid $itemHighlight;
     border-left: $itemBorderSize solid $itemShadow;
     border-radius: 0.4rem;
+    display: grid;
+    grid-template: 50% 50% / 50% 50%;
+
+    > .tool,
+    > .crop,
+    > .seeds {
+      grid-area: 1 / 1 / -1 / -1;
+    }
+
+    > .sticker {
+      grid-area: 2 / 1 / 2 / 1;
+    }
   }
 
   .slot .item.active {

@@ -26,12 +26,20 @@ const renderCash = (cash) => {
 
 const renderInventoryItem = (item) => {
   let html = '';
-  html += '<span class="row tile seeds">';
-  if (+item.amount > 0) {
-    html += `<span class="row amount sticker"><span class="inner">${item.amount}</span></span>`;
+
+  if (item.seed) {
+    html += '<span class="tile seeds"></span>';
+    if (+item.amount > 0) {
+      html += `<span class="tile amount sticker"><span class="inner">${item.amount}</span></span>`;
+    }
+    html += `<span class="tile ${item.type} stage6 crop small"></span>`;
+  } else {
+    if (+item.amount > 0) {
+      html += `<span class="tile amount sticker"><span class="inner">${item.amount}</span></span>`;
+    }
+    html += `<span class="tile ${item.type} stage6 crop"></span>`;
   }
-  html += `<span class="tile ${item.type} stage6 small"></span>`;
-  html += '</span>';
+
   return html;
 };
 

@@ -88,6 +88,8 @@ const getBunny = (farm) => {
   return action ? getLand(farm, action, 'bunny') : undefined;
 };
 
+const getBunnyTime = () => 10000 * SECONDS_PER_DAY;
+
 const clearEmptyItems = (farm) => {
   for (let i = 0; i < farm.inventory.length; i += 1) {
     if (farm.inventory[i] && !farm.inventory[i].amount) {
@@ -105,7 +107,7 @@ const addItem = (farm, item) => {
     return slot
       && !!slot.seed === !!item.seed
       && slot.type === item.type
-      && slot.amount + item.amount < MAX_STACK_SIZE;
+      && slot.amount + item.amount <= MAX_STACK_SIZE;
   });
 
   if (slotIndex < 0) {
@@ -120,7 +122,7 @@ const addItem = (farm, item) => {
       };
     }
 
-    if (farm.inventory[slotIndex].amount + item.amount < MAX_STACK_SIZE) {
+    if (farm.inventory[slotIndex].amount + item.amount <= MAX_STACK_SIZE) {
       farm.inventory[slotIndex].amount += item.amount;
       added = true;
     }
@@ -136,10 +138,11 @@ const removeItem = (farm, item) => {
 
   clearEmptyItems(farm);
 
-  let slotIndex = farm.inventory.findIndex((slot) => {
+  let slotIndex = farm.inventory.findIndex((slot, index) => {
     return slot
       && !!slot.seed === !!item.seed
-      && slot.type === item.type;
+      && slot.type === item.type
+      && (item.index !== undefined ? (index === item.index) : true);
   });
 
   if (slotIndex >= 0 && slotIndex < MAX_INVENTORY_SIZE) {
@@ -335,11 +338,12 @@ const plant = (farm, action) => {
   if (hasLand(farm, action, 'till') && !hasLand(farm, action, 'plant')) {
     const slot = farm.inventory[action.slot];
 
-    if (slot && slot.seed && slot.amount > 0) {
+    if (slot) {
       const item = {
         type: slot.type,
         amount: 1,
         seed: true,
+        index: action.slot,
       };
 
       if (removeItem(farm, item)) {
@@ -487,7 +491,7 @@ const poke = (farm, action) => {
 
   if (isEdge(farm)(action)) {
     removeLand(farm, action, 'bunny');
-    farm.bunny = 1 * SECONDS_PER_DAY;
+    farm.bunny = getBunnyTime();
 
     return farm;
   }
@@ -537,7 +541,7 @@ Farm.create = (options = {}) => {
     market: {},
     inventory: [],
     cash: 500,
-    bunny: 1 * SECONDS_PER_DAY,
+    bunny: getBunnyTime(),
   };
 
   const farm = {
@@ -559,13 +563,13 @@ Farm.create = (options = {}) => {
 
   farm.inventory[0] = {
     type: 'chile',
-    amount: 10,
+    amount: MAX_STACK_SIZE,
     seed: true,
   };
 
   farm.inventory[1] = {
     type: 'avocado',
-    amount: 10,
+    amount: MAX_STACK_SIZE,
     seed: false,
   };
 
