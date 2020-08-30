@@ -13,7 +13,9 @@ const SEASONS = ['spring', 'summer', 'fall', 'winter'];
 const DAYS_PER_SEASON = 28;
 const SECONDS_PER_DAY = (14 * 60 * 3) / SEASONS.length / DAYS_PER_SEASON;
 
-const Farm = {};
+const Farm = {
+  SECONDS_PER_DAY,
+};
 
 const valid = (farm, {row, col}) =>
   farm
@@ -267,8 +269,6 @@ const harvest = (farm, action) => {
 const hoe = (farm, action) => {
   const plant = getLand(farm, action, 'plant');
   if (plant) {
-    removeLand(farm, action, 'plant');
-
     if (plant.stage >= MAX_CROP_STAGE) {
       const item = {
         type: plant.crop,
@@ -276,7 +276,21 @@ const hoe = (farm, action) => {
         seed: false,
       };
 
-      addItem(farm, item);
+      if (addItem(farm, item)) {
+        removeLand(farm, action, 'plant');
+      }
+    } else {
+      removeLand(farm, action, 'plant');
+
+      if (plant.stage >= MIN_CROP_STAGE && PRNG.pick([true, false])) {
+        const item = {
+          type: plant.crop,
+          amount: 1,
+          seed: true,
+        };
+
+        addItem(farm, item);
+      }
     }
   }
 
@@ -284,8 +298,9 @@ const hoe = (farm, action) => {
   addLand(farm, action, 'till');
 
   const pokeAction = {
-    ...action,
     tool: 'poke',
+    row: action.row,
+    col: action.col,
   };
 
   farm = enqueue(farm, pokeAction);

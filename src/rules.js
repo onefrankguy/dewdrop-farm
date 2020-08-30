@@ -3,10 +3,6 @@ const PRNG = require('./prng');
 const Farm = require('./farm');
 const Crops = require('./crops');
 
-const SEASONS = ['spring', 'summer', 'fall', 'winter'];
-const DAYS_PER_SEASON = 28;
-const SECONDS_PER_DAY = (14 * 60 * 3) / SEASONS.length / DAYS_PER_SEASON;
-
 const Rules = {};
 
 const plotLists = {};
@@ -16,11 +12,11 @@ const getPlotList = (farm, type, test) => {
     plotLists[type] = {};
   }
 
-  const day = Math.floor(farm.time / SECONDS_PER_DAY);
+  const day = Math.floor(farm.time / Farm.SECONDS_PER_DAY);
 
   if (plotLists[type].day !== day) {
     let plots = PRNG.shuffle(Farm.plots(farm));
-    const dt = SECONDS_PER_DAY / plots.length;
+    const dt = Farm.SECONDS_PER_DAY / plots.length;
     plots = plots.map((plot, index) => {
       const min = dt * (index + 0);
       const max = dt * (index + 1);
@@ -37,7 +33,7 @@ const getPlotList = (farm, type, test) => {
     plotLists[type].plots = plots;
   }
 
-  const farmTime = farm.time - (day * SECONDS_PER_DAY);
+  const farmTime = farm.time - (day * Farm.SECONDS_PER_DAY);
   const plots = [];
   const remaining = [];
 
@@ -106,11 +102,11 @@ const update = (farm) => {
 };
 
 const shouldGrass = (farm) => (action) => {
-  const day = Math.ceil(farm.time / SECONDS_PER_DAY);
+  const day = Math.ceil(farm.time / Farm.SECONDS_PER_DAY);
   const tilled = Farm.tilled(farm, action);
 
   if (tilled) {
-    const dayTilled = Math.ceil(tilled.time / SECONDS_PER_DAY);
+    const dayTilled = Math.ceil(tilled.time / Farm.SECONDS_PER_DAY);
     const duration = day - dayTilled;
     const adjacent = Farm.adjacent(farm, action, false);
     const fallow = adjacent.filter((action) => !Farm.tilled(farm, action));
@@ -124,12 +120,12 @@ const shouldGrass = (farm) => (action) => {
 };
 
 const shouldSprinkler = (farm) => (action) => {
-  const day = Math.ceil(farm.time / SECONDS_PER_DAY);
+  const day = Math.ceil(farm.time / Farm.SECONDS_PER_DAY);
   const crop = Farm.crop(farm, action);
 
   if (crop && crop.crop === 'sprinkler') {
     const watered = Farm.watered(farm, action);
-    const dayWatered = watered ? Math.ceil(watered.time / SECONDS_PER_DAY) : 0;
+    const dayWatered = watered ? Math.ceil(watered.time / Farm.SECONDS_PER_DAY) : 0;
     const duration = day - dayWatered;
 
     return duration > 0;
@@ -139,11 +135,11 @@ const shouldSprinkler = (farm) => (action) => {
 };
 
 const shouldDrain = (farm) => (action) => {
-  const day = Math.ceil(farm.time / SECONDS_PER_DAY);
+  const day = Math.ceil(farm.time / Farm.SECONDS_PER_DAY);
   const watered = Farm.watered(farm, action);
 
   if (watered) {
-    const dayWatered = Math.ceil(watered.time / SECONDS_PER_DAY);
+    const dayWatered = Math.ceil(watered.time / Farm.SECONDS_PER_DAY);
     const duration = day - dayWatered;
 
     return duration > 0;
@@ -153,10 +149,10 @@ const shouldDrain = (farm) => (action) => {
 };
 
 const shouldGrow = (farm) => (action) => {
-  const day = Math.ceil(farm.time / SECONDS_PER_DAY);
+  const day = Math.ceil(farm.time / Farm.SECONDS_PER_DAY);
   const crop = Farm.crop(farm, action);
   const watered = Farm.watered(farm, action);
-  let adjust = watered && Math.ceil(watered.time / SECONDS_PER_DAY) >= day ? -1 : 0;
+  let adjust = watered && Math.ceil(watered.time / Farm.SECONDS_PER_DAY) >= day ? -1 : 0;
 
   if (crop) {
     const diagonalCrops = Farm.diagonal(farm, action)
@@ -178,7 +174,7 @@ const shouldGrow = (farm) => (action) => {
       adjust -= 1;
     }
 
-    const plantedOn = Math.ceil(crop.time / SECONDS_PER_DAY);
+    const plantedOn = Math.ceil(crop.time / Farm.SECONDS_PER_DAY);
     const aliveFor = day - plantedOn;
     const needsToBeAliveFor = Crops.days(crop, (value) => value - adjust);
 
