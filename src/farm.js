@@ -5,6 +5,7 @@ const PRNG = require('./prng');
 const STARTING_CASH = 500;
 const MIN_CROP_STAGE = 1;
 const MAX_CROP_STAGE = 5;
+const DEAD_CROP_STAGE = -1;
 const MAX_INVENTORY_SIZE = 4;
 const MAX_STACK_SIZE = 16;
 
@@ -25,6 +26,9 @@ const getDistance = (plot1, plot2) => {
 
   return Math.abs(dx) + Math.abs(dy);
 };
+
+const getRotation = (item) =>
+  (item && item.rotate) ? item.rotate : PRNG.shuffle([90, 180, 270, 360])[0];
 
 const isEdge = (farm) => ({row, col}) =>
   row <= 0 || row >= farm.rows - 1 || col <= 0 || col >= farm.cols - 1;
@@ -89,7 +93,7 @@ const getBunny = (farm) => {
   return action ? getLand(farm, action, 'bunny') : undefined;
 };
 
-const getBunnyTime = () => PRNG.between(1 * SECONDS_PER_DAY, 2 * SECONDS_PER_DAY);
+const getBunnyTime = () => 1 * PRNG.between(1 * SECONDS_PER_DAY, 2 * SECONDS_PER_DAY);
 
 const getBunnyDirection = (from, to) => {
   if (!from && !to) {
@@ -299,9 +303,8 @@ const grass = (farm, action) => {
 
 const water = (farm, action) => {
   const watered = getLand(farm, action, 'water');
-  const rotate = (watered && watered.rotate) ? watered.rotate : PRNG.shuffle([90, 180, 270, 360])[0];
 
-  action.rotate = rotate;
+  action.rotate = getRotation(watered);
 
   removeLand(farm, action, 'water');
   addLand(farm, action, 'water');
@@ -384,20 +387,22 @@ const plant = (farm, action) => {
 const grow = (farm, action) => {
   const plant = getLand(farm, action, 'plant');
 
-  if (!plant || plant.stage >= MAX_CROP_STAGE) {
+  if (!plant || plant.stage < MIN_CROP_STAGE || plant.stage >= MAX_CROP_STAGE) {
     return farm;
   }
 
   const info = Crops.info(plant.crop);
   const season = Farm.season(farm);
 
-  if (!info.seasons.includes(season)) {
-    return farm;
-  }
-
   action.crop = plant.crop;
-  action.stage = plant.stage + 1;
   action.time = plant.time;
+
+  if (info.seasons.includes(season)) {
+    action.stage = plant.stage + 1;
+  } else {
+    action.stage = DEAD_CROP_STAGE;
+    action.rotate = getRotation(plant);
+  }
 
   removeLand(farm, action, 'plant');
   addLand(farm, action, 'plant');

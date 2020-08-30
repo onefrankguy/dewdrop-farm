@@ -39,11 +39,11 @@ const renderInventoryItem = (item) => {
   if (item) {
     if (item.seed) {
       html += '<span class="tile seeds"></span>';
-      html += renderSticker(item.amount);
       html += `<span class="tile ${item.type} stage6 crop small"></span>`;
-    } else {
       html += renderSticker(item.amount);
+    } else {
       html += `<span class="tile ${item.type} stage6 crop"></span>`;
+      html += renderSticker(item.amount);
     }
   }
 
@@ -61,11 +61,11 @@ const renderStoreItem = (item) => {
   html += '<div class="picture">';
   if (item.seed) {
     html += '<span class="tile seeds"></span>';
-    html += renderSticker(item.amount);
     html += `<span class="tile ${item.type} stage6 crop small"></span>`;
-  } else {
     html += renderSticker(item.amount);
+  } else {
     html += `<span class="tile ${item.type} stage6 crop"></span>`;
+    html += renderSticker(item.amount);
   }
   html += '</div>';
   html += `<span class="capitalize name">${name}</span>`;
@@ -100,8 +100,9 @@ const renderFarmPlotWater = (farm, row, col) => {
   const water = Farm.watered(farm, {row, col});
 
   if (water) {
-    const klasses = ['tile', 'water', water.rotate ? `rotate${water.rotate}` : ''];
-    html += `<div class="${renderClasses(klasses)}"></div>`;
+    const rotate = water.rotate ? `rotate${water.rotate}` : '';
+    const klasses = renderClasses(['tile', 'water', rotate]);
+    html += `<div class="${klasses}"></div>`;
   }
 
   return html;
@@ -114,7 +115,8 @@ const renderFarmPlotCrop = (farm, row, col) => {
 
   if (crop) {
     const stage = crop.stage ? `stage${crop.stage}` : '';
-    const klasses = renderClasses(['tile', 'crop', crop.crop, stage]);
+    const rotate = crop.rotate ? `rotate${crop.rotate}` : '';
+    const klasses = renderClasses(['tile', 'crop', crop.crop, stage, rotate]);
     html += `<div class="${klasses}"></div>`;
   }
 

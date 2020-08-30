@@ -211,6 +211,10 @@ a, a:visited {
   background-position-x: (-4 * $tileWidth);
   background-position-y: (-4 * $tileHeight);
 }
+.tile.crop.stage-1 {
+  background-position-x: (-3 * $tileWidth);
+  background-position-y: (-4 * $tileHeight);
+}
 
 @include crop('turnip', 5);
 @include crop('chile', 6);
@@ -367,6 +371,7 @@ $itemDetailBackground: rgb(219, 164, 99);
 
   > .sticker {
     grid-area: 2 / 1 / 2 / 1;
+    z-index: 1;
   }
 }
 
