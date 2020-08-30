@@ -3,7 +3,7 @@ const PRNG = require('./prng');
 const Farm = require('./farm');
 const Crops = require('./crops');
 
-const SEASONS = ['summer', 'fall', 'winter', 'spring'];
+const SEASONS = ['spring', 'summer', 'fall', 'winter'];
 const DAYS_PER_SEASON = 28;
 const SECONDS_PER_DAY = (14 * 60 * 3) / SEASONS.length / DAYS_PER_SEASON;
 

@@ -9,7 +9,7 @@ const DEAD_CROP_STAGE = -1;
 const MAX_INVENTORY_SIZE = 4;
 const MAX_STACK_SIZE = 16;
 
-const SEASONS = ['summer', 'fall', 'winter', 'spring'];
+const SEASONS = ['spring', 'summer', 'fall', 'winter'];
 const DAYS_PER_SEASON = 28;
 const SECONDS_PER_DAY = (14 * 60 * 3) / SEASONS.length / DAYS_PER_SEASON;
 
@@ -28,7 +28,7 @@ const getDistance = (plot1, plot2) => {
 };
 
 const getRotation = (item) =>
-  (item && item.rotate) ? item.rotate : PRNG.shuffle([90, 180, 270, 360])[0];
+  (item && item.rotate) ? item.rotate : PRNG.pick([90, 180, 270, 360]);
 
 const isEdge = (farm) => ({row, col}) =>
   row <= 0 || row >= farm.rows - 1 || col <= 0 || col >= farm.cols - 1;
@@ -97,7 +97,7 @@ const getBunnyTime = () => 1 * PRNG.between(1 * SECONDS_PER_DAY, 2 * SECONDS_PER
 
 const getBunnyDirection = (from, to) => {
   if (!from && !to) {
-    return PRNG.random() < 0.5 ? 'X' : 0;
+    return PRNG.pick(['X', 0]);
   }
 
   return from.col < to.col ? 'X' : 0;
@@ -448,10 +448,10 @@ const bunny = (farm) => {
   const action = getBunny(farm);
 
   if (!action && farm.bunny <= 0) {
-    const plots = PRNG.shuffle(getPlots(farm).filter(isNotEdge(farm)));
+    const plot = PRNG.pick(getPlots(farm).filter(isNotEdge(farm)));
 
     const action = {
-      ...plots[0],
+      ...plot,
       rotate: getBunnyDirection(),
     }
 
@@ -490,11 +490,11 @@ const hop = (farm) => {
     const duration = day - lastHop;
 
     if (duration > 0) {
-      const possible = PRNG.shuffle(Farm.orthogonal(farm, action));
+      const plot = PRNG.pick(Farm.orthogonal(farm, action));
 
       const moveAction = {
         tool: 'move',
-        ...possible[0],
+        ...plot,
       };
 
       farm = enqueue(farm, moveAction);

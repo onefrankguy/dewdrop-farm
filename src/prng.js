@@ -42,4 +42,7 @@ PRNG.shuffle = (array) => {
 
 PRNG.between = (min, max) => PRNG.random() * (max - min) + min;
 
+PRNG.pick = (list) =>
+  list ? list[Math.floor(PRNG.random() * list.length)] : undefined;
+
 module.exports = PRNG;
