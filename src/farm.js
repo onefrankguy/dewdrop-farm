@@ -710,11 +710,23 @@ Farm.season = (farm) => {
 
 Farm.day = (farm) => Math.ceil((farm.time / SECONDS_PER_DAY) % DAYS_PER_SEASON);
 
-Farm.market = (farm) =>
-  farm.inventory.filter((item) => item).map((item) => ({
-    ...item,
-    cash: getSellPrice(farm, item),
-  }));
+Farm.market = (farm) => {
+  const items = [];
+
+  farm.inventory.filter((item) => item).forEach((item) => {
+    const index = items.findIndex(({type, seed}) => type === item.type && !!seed === !!item.seed);
+
+    if (index < 0) {
+      items.push({
+        ...item,
+        amount: 0,
+        cash: getSellPrice(farm, item),
+      })
+    };
+  });
+
+  return items;
+};
 
 Farm.store = (farm) => {
   const season = Farm.season(farm);

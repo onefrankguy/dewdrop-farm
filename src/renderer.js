@@ -1,5 +1,4 @@
 const $ = require('./jquery');
-const Rules = require('./rules');
 const Farm = require('./farm');
 const Crops = require('./crops');
 
@@ -50,14 +49,6 @@ const renderInventoryItem = (item) => {
 
   html += '</span>';
 
-  return html;
-};
-
-const renderStoreSeeds = (item) => {
-  let html = '';
-  html += '<span class="tile seeds small">';
-  html += `<span class="tile ${item.type} stage6 small"></span>`;
-  html += '</span>';
   return html;
 };
 
