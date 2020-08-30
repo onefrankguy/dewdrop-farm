@@ -2,6 +2,7 @@ const Utils = require('./utils');
 const Crops = require('./crops');
 const PRNG = require('./prng');
 
+const STARTING_CASH = 500;
 const MIN_CROP_STAGE = 1;
 const MAX_CROP_STAGE = 5;
 const MAX_INVENTORY_SIZE = 4;
@@ -88,7 +89,15 @@ const getBunny = (farm) => {
   return action ? getLand(farm, action, 'bunny') : undefined;
 };
 
-const getBunnyTime = () => 1 * SECONDS_PER_DAY;
+const getBunnyTime = () => PRNG.between(1 * SECONDS_PER_DAY, 2 * SECONDS_PER_DAY);
+
+const getBunnyDirection = (from, to) => {
+  if (!from && !to) {
+    return PRNG.random() < 0.5 ? 'X' : 0;
+  }
+
+  return from.col < to.col ? 'X' : 0;
+};
 
 const clearEmptyItems = (farm) => {
   for (let i = 0; i < farm.inventory.length; i += 1) {
@@ -436,7 +445,12 @@ const bunny = (farm) => {
   if (!action && farm.bunny <= 0) {
     const plots = PRNG.shuffle(getPlots(farm).filter(isNotEdge(farm)));
 
-    addLand(farm, plots[0], 'bunny');
+    const action = {
+      ...plots[0],
+      rotate: getBunnyDirection(),
+    }
+
+    addLand(farm, action, 'bunny');
   }
 
   return farm;
@@ -447,6 +461,9 @@ const move = (farm, action) => {
 
   if (rabbit) {
     removeLand(farm, rabbit, 'bunny');
+
+    action.rotate = getBunnyDirection(rabbit, action);
+
     addLand(farm, action, 'bunny');
 
     const crop = Farm.crop(farm, action);
@@ -540,7 +557,7 @@ Farm.create = (options = {}) => {
     land: [],
     market: {},
     inventory: [],
-    cash: 500,
+    cash: STARTING_CASH,
     bunny: getBunnyTime(),
   };
 

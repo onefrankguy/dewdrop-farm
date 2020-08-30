@@ -495,6 +495,10 @@ abbr[title="and"] {
   transform: rotate(270deg);
 }
 
+.rotateX {
+  transform: scaleX(-1);
+}
+
 @media screen and (min-width:40em) {
   html {
     font-size: 120%;
