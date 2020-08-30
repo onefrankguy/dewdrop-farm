@@ -45,17 +45,29 @@ const getPlots = (farm) => {
 
 const getEdges = (farm) => getPlots(farm).filter(isEdge(farm));
 
-const getLand = (farm, {row, col}, someType) =>
-  valid(farm, {row, col}) ? farm.land[row][col].find(({type}) => type === someType) : undefined;
+const getLand = (farm, {row, col}, type) => {
+  if (valid(farm, {row, col}) && farm.land[row][col][type]) {
+    return {
+      ...farm.land[row][col][type],
+      type,
+      row,
+      col,
+    };
+  }
 
-const hasLand = (farm, action, someType) => !!getLand(farm, action, someType);
+  return undefined;
+};
 
-const addLand = (farm, {row, col, crop, stage, time, regrow, rotate}, someType) => {
+const hasLand = (farm, action, type) => !!getLand(farm, action, type);
+
+const addLand = (farm, {row, col, crop, stage, time, regrow, rotate}, type) => {
   const land = {
-    type: someType,
     time: time || farm.time,
-    rotate,
   };
+
+  if (rotate) {
+    land.rotate = rotate;
+  }
 
   if (crop) {
     land.crop = crop;
@@ -63,26 +75,17 @@ const addLand = (farm, {row, col, crop, stage, time, regrow, rotate}, someType) 
     land.regrow = regrow;
   }
 
-  farm.land[row][col].push(land);
+  farm.land[row][col][type] = land;
 };
 
-const removeLand = (farm, {row, col}, someType) =>
-  farm.land[row][col] = farm.land[row][col].filter(({type}) => type !== someType);
+const removeLand = (farm, {row, col}, type) =>
+  delete farm.land[row][col][type];
 
 const getBunny = (farm) => {
   const plots = getPlots(farm);
   const action = plots.find((plot) => hasLand(farm, plot, 'bunny'));
 
-  if (action) {
-    const rabbit = getLand(farm, action, 'bunny');
-
-    return {
-      ...action,
-      ...rabbit,
-    }
-  }
-
-  return undefined;
+  return action ? getLand(farm, action, 'bunny') : undefined;
 };
 
 const enqueue = (farm, action) => {
@@ -157,6 +160,7 @@ const hoe = (farm, action) => {
   const plant = getLand(farm, action, 'plant');
   if (plant) {
     removeLand(farm, action, 'plant');
+
     if (plant.stage >= MAX_CROP_STAGE) {
       if (!farm.market[plant.crop]) {
         farm.market[plant.crop] = 0;
@@ -497,7 +501,7 @@ Farm.create = (options = {}) => {
     farm.land[row] = [];
 
     for (let col = 0; col < farm.cols; col += 1) {
-      farm.land[row][col] = [];
+      farm.land[row][col] = {};
     }
   }
 
