@@ -43,9 +43,13 @@ a, a:visited {
 .world {
   /* Usable area on an iPhone SE is 320x444 pixels */
   width: 32rem;
+  min-height: 44.4rem;
+  margin: 0 auto;
+  /*
   height: 44.4rem;
   overflow: hidden;
-  margin: 0 auto;
+  border: 1px solid cyan;
+  */
 }
 
 .row {
@@ -219,6 +223,7 @@ a, a:visited {
 .stats {
   justify-content: space-between;
   align-items: center;
+  font-size: 1.6rem;
 }
 
 /* STORE */
@@ -395,6 +400,7 @@ $itemDetailBackground: rgb(219, 164, 99);
   }
 }
 .controls {
+  margin-top: 0.4rem;
   justify-content: space-around;
 }
 
@@ -410,9 +416,9 @@ $buttonHighlight: rgb(227, 230, 255);
   display: grid;
   place-items: center;
   font-variant: small-caps;
-  font-weight: bold;
-  width: 4.4rem;
-  height: (4.4rem / 1.618);
+  @include textWithShadow();
+  width: $tileWidth;
+  height: ($tileWidth / 1.618);
   margin: 0.4rem;
   background: $buttonBackground;
   border-radius: 0.4rem;
@@ -444,7 +450,7 @@ $buttonHighlight: rgb(227, 230, 255);
 
 /* COLOPHON */
 .colophon {
-  margin-top: 0.8rem;
+  margin-top: $tileHeight;
 }
 
 .colophon > a:hover {

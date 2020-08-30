@@ -208,17 +208,4 @@ Rules.dispatch = (farm, action) => {
   }
 };
 
-Rules.store = (farm) => {
-  const season = Farm.season(farm);
-  const seasonalCrops = Crops.seasonal(season);
-
-  return seasonalCrops.map(Crops.info);
-};
-
-Rules.market = (farm) => {
-  const ownedCrops = Object.keys(farm.market);
-
-  return ownedCrops.map(Crops.info);
-};
-
 module.exports = Rules;

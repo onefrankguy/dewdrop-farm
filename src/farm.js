@@ -88,6 +88,93 @@ const getBunny = (farm) => {
   return action ? getLand(farm, action, 'bunny') : undefined;
 };
 
+const clearEmptyItems = (farm) => {
+  for (let i = 0; i < farm.inventory.length; i += 1) {
+    if (farm.inventory[i] && !farm.inventory[i].amount) {
+      farm.inventory[i] = undefined;
+    }
+  }
+};
+
+const addItem = (farm, item) => {
+  let added = false;
+
+  clearEmptyItems(farm);
+
+  let slotIndex = farm.inventory.findIndex((slot) => {
+    return slot
+      && !!slot.seed === !!item.seed
+      && slot.type === item.type
+      && slot.amount + item.amount < MAX_STACK_SIZE;
+  });
+
+  if (slotIndex < 0) {
+    slotIndex = farm.inventory.findIndex((slot) => !slot);
+  }
+
+  if (slotIndex >= 0 && slotIndex < MAX_INVENTORY_SIZE) {
+    if (!farm.inventory[slotIndex]) {
+      farm.inventory[slotIndex] = {
+        ...item,
+        amount: 0,
+      };
+    }
+
+    if (farm.inventory[slotIndex].amount + item.amount < MAX_STACK_SIZE) {
+      farm.inventory[slotIndex].amount += item.amount;
+      added = true;
+    }
+  }
+
+  clearEmptyItems(farm);
+
+  return added;
+};
+
+const removeItem = (farm, item) => {
+  let removed = false;
+
+  clearEmptyItems(farm);
+
+  let slotIndex = farm.inventory.findIndex((slot) => {
+    return slot
+      && !!slot.seed === !!item.seed
+      && slot.type === item.type;
+  });
+
+  if (slotIndex >= 0 && slotIndex < MAX_INVENTORY_SIZE) {
+    farm.inventory[slotIndex].amount -= item.amount;
+    farm.inventory[slotIndex].amount = Math.max(0, farm.inventory[slotIndex].amount);
+    removed = true;
+  }
+
+  clearEmptyItems(farm);
+
+  return removed;
+};
+
+const getSellPrice = (_, item) => {
+  const info = Crops.info(item.type);
+  let price = 0;
+
+  if (info) {
+    price = item.seed ? Math.ceil(info.prices.seed / 2) : info.prices.crop;
+  }
+
+  return price;
+};
+
+const getBuyPrice = (_, item) => {
+  const info = Crops.info(item.type);
+  let price = 0;
+
+  if (info) {
+    price = item.seed ? info.prices.seed : info.prices.crop;
+  }
+
+  return price;
+};
+
 const enqueue = (farm, action) => {
   farm.actions.push(action);
 
@@ -127,30 +214,35 @@ const update = (farm, action) => {
 const harvest = (farm, action) => {
   const plant = getLand(farm, action, 'plant');
 
-  if (plant && plant.crop !== 'sprinkler') {
-    if (plant.stage >= MAX_CROP_STAGE) {
-      removeLand(farm, action, 'plant');
+  if (!plant || plant.crop === 'sprinkler' || plant.stage < MAX_CROP_STAGE) {
+    return farm;
+  }
 
-      if (!farm.market[plant.crop]) {
-        farm.market[plant.crop] = 0;
-      }
-      farm.market[plant.crop] += 1;
+  const item = {
+    type: plant.crop,
+    amount: 1,
+    seed: false,
+  };
 
-      const info = Crops.info(plant.crop);
+  if (!addItem(farm, item)) {
+    return farm;
+  }
 
-      if (info.regrow) {
-        const plantAction = {
-          type: 'plant',
-          row: action.row,
-          col: action.col,
-          crop: plant.crop,
-          regrow: info.regrow,
-          stage: MAX_CROP_STAGE - 1,
-        };
+  removeLand(farm, action, 'plant');
 
-        addLand(farm, plantAction, 'plant');
-      }
-    }
+  const info = Crops.info(plant.crop);
+
+  if (info.regrow) {
+    const plantAction = {
+      type: 'plant',
+      row: action.row,
+      col: action.col,
+      crop: plant.crop,
+      regrow: info.regrow,
+      stage: MAX_CROP_STAGE - 1,
+    };
+
+    addLand(farm, plantAction, 'plant');
   }
 
   return farm;
@@ -162,10 +254,13 @@ const hoe = (farm, action) => {
     removeLand(farm, action, 'plant');
 
     if (plant.stage >= MAX_CROP_STAGE) {
-      if (!farm.market[plant.crop]) {
-        farm.market[plant.crop] = 0;
-      }
-      farm.market[plant.crop] += 1;
+      const item = {
+        type: plant.crop,
+        amount: 1,
+        seed: false,
+      };
+
+      addItem(farm, item);
     }
   }
 
@@ -238,20 +333,21 @@ const drain = (farm, action) => {
 
 const plant = (farm, action) => {
   if (hasLand(farm, action, 'till') && !hasLand(farm, action, 'plant')) {
-    let crop = farm.inventory[action.slot];
+    const slot = farm.inventory[action.slot];
 
-    if (crop && crop.amount > 0) {
-      action.type = 'plant';
-      action.crop = crop.type;
+    if (slot && slot.seed && slot.amount > 0) {
+      const item = {
+        type: slot.type,
+        amount: 1,
+        seed: true,
+      };
 
-      crop.amount -= 1;
-      if (crop.amount <= 0) {
-        crop = undefined;
+      if (removeItem(farm, item)) {
+        action.type = 'plant';
+        action.crop = slot.type;
+
+        addLand(farm, action, 'plant');
       }
-
-      farm.inventory[action.slot] = crop;
-
-      addLand(farm, action, 'plant');
     }
   }
 
@@ -303,41 +399,28 @@ const buy = (farm, action) => {
     return farm;
   }
 
-  let slotIndex = farm.inventory.findIndex((slot) => {
-    return slot && slot.type === crop.type && slot.amount < MAX_STACK_SIZE;
-  });
+  const item = {
+    type: crop.type,
+    amount: 1,
+    seed: true,
+  };
 
-  if (slotIndex < 0) {
-    slotIndex = farm.inventory.findIndex((slot) => !slot);
-  }
-
-  if (slotIndex >= 0 && slotIndex < MAX_INVENTORY_SIZE) {
-    if (!farm.inventory[slotIndex]) {
-      farm.inventory[slotIndex] = {
-        type: crop.type,
-        amount: 0,
-      };
-    }
-
-    if (farm.inventory[slotIndex].amount < MAX_STACK_SIZE) {
-      farm.cash -= crop.prices.seed;
-      farm.inventory[slotIndex].amount += 1;
-    }
+  if (addItem(farm, item)) {
+    farm.cash -= crop.prices.seed;
   }
 
   return farm;
 };
 
 const sell = (farm, action) => {
-  if (farm.market[action.crop]) {
-    const cash = Crops.info(action.crop).prices.crop;
+  const item = {
+    type: action.crop,
+    amount: 1,
+    seed: action.seed,
+  };
 
-    farm.market[action.crop] -= 1;
-    farm.cash += cash;
-
-    if (!farm.market[action.crop]) {
-      farm.market[action.crop] = undefined;
-    }
+  if (removeItem(farm, item)) {
+    farm.cash += getSellPrice(farm, item);
   }
 
   return farm;
@@ -474,6 +557,18 @@ Farm.create = (options = {}) => {
     }
   }
 
+  farm.inventory[0] = {
+    type: 'chile',
+    amount: 10,
+    seed: true,
+  };
+
+  farm.inventory[1] = {
+    type: 'avocado',
+    amount: 10,
+    seed: false,
+  };
+
   return farm;
 };
 
@@ -605,5 +700,29 @@ Farm.season = (farm) => {
 };
 
 Farm.day = (farm) => Math.ceil((farm.time / SECONDS_PER_DAY) % DAYS_PER_SEASON);
+
+Farm.market = (farm) =>
+  farm.inventory.filter((item) => item).map((item) => ({
+    ...item,
+    cash: getSellPrice(farm, item),
+  }));
+
+Farm.store = (farm) => {
+  const season = Farm.season(farm);
+  const seasonalCrops = Crops.seasonal(season);
+
+  return seasonalCrops.map((type) => {
+    const item = {
+      type,
+      amount: 0,
+      seed: true,
+    };
+
+    return {
+      ...item,
+      cash: getBuyPrice(farm, item),
+    };
+  });
+};
 
 module.exports = Farm;

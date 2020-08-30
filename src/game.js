@@ -46,6 +46,7 @@ const offStore = (_, event) => {
       row: 0,
       col: 0,
       crop: element.dataset.crop,
+      seed: element.dataset.seed === 'true',
     }
 
     farm = Rules.dispatch(farm, action);
@@ -66,6 +67,7 @@ const offMarket = (_, event) => {
       row: 0,
       col: 0,
       crop: element.dataset.crop,
+      seed: element.dataset.seed === 'true',
     }
 
     farm = Rules.dispatch(farm, action);

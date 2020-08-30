@@ -1,6 +1,7 @@
 const $ = require('./jquery');
 const Rules = require('./rules');
 const Farm = require('./farm');
+const Crops = require('./crops');
 
 const Renderer = {};
 
@@ -23,50 +24,49 @@ const renderCash = (cash) => {
   return html;
 };
 
-const renderInventorySeeds = (crop) => {
+const renderInventoryItem = (item) => {
   let html = '';
   html += '<span class="row tile seeds">';
-  if (+crop.amount > 0) {
-    html += `<span class="row amount sticker"><span class="inner">${crop.amount}</span></span>`;
+  if (+item.amount > 0) {
+    html += `<span class="row amount sticker"><span class="inner">${item.amount}</span></span>`;
   }
-  html += `<span class="tile ${crop.type} stage6 small"></span>`;
+  html += `<span class="tile ${item.type} stage6 small"></span>`;
   html += '</span>';
   return html;
 };
 
-const renderStoreSeeds = (crop) => {
+const renderStoreSeeds = (item) => {
   let html = '';
   html += '<span class="tile seeds small">';
-  html += `<span class="tile ${crop.type} stage6 small"></span>`;
+  html += `<span class="tile ${item.type} stage6 small"></span>`;
   html += '</span>';
   return html;
 };
 
-const renderStoreCrop = (crop, amount, type) => {
-  const name = type === 'store' ? `${crop.type} ${crop.seed}` : crop.type;
+const renderStoreItem = (item) => {
+  const crop = Crops.info(item.type);
+  const name = item.seed ? `${crop.type} ${crop.seed}` : crop.type;
 
   let html = '';
   html += '<div class="row crop">';
-  if (type === 'store') {
-    html += renderStoreSeeds(crop);
+  if (item.seed) {
+    html += renderStoreSeeds(item);
   } else {
-    if (+amount > 0) {
-      html += `<span class="row amount sticker"><span class="inner">${amount}</span></span>`;
+    if (+item.amount > 0) {
+      html += `<span class="row amount sticker"><span class="inner">${item.amount}</span></span>`;
     }
-    html += `<span class="tile ${crop.type} stage6 small"></span>`;
+    html += `<span class="tile ${item.type} stage6 small"></span>`;
   }
   html += `<span class="capitalize name">${name}</span>`;
   html += '</div>';
   return html;
 };
 
-const renderStoreRow = (crop, amount, type) => {
-  const cash = type === 'store' ? crop.prices.seed : crop.prices.crop;
-
+const renderStoreRow = (item) => {
   let html = '';
-  html += `<div class="row slot item" data-crop="${crop.type}">`;
-  html += renderStoreCrop(crop, amount, type);
-  html += renderCash(cash, amount);
+  html += `<div class="row slot item" data-crop="${item.type}" data-seed=${item.seed}>`;
+  html += renderStoreItem(item);
+  html += renderCash(item.cash);
   html += '</div>';
   return html;
 };
@@ -170,8 +170,8 @@ const renderNotFound = (type) => {
 const renderStore = (farm) => {
   let html = '';
 
-  Rules.store(farm).slice(0, 5).forEach((crop) => {
-    html += renderStoreRow(crop, 1, 'store');
+  Farm.store(farm).forEach((item) => {
+    html += renderStoreRow(item);
   });
 
   if (!html) {
@@ -184,10 +184,8 @@ const renderStore = (farm) => {
 const renderMarket = (farm) => {
   let html = '';
 
-  Rules.market(farm).slice(0, 5).forEach((crop) => {
-    const amount = farm.market[crop.type] || 0;
-
-    html += renderStoreRow(crop, amount, 'market');
+  Farm.market(farm).forEach((item) => {
+    html += renderStoreRow(item);
   });
 
   if (!html) {
@@ -224,11 +222,11 @@ const renderTool = (tool, screen) => {
 };
 
 const renderInventory = (farm) => {
-  farm.inventory.forEach((seed, index) => {
+  farm.inventory.forEach((item, index) => {
     let html  = '';
 
-    if (seed) {
-      html += renderInventorySeeds(seed);
+    if (item) {
+      html += renderInventoryItem(item);
       html += '<span></span>';
     } else {
       html += '<span class="tile"></span>';
