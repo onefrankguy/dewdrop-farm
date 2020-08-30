@@ -24,21 +24,31 @@ const renderCash = (cash) => {
   return html;
 };
 
-const renderInventoryItem = (item) => {
+const renderSticker = (amount) => {
   let html = '';
 
-  if (item.seed) {
-    html += '<span class="tile seeds"></span>';
-    if (+item.amount > 0) {
-      html += `<span class="tile amount sticker"><span class="inner">${item.amount}</span></span>`;
-    }
-    html += `<span class="tile ${item.type} stage6 crop small"></span>`;
-  } else {
-    if (+item.amount > 0) {
-      html += `<span class="tile amount sticker"><span class="inner">${item.amount}</span></span>`;
-    }
-    html += `<span class="tile ${item.type} stage6 crop"></span>`;
+  if (+amount > 0) {
+    html += `<span class="tile amount sticker"><span class="inner">${amount}</span></span>`;
   }
+
+  return html;
+};
+
+const renderInventoryItem = (item) => {
+  let html = '<span class="picture">';
+
+  if (item) {
+    if (item.seed) {
+      html += '<span class="tile seeds"></span>';
+      html += renderSticker(item.amount);
+      html += `<span class="tile ${item.type} stage6 crop small"></span>`;
+    } else {
+      html += renderSticker(item.amount);
+      html += `<span class="tile ${item.type} stage6 crop"></span>`;
+    }
+  }
+
+  html += '</span>';
 
   return html;
 };
@@ -57,14 +67,16 @@ const renderStoreItem = (item) => {
 
   let html = '';
   html += '<div class="row crop">';
+  html += '<div class="picture">';
   if (item.seed) {
-    html += renderStoreSeeds(item);
+    html += '<span class="tile seeds"></span>';
+    html += renderSticker(item.amount);
+    html += `<span class="tile ${item.type} stage6 crop small"></span>`;
   } else {
-    if (+item.amount > 0) {
-      html += `<span class="row amount sticker"><span class="inner">${item.amount}</span></span>`;
-    }
-    html += `<span class="tile ${item.type} stage6 small"></span>`;
+    html += renderSticker(item.amount);
+    html += `<span class="tile ${item.type} stage6 crop"></span>`;
   }
+  html += '</div>';
   html += `<span class="capitalize name">${name}</span>`;
   html += '</div>';
   return html;
@@ -72,7 +84,7 @@ const renderStoreItem = (item) => {
 
 const renderStoreRow = (item) => {
   let html = '';
-  html += `<div class="row slot item" data-crop="${item.type}" data-seed=${item.seed}>`;
+  html += `<div class="row slot item" data-crop="${item.type}" data-seed="${item.seed}">`;
   html += renderStoreItem(item);
   html += renderCash(item.cash);
   html += '</div>';
@@ -231,15 +243,7 @@ const renderTool = (tool, screen) => {
 
 const renderInventory = (farm) => {
   farm.inventory.forEach((item, index) => {
-    let html  = '';
-
-    if (item) {
-      html += renderInventoryItem(item);
-      html += '<span></span>';
-    } else {
-      html += '<span class="tile"></span>';
-      html += '<span></span>';
-    }
+    const html  = renderInventoryItem(item);
 
     renderIfChanged(`#slot${index}`, html);
   });
@@ -250,6 +254,11 @@ const renderIfChanged = (selector, newHtml) => {
   const oldHtml = element.html();
 
   if (newHtml !== oldHtml) {
+    console.log({
+      oldHtml,
+      newHtml,
+    });
+
     element.html(newHtml);
   }
 };

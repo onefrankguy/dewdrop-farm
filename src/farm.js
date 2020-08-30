@@ -88,7 +88,7 @@ const getBunny = (farm) => {
   return action ? getLand(farm, action, 'bunny') : undefined;
 };
 
-const getBunnyTime = () => 10000 * SECONDS_PER_DAY;
+const getBunnyTime = () => 1 * SECONDS_PER_DAY;
 
 const clearEmptyItems = (farm) => {
   for (let i = 0; i < farm.inventory.length; i += 1) {
@@ -560,18 +560,6 @@ Farm.create = (options = {}) => {
       farm.land[row][col] = {};
     }
   }
-
-  farm.inventory[0] = {
-    type: 'chile',
-    amount: MAX_STACK_SIZE,
-    seed: true,
-  };
-
-  farm.inventory[1] = {
-    type: 'avocado',
-    amount: MAX_STACK_SIZE,
-    seed: false,
-  };
 
   return farm;
 };

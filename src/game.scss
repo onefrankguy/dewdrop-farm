@@ -261,23 +261,17 @@ $itemDetailBackground: rgb(219, 164, 99);
     margin: 0.1rem;
   }
 
-  .item {
+  > .item {
     justify-content: space-between;
 
-    .crop {
+    > .crop {
       align-items: center;
       position: relative;
-      padding: 0 0 0.4rem 0.4rem;
+      padding: 0.2rem 0 0.2rem 0.4rem;
 
-      .name {
+      > .name {
         margin-left: 0.4rem;
         @include textWithShadow();
-      }
-
-      .amount {
-        position: absolute;
-        left: 0.4rem;
-        bottom: 0.4rem;
       }
     }
   }
@@ -357,6 +351,21 @@ $itemDetailBackground: rgb(219, 164, 99);
   }
 }
 
+.picture {
+  display: grid;
+  grid-template: 50% 50% / 50% 50%;
+
+  > .tool,
+  > .crop,
+  > .seeds {
+    grid-area: 1 / 1 / -1 / -1;
+  }
+
+  > .sticker {
+    grid-area: 2 / 1 / 2 / 1;
+  }
+}
+
 .inventory {
   background: $storeBackground;
   border: 0.1rem solid $storeBorder;
@@ -380,18 +389,6 @@ $itemDetailBackground: rgb(219, 164, 99);
     border-bottom: $itemBorderSize solid $itemHighlight;
     border-left: $itemBorderSize solid $itemShadow;
     border-radius: 0.4rem;
-    display: grid;
-    grid-template: 50% 50% / 50% 50%;
-
-    > .tool,
-    > .crop,
-    > .seeds {
-      grid-area: 1 / 1 / -1 / -1;
-    }
-
-    > .sticker {
-      grid-area: 2 / 1 / 2 / 1;
-    }
   }
 
   .slot .item.active {
