@@ -214,23 +214,7 @@ const sprinkler = (farm, action) => {
   const crop = Farm.crop(farm, action);
 
   if (crop && crop.crop === 'sprinkler') {
-    const {row, col} = action;
-    const plots = [{
-      row,
-      col,
-    }, {
-      row: row - 1,
-      col: col + 0,
-    }, {
-      row: row + 1,
-      col: col + 0,
-    }, {
-      row: row + 0,
-      col: col - 1,
-    }, {
-      row: row + 0,
-      col: col + 1,
-    }];
+    const plots = [action].concat(Farm.orthogonal(farm, action));
 
     plots.forEach(({row, col}) => {
       const waterAction = {
@@ -397,22 +381,7 @@ const hop = (farm) => {
     const duration = day - lastHop;
 
     if (duration > 0) {
-      const {row, col} = action;
-
-      const possible = PRNG.shuffle([{
-        row: row + 1,
-        col: col + 0,
-      }, {
-        row: row - 1,
-        col: col + 0,
-      }, {
-        row: row + 0,
-        col: col + 1,
-      }, {
-        row: row + 0,
-        col: col - 1,
-      }]
-      .filter((plot) => valid(farm, plot)));
+      const possible = PRNG.shuffle(Farm.orthogonal(farm, action));
 
       const moveAction = {
         tool: 'move',
@@ -572,38 +541,54 @@ Farm.dispatch = (farm, action) => {
 
 Farm.plots = (farm) => getPlots(farm);
 
-Farm.adjacent = (farm, action) => {
+Farm.diagonal = (farm, action, test = true) => {
+  let results = [];
+
   if (valid(farm, action)) {
     const {row, col} = action;
-    return [{
-      row: row - 1,
-      col: col,
-    }, {
-      row: row - 1,
-      col: col + 1,
-    }, {
-      row: row,
-      col: col + 1,
-    }, {
+    results = [{
       row: row + 1,
       col: col + 1,
-    }, {
-      row: row + 1,
-      col: col,
     }, {
       row: row + 1,
       col: col - 1,
     }, {
-      row: row,
-      col: col - 1,
+      row: row - 1,
+      col: col + 1,
     }, {
       row: row - 1,
       col: col - 1,
     }];
   }
 
-  return [];
+  return test ? results.filter((plot) => valid(farm, plot)) : results;
 };
+
+Farm.orthogonal = (farm, action, test = true) => {
+  let results = [];
+
+  if (valid(farm, action)) {
+    const {row, col} = action;
+    results = [{
+      row: row + 1,
+      col,
+    }, {
+      row: row - 1,
+      col,
+    }, {
+      row,
+      col: col + 1,
+    }, {
+      row,
+      col: col - 1,
+    }];
+  }
+
+  return test ? results.filter((plot) => valid(farm, plot)) : results;
+};
+
+Farm.adjacent = (farm, action, test = true) =>
+  Farm.diagonal(farm, action, test).concat(Farm.orthogonal(farm, action, test));
 
 Farm.crop = (farm, action) => getLand(farm, action, 'plant');
 

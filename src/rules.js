@@ -112,7 +112,7 @@ const shouldGrass = (farm) => (action) => {
   if (tilled) {
     const dayTilled = Math.ceil(tilled.time / SECONDS_PER_DAY);
     const duration = day - dayTilled;
-    const adjacent = Farm.adjacent(farm, action);
+    const adjacent = Farm.adjacent(farm, action, false);
     const fallow = adjacent.filter((action) => !Farm.tilled(farm, action));
 
     if (duration > adjacent.length - fallow.length) {
@@ -156,9 +156,28 @@ const shouldGrow = (farm) => (action) => {
   const day = Math.ceil(farm.time / SECONDS_PER_DAY);
   const crop = Farm.crop(farm, action);
   const watered = Farm.watered(farm, action);
-  const adjust = watered && Math.ceil(watered.time / SECONDS_PER_DAY) >= day ? -1 : 0;
+  let adjust = watered && Math.ceil(watered.time / SECONDS_PER_DAY) >= day ? -1 : 0;
 
   if (crop) {
+    const diagonalCrops = Farm.diagonal(farm, action)
+      .map((plot) => Farm.crop(farm, plot))
+      .filter((plant) => plant)
+      .map(({crop}) => crop);
+    const anyDiagonal = diagonalCrops.find((type) => crop.crop === type);
+
+    const orthogonalCrops = Farm.orthogonal(farm, action)
+      .map((plot) => Farm.crop(farm, plot))
+      .filter((plant) => plant)
+      .map(({crop}) => crop)
+      .filter((type) => crop.crop === type);
+    const allOrthogonal = orthogonalCrops.length === 4;
+
+    if (anyDiagonal || allOrthogonal) {
+      adjust += 1;
+    } else if (orthogonalCrops.length) {
+      adjust -= 1;
+    }
+
     const plantedOn = Math.ceil(crop.time / SECONDS_PER_DAY);
     const aliveFor = day - plantedOn;
     const needsToBeAliveFor = Crops.days(crop, (value) => value - adjust);
