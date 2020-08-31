@@ -1,12 +1,31 @@
 # Development Diary #
 
+## 30 August 2020 ##
+
+Day 18 of 31. 13,231 bytes used (99.39%).
+
+There's now a bit of inventory management around buying and selling crops. Once
+all the inventory slots are filled, you can't buy new seeds. The inventory fills
+left to right. I'm not sure if I need any more management then that. Maybe
+filling in the active slot first if possible? That might make sense since you
+can't merge items in inventory slots.
+
+Crops grow faster when planted in rows. And digging up crops has a chance of
+returning a seed for the crop. Crops that try to grow out of season will die.
+I'm not sure I like the "dead crop" graphic yet. I recolored a [DawnLike][]
+grass sprite, but it doesn't quite look right.
+
+I fixed image rendering in Firefox so the graphics look pixelated there too.
+The bunny flips left to right when moving, which adds a lot more life to the
+game.
+
 ## 29 August 2020 ##
 
 Day 17 of 31. 13,371 bytes used (100.44%).
 
 Crops will regrow if they're havested with seeds. Harvesting them with the
 hoe still destroys them. Crops also stop growing if they're out of season.
-The water texture is now randomly rotate. It look so much better! I'm thinking
+The water texture is now randomly rotate. It looks so much better! I'm thinking
 of doing that for the grass too.
 
 I think I want to move harvested crops into the inventory. It'll provide a
