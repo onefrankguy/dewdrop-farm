@@ -1,5 +1,18 @@
 # Development Diary #
 
+## 1 September 2020 ##
+
+Day 20 of 31. 13,327 bytes used (100.11%).
+
+I added hot keys for the tools and inventory (1 through 6), plus one for each
+of the screens (F for farm, B for buy, and S for sell). This makes the game
+much more pleasent to play on a laptop with a trackpad! I need a way to show
+that off to players though. Maybe a `<kbd>` element?
+
+I really need to focus on compression. Not sure what I'm going to do to get the
+byte size down. Maybe fewer crops? I could reuse some of the seed and stalk
+sprites. Maybe randomize those?
+
 ## 30 August 2020 ##
 
 Day 18 of 31. 13,231 bytes used (99.39%).
