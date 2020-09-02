@@ -48,7 +48,6 @@ a, a:visited {
   /* Usable area on an iPhone SE is 320x444 pixels */
   width: 32rem;
   min-height: 44.4rem;
-  margin: 0 auto;
   /*
   height: 44.4rem;
   overflow: hidden;
@@ -458,7 +457,7 @@ $buttonHighlight: rgb(227, 230, 255);
 
 /* COLOPHON */
 .colophon {
-  margin-top: $tileHeight;
+  margin: $tileHeight 0 0.8rem 0;
 }
 
 .colophon > a:hover {

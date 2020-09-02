@@ -107,6 +107,33 @@ const onUpdate = (dt) => {
 const onRender = () => {
 };
 
+const onKeyDown = ({isComposing, keyCode}) => {
+  if (!isComposing && keyCode !== 229) {
+    const toolKeys = {
+      49: 'hoe',
+      50: 'water',
+      51: 'slot0',
+      52: 'slot1',
+      53: 'slot2',
+      54: 'slot3',
+    };
+
+    const screenKeys = {
+      70: 'tend',
+      66: 'buy',
+      83: 'sell',
+    };
+
+    if (toolKeys[keyCode]) {
+      onTool(toolKeys[keyCode])();
+    }
+
+    if (screenKeys[keyCode]) {
+      onScreen(screenKeys[keyCode])();
+    }
+  }
+};
+
 Game.reset = () => {
   farm = Farm.create();
   tool = 'hoe';
@@ -115,6 +142,8 @@ Game.reset = () => {
 };
 
 Game.play = () => {
+  document.addEventListener('keydown', onKeyDown);
+
   $('#hoe').click(onTool('hoe'));
   $('#water').click(onTool('water'));
   $('#slot0').click(onTool('slot0'));
