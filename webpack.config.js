@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
 
 module.exports = (_, argv) => {
   const isProduction = argv.mode === 'production';
@@ -52,6 +53,7 @@ module.exports = (_, argv) => {
       new HtmlWebpackPlugin({
         template: 'src/index.html',
       }),
+      new InlineChunkHtmlPlugin(HtmlWebpackPlugin, ['main']),
       new MiniCssExtractPlugin(),
     ],
     devServer: {

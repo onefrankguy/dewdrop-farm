@@ -10,7 +10,7 @@
     "prebuild": "rm -f dist/*",
     "build": "webpack --mode production",
     "postbuild": "npm run zip",
-    "zip": "cd dist && advzip -a -4 ../game.zip *",
+    "zip": "cd dist && advzip -a -4 ../game.zip index.html main.css",
     "postzip": "npm run check-size",
     "sync": "rsync -avz --delete dist/ frankmitchell.org:/home/public/js13k2020",
     "check-size": "node ./check-size.js; exit 0"
@@ -24,6 +24,7 @@
     "mini-css-extract-plugin": "0.10.0",
     "optipng": "2.2.0",
     "pngquant": "3.1.0",
+    "react-dev-utils": "^10.2.1",
     "sass": "1.26.10",
     "sass-loader": "9.0.3",
     "url-loader": "^4.1.0",
