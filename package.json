@@ -10,7 +10,7 @@
     "prebuild": "rm -f dist/*",
     "build": "webpack --mode production",
     "postbuild": "npm run zip",
-    "zip": "cd dist && advzip -a -4 ../game.zip index.html",
+    "zip": "cd dist && advzip -a -4 ../game.zip *",
     "postzip": "npm run check-size",
     "sync": "rsync -avz --delete dist/ frankmitchell.org:/home/public/js13k2020",
     "check-size": "node ./check-size.js; exit 0"
