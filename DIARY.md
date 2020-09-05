@@ -1,5 +1,12 @@
 # Development Diary #
 
+## 5 September 2020 ##
+
+Day ?? of 31.
+
+I rendered the keyboard shortcuts with Michael Hue's [key.css][]. I like their
+chiclet look.
+
 ## 4 September 2020 ##
 
 Day ?? of 31. 12,893 bytes used (96.85%).
@@ -223,3 +230,4 @@ Maybe some kind of [idle clicker][] or farming simulation?
 [Wizard Zines]: https://wizardzines.com/ "Julia (Wizard Zines): "
 [DawnLike]: https://opengameart.org/content/dawnlike-16x16-universal-rogue-like-tileset-v181 "Dragon DePlatino (OpenGameArt.org): DawnLike - 16x16 Universal Rogue-like tileset v1.81"
 [Jerom]: https://opengameart.org/content/32x32-fantasy-tileset "Jerom (OpenGameArt.org): 32x32 Fantasy Tileset"
+[key.css]: https://github.com/michaelhue/keyscss "Michael Hue (GitHub): A simple stylesheet to render beautiful keyboard-styled elements"

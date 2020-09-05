@@ -33,6 +33,16 @@ const renderSticker = (amount) => {
   return html;
 };
 
+const renderKey = (key) => {
+  let html = '';
+
+  if (key !== undefined) {
+    html += `<kbd class="key">${key}</kbd>`;
+  }
+
+  return html;
+};
+
 const renderInventoryItem = (item) => {
   let html = '<span class="picture">';
 
@@ -41,9 +51,11 @@ const renderInventoryItem = (item) => {
       html += '<span class="tile seeds"></span>';
       html += `<span class="tile ${item.type} stage6 crop small"></span>`;
       html += renderSticker(item.amount);
+      html += renderKey(item.key);
     } else {
       html += `<span class="tile ${item.type} stage6 crop"></span>`;
       html += renderSticker(item.amount);
+      html += renderKey(item.key);
     }
   }
 
@@ -237,7 +249,10 @@ const renderTool = (tool, screen) => {
 
 const renderInventory = (farm) => {
   farm.inventory.forEach((item, index) => {
-    const html  = renderInventoryItem(item);
+    const html  = renderInventoryItem({
+      ...item,
+      key: index + 3,
+    });
 
     renderIfChanged(`#slot${index}`, html);
   });
