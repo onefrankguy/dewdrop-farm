@@ -7,6 +7,10 @@ Day ?? of 31.
 I rendered the keyboard shortcuts with Michael Hue's [key.css][]. I like their
 chiclet look.
 
+I tuned the crop prices so the profit per day curves are more interesting.
+There's now a "best" crop per season that maximizes profits for your play style.
+I might adjust things so each season has a "best" play style as well.
+
 ## 4 September 2020 ##
 
 Day ?? of 31. 12,893 bytes used (96.85%).
