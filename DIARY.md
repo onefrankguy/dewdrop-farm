@@ -1,5 +1,13 @@
 # Development Diary #
 
+## 4 September 2020 ##
+
+Day ?? of 31. 12,893 bytes used (96.85%).
+
+Embedding the images in the CSS, and CSS and JavaScript in the HTML, saved me
+434 bytes. That's pretty good! Though I seem to have broken the part of the
+cycle where crops wither and die. Not sure how I did that.
+
 ## 1 September 2020 ##
 
 Day 20 of 31. 13,327 bytes used (100.11%).
