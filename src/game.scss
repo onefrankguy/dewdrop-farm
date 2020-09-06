@@ -376,6 +376,7 @@ $itemDetailBackground: rgb(219, 164, 99);
   > .key {
     grid-area: 1 / 2 / 1 / 2;
     margin-left: 1.2rem;
+    margin-top: 0.1rem;
   }
 }
 
@@ -385,9 +386,10 @@ $itemDetailBackground: rgb(219, 164, 99);
   width: 1.2rem;
   height: 1.2rem;
 	font-family: 'Lucida Grande', Lucida, Arial, sans-serif;
-	border-radius: .2rem;
 	cursor: default;
-	user-select: none;
+  user-select: none;
+  /*
+	border-radius: .2rem;
   background: rgb(255, 255, 255);
   background: linear-gradient(0, rgb(218, 224, 234), rgb(255, 255, 255));
   color: rgb(6, 6, 8);
@@ -398,6 +400,7 @@ $itemDetailBackground: rgb(219, 164, 99);
   0 .1rem 0 rgb(139, 147, 175),
   0 .11rem 0 rgba(6, 6, 8, .4),
   0 .1rem .11rem rgba(6, 6, 8, .9);
+  */
 }
 
 .inventory {

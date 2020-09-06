@@ -10,6 +10,7 @@ let farm;
 let tool;
 let slot;
 let screen;
+let saved;
 
 const offFarm = (_, event) => {
   let element = event.target;
@@ -102,6 +103,8 @@ const onUpdate = (dt) => {
 
   farm = Rules.dispatch(farm, action);
   Renderer.invalidate(farm, tool, screen);
+
+  Game.save();
 };
 
 const onRender = () => {
@@ -139,6 +142,20 @@ Game.reset = () => {
   tool = 'hoe';
   crop = undefined;
   screen = 'tend';
+  saved = 0;
+};
+
+Game.save = () => {
+  const day = Farm.day(farm);
+
+  if (saved !== day) {
+    Farm.save(farm, window.localStorage);
+    saved = day;
+  }
+};
+
+Game.load = () => {
+  farm = Farm.load(farm, window.localStorage);
 };
 
 Game.play = () => {
@@ -158,6 +175,7 @@ Game.play = () => {
   $('#farm').click(offFarm, offFarm);
 
   Game.reset();
+  Game.load();
   Engine.run(onUpdate, onRender);
 
   Renderer.invalidate(farm, tool, screen);

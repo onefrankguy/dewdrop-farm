@@ -579,6 +579,7 @@ Farm.create = (options = {}) => {
     inventory: [],
     cash: STARTING_CASH,
     bunny: getBunnyTime(),
+    version: 1,
   };
 
   const farm = {
@@ -660,6 +661,23 @@ Farm.dispatch = (farm, action) => {
 
     default:
       return farmCopy;
+  }
+};
+
+Farm.save = (farm, localStorage) => {
+  const data = JSON.stringify(farm);
+
+  localStorage.setItem('farm', data);
+};
+
+Farm.load = (farm, localStorage) => {
+  try {
+    const data = localStorage.getItem('farm');
+    const savedFarm = JSON.parse(data);
+
+    return savedFarm.version === farm.version ? savedFarm : farm;
+  } catch {
+    return farm;
   }
 };
 
