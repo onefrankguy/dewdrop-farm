@@ -171,12 +171,25 @@ const removeItem = (farm, item) => {
   return removed;
 };
 
-const getSellPrice = (_, item) => {
+const getSellPrice = (farm, item) => {
+  const season = Farm.season(farm);
+  const seasonIndex = SEASONS.indexOf(season);
   const info = Crops.info(item.type);
   let price = 0;
 
   if (info) {
-    price = item.seed ? Math.ceil(info.prices.seed / 2) : info.prices.crop;
+    if (item.seed) {
+      price = Math.ceil(info.prices.seed * 0.5);
+    } else {
+      price = info.prices.crop;
+      if (!info.seasons.includes(season)) {
+        const lastSeason = info.seasons[info.seasons.length - 1];
+        const lastSeasonIndex = SEASONS.indexOf(lastSeason);
+        if (~seasonIndex && ~lastSeasonIndex && lastSeasonIndex + 1 === seasonIndex) {
+          price = Math.ceil(info.prices.crop * 1.5);
+        }
+      }
+    }
   }
 
   return price;
@@ -665,9 +678,15 @@ Farm.dispatch = (farm, action) => {
 };
 
 Farm.save = (farm, localStorage) => {
-  const data = JSON.stringify(farm);
+  try {
+    const data = JSON.stringify(farm);
 
-  localStorage.setItem('farm', data);
+    localStorage.setItem('farm', data);
+
+    return true;
+  } catch {
+    return false;
+  }
 };
 
 Farm.load = (farm, localStorage) => {

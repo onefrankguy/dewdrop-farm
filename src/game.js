@@ -103,7 +103,6 @@ const onUpdate = (dt) => {
 
   farm = Rules.dispatch(farm, action);
   Renderer.invalidate(farm, tool, screen);
-
   Game.save();
 };
 
@@ -148,8 +147,7 @@ Game.reset = () => {
 Game.save = () => {
   const day = Farm.day(farm);
 
-  if (saved !== day) {
-    Farm.save(farm, window.localStorage);
+  if (saved !== day && Farm.save(farm, window.localStorage)) {
     saved = day;
   }
 };
