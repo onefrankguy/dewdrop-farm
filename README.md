@@ -1,4 +1,4 @@
-# js13k2020 #
+# Dewdrop Farm #
 
 This game was built for [js13kGames 2020][js13k].
 
