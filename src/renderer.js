@@ -15,11 +15,14 @@ const renderTime = (farm) => {
 };
 
 const renderCash = (cash) => {
+  const value = new Intl.NumberFormat().format(cash);
   let html = '';
+
   html += '<div class="cash">';
-  html += `<span class="value">${cash}</span>`;
+  html += `<span class="value">${value}</span>`;
   html += '<span class="tile cash"></span>';
   html += '</div>';
+
   return html;
 };
 
