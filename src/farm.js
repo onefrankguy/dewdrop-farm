@@ -593,6 +593,7 @@ Farm.create = (options = {}) => {
     cash: STARTING_CASH,
     bunny: getBunnyTime(),
     version: 1,
+    monetization: false,
   };
 
   const farm = {

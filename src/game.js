@@ -147,8 +147,14 @@ Game.reset = () => {
 Game.save = () => {
   const day = Farm.day(farm);
 
-  if (saved !== day && Farm.save(farm, window.localStorage)) {
-    saved = day;
+  if (saved !== day) {
+    if (!farm.monetization) {
+      farm.monetization = document.monetization && document.monetization.state === 'started';
+    }
+
+    if (Farm.save(farm, window.localStorage)) {
+      saved = day;
+    }
   }
 };
 
