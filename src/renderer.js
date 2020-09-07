@@ -104,12 +104,26 @@ const renderStoreItem = (item) => {
   return html;
 };
 
+const renderStoreCash = ({type, seed, cash}) => {
+  let html = '';
+
+  html += '<span class="col center">';
+  html += `<span class="register" data-crop="${type}" data-seed="${seed}">`;
+  html += renderCash(cash);
+  html += '</span>';
+  html += '</span>';
+
+  return html;
+};
+
 const renderStoreRow = (item) => {
   let html = '';
-  html += `<div class="row slot item" data-crop="${item.type}" data-seed="${item.seed}">`;
+
+  html += '<div class="row slot item">';
   html += renderStoreItem(item);
-  html += renderCash(item.cash);
+  html += renderStoreCash(item);
   html += '</div>';
+
   return html;
 };
 

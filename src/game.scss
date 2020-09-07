@@ -442,18 +442,18 @@ $buttonBackground: rgb(255, 213, 65);
 $buttonEdgeLight: rgb(249, 163, 27);
 $buttonEdgeDark: rgb(250, 106, 10);
 $buttonBorder: rgb(115, 23, 45);
-$buttonShadowLight: rgb(74, 84, 98);
-$buttonShadowDark: rgb(20, 16, 19);
-$buttonHighlight: rgb(227, 230, 255);
+$buttonShadowLight: rgba(74, 84, 98, 0.5);
+$buttonShadowDark: rgba(20, 16, 19, 0.5);
 
 .button {
+  position: relative;
   display: grid;
   place-items: center;
   font-variant: small-caps;
   @include textWithShadow();
   width: $tileWidth;
   height: ($tileWidth / 1.618);
-  margin: 0.4rem;
+  margin: 0.4rem 0.6rem 0.6rem 0.4rem;
   background: $buttonBackground;
   border-radius: 0.4rem;
   border-top: 0.1rem solid $buttonEdgeLight;
@@ -465,9 +465,11 @@ $buttonHighlight: rgb(227, 230, 255);
 
   &:before {
     content: '';
-    width: calc(100% + (0.1rem * 2));
-    height: calc(100% + (0.1rem * 2));
-    grid-area: 1 / 1 / -1 / -1;
+    position: absolute;
+    top: -0.15rem;
+    right: -0.15rem;
+    bottom: -0.15rem;
+    left: -0.15rem;
     border: 0.1rem solid $buttonBorder;
     border-radius: 0.4rem;
   }
@@ -476,9 +478,58 @@ $buttonHighlight: rgb(227, 230, 255);
     grid-area: 1 / 1 / -1 / -1;
   }
 
+  &:active,
   &.active {
-    transform: translate(0.2rem, 0.2rem);
+    transform: translate(0.1rem, 0.1rem);
     box-shadow: 0 0 $buttonShadowDark, 0 0 $buttonShadowLight;
+  }
+}
+
+$registerBackground: rgba(36, 159, 222);
+$registerEdgeLight: rgb(185, 191, 251);
+$registerEdgeDark: rgb(20, 52, 100);
+$registerBorder: rgb(115, 23, 45);
+$registerInnerBorderWidth: 0.1rem;
+$registerOuterBorderWidth: 0.1rem;
+$registerBorderRadius: 0.4rem;
+$registerShadowLight: rgba(74, 84, 98, 0.5);
+$registerShadowDark: rgba(20, 16, 19, 0.5);
+
+.register {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: ($tileWidth * 1.618);
+  margin: 0 1rem 0.2rem 0;
+  padding-left: 0.8rem;
+  background: $registerBackground;
+  border-top: $registerInnerBorderWidth solid $registerEdgeLight;
+  border-right: $registerInnerBorderWidth solid $registerEdgeDark;
+  border-bottom: $registerInnerBorderWidth solid $registerEdgeDark;
+  border-left: $registerInnerBorderWidth solid $registerEdgeLight;
+  border-radius: $registerBorderRadius;
+  box-shadow: 0.2rem 0.2rem $registerShadowDark, 0.4rem 0.4rem $registerShadowLight;
+  transition: all 0.1s ease;
+
+  > .cash {
+    margin: (-0.125 * $tileWidth);
+    margin-left: 0;
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: (-1 * ($registerOuterBorderWidth + ($registerInnerBorderWidth / 2)));
+    right: (-1 * ($registerOuterBorderWidth + ($registerInnerBorderWidth / 2)));
+    bottom: (-1 * ($registerOuterBorderWidth + ($registerInnerBorderWidth / 2)));
+    left: (-1 * ($registerOuterBorderWidth + ($registerInnerBorderWidth / 2)));
+    border: $registerOuterBorderWidth solid $registerBorder;
+    border-radius: $registerBorderRadius;
+  }
+
+  &:active {
+    transform: translate(0.1rem, 0.1rem);
+    box-shadow: 0 0 $registerShadowDark, 0 0 $registerShadowLight;
   }
 }
 
