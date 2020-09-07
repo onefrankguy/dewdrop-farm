@@ -19,7 +19,12 @@ module.exports = (_, argv) => {
       }, {
         test: /\.png$/,
         use: [
-          'file-loader',
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+            },
+          },
           {
             loader: 'image-webpack-loader',
             options: {
