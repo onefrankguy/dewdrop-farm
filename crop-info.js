@@ -43,11 +43,14 @@ const getCropData = (crop, season) => {
 
 console.log(`\n= ${season.toUpperCase()} =`);
 
-Crops.seasonal(season).forEach((crop) => {
-  const {days, sales, profit, seasons, regrow, price, value} = getCropData(crop, season);
+const crops = Crops.seasonal(season).map((crop) => getCropData(crop, season));
+crops.sort((a, b) => b.profit - a.profit);
+
+crops.forEach((crop) => {
+  const {days, sales, profit, seasons, regrow, price, value} = crop;
   const regrowth = regrow ? `(${regrow} to regrow)` : '';
 
-  console.log(`${crop}:`);
+  console.log(`${crop.crop}:`);
   console.log(`- grows in ${seasons.join(', ')}`);
   console.log(`- takes ${days} days to grow ${regrowth}`);
   console.log(`- can sell ${sales} per year`);
