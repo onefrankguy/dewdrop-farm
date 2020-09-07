@@ -114,16 +114,26 @@ const renderStoreRow = (item) => {
 };
 
 const renderFarmPlotGround = (farm, row, col) => {
-  const upTilled = Farm.tilled(farm, {row: row - 1, col}) ? 1 : 0
-  const downTilled = Farm.tilled(farm, {row: row + 1, col}) ? 1 : 0;
-  const leftTilled = Farm.tilled(farm, {row, col: col - 1}) ? 1 : 0;
-  const rightTilled = Farm.tilled(farm, {row, col: col + 1}) ? 1 : 0;
-
+  const klasses = ['tile', 'ground'];
   const tilled = Farm.tilled(farm, {row, col}) ? 'till' : '';
-  const stage = `stage${upTilled}${rightTilled}${downTilled}${leftTilled}`;
-  const klasses = renderClasses(['tile', 'ground', tilled, stage]);
 
-  return `<div class="${klasses}"></div>`
+  if (tilled) {
+    const upTilled = Farm.tilled(farm, { row: row - 1, col }) ? 1 : 0
+    const downTilled = Farm.tilled(farm, { row: row + 1, col }) ? 1 : 0;
+    const leftTilled = Farm.tilled(farm, { row, col: col - 1 }) ? 1 : 0;
+    const rightTilled = Farm.tilled(farm, { row, col: col + 1 }) ? 1 : 0;
+    const stage = `stage${upTilled}${rightTilled}${downTilled}${leftTilled}`;
+
+    klasses.push(tilled);
+    klasses.push(stage);
+  } else {
+    const grass = Farm.grass(farm, {row, col});
+    const rotate = (grass && grass.rotate) ? `rotate${grass.rotate}` : '';
+
+    klasses.push(rotate);
+  }
+
+  return `<div class="${renderClasses(klasses)}"></div>`
 };
 
 const renderFarmPlotWater = (farm, row, col) => {

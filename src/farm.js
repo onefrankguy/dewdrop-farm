@@ -330,6 +330,15 @@ const hoe = (farm, action) => {
 const grass = (farm, action) => {
   if (!hasLand(farm, action, 'plant')) {
     removeLand(farm, action, 'till');
+    removeLand(farm, action, 'grass');
+
+    const grassAction = {
+      row: action.row,
+      col: action.col,
+      rotate: getRotation(),
+    };
+
+    addLand(farm, grassAction, 'grass');
   }
 
   return farm;
@@ -598,7 +607,7 @@ Farm.create = (options = {}) => {
     inventory: [],
     cash: STARTING_CASH,
     bunny: getBunnyTime(),
-    version: 1,
+    version: 2,
     monetization: false,
   };
 
@@ -615,7 +624,12 @@ Farm.create = (options = {}) => {
     farm.land[row] = [];
 
     for (let col = 0; col < farm.cols; col += 1) {
-      farm.land[row][col] = {};
+      farm.land[row][col] = {
+        grass: {
+          time: farm.time,
+          rotate: getRotation(),
+        },
+      };
     }
   }
 
@@ -767,6 +781,8 @@ Farm.watered = (farm, action) => getLand(farm, action, 'water');
 Farm.tilled = (farm, action) => getLand(farm, action, 'till');
 
 Farm.bunny = (farm, action) => getLand(farm, action, 'bunny');
+
+Farm.grass = (farm, action) => getLand(farm, action, 'grass');
 
 Farm.season = (farm) => {
   const index = Math.floor(farm.time / SECONDS_PER_DAY / DAYS_PER_SEASON) % SEASONS.length;

@@ -98,8 +98,6 @@ a, a:visited {
 
 .plot {
   display: grid;
-  background-position-x: (-5 * $tileWidth);
-  background-position-y: (0 * $tileHeight);
 }
 
 .plot > .ground,
@@ -114,11 +112,7 @@ a, a:visited {
   z-index: 1;
 }
 
-.stage0000 {
-  background-position-x: (-5 * $tileWidth);
-  background-position-y: (0 * $tileHeight);
-}
-.stage1111 {
+.tile.ground {
   background-position-x: (-5 * $tileWidth);
   background-position-y: (0 * $tileHeight);
 }
