@@ -1,8 +1,37 @@
 # Development Diary #
 
+## 6 September 2020 ##
+
+Day 25 of 31. 13,797 bytes used (103.64%).
+
+I tried using SVGs instead of PNGs. They compress much worse. Granted, I was
+still going for that pixel art look, so it's possible I could run length encode
+the SVG or something and save a bunch of bytes that way. Actually, I only 65
+possible colors. I could encode the PNG as custom binary data in HTML and
+extract it into a SVG at runtime. I might give that a go.
+
+I did manage to save a few bytes by using a different PNG compression library.
+I think it's the same on ImageOptim uses. I'll probably still have to cut crops
+to get it down to a reasonable byte size though.
+
+The farm now saves & loads via `localStorage`! That's pretty exciting, 'cause it
+means you can leave and come back later. It saves daily, so you don't risk a lot
+of progress if you quit.
+
+I tweaked crop prices so stuff just out of season sells for slightly more. I
+might invert that though and have it sell for slightly less. Spoiled fruit?
+Need to do some research on that. I could do some kind of economic curve based
+on when in the season you are. And speaking of economics...
+
+I added monetization! It doesn't do anything yet, but the `<metadata>` tag is
+wired up. I'm thinking of having it improve the crop tools? Maybe jump you
+forward in XP a bit? I need something that's 100 + 20. So you _can_ get all the
+goodies if you're not monetized, it just might take a bit longer. I need to be
+careful not to turn this into an addiction loop.
+
 ## 5 September 2020 ##
 
-Day ?? of 31.
+Day 24 of 31. 14,518 bytes used (109.06%).
 
 I rendered the keyboard shortcuts with Michael Hue's [key.css][]. I like their
 chiclet look.
@@ -13,7 +42,7 @@ I might adjust things so each season has a "best" play style as well.
 
 ## 4 September 2020 ##
 
-Day ?? of 31. 12,893 bytes used (96.85%).
+Day 23 of 31. 12,893 bytes used (96.85%).
 
 Embedding the images in the CSS, and CSS and JavaScript in the HTML, saved me
 434 bytes. That's pretty good! Though I seem to have broken the part of the
