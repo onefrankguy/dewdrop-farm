@@ -239,9 +239,13 @@ a, a:visited {
   flex-direction: row;
   align-items: center;
   @include textWithShadow();
+}
 
-  .tile {
-    margin-left: 0.4rem;
+.time {
+  @include textWithShadow();
+
+  > sup {
+    font-size: (1.6rem / 1.618);
   }
 }
 

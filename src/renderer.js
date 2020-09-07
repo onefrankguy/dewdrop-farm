@@ -7,11 +7,27 @@ const Renderer = {};
 const renderClasses = (klasses) =>
   klasses.filter((klass) => klass).join(' ').trim();
 
+const renderNth = (value) => {
+  if (value > 3 && value < 21) {
+    return 'th';
+  }
+  switch (value % 10) {
+    case 1:
+      return 'st';
+    case 2:
+      return 'nd';
+    case 3:
+      return 'rd';
+    default:
+      return 'th';
+  }
+}
+
 const renderTime = (farm) => {
   const day = Farm.day(farm);
   const season = Farm.season(farm);
 
-  return `Day ${day} of <span class="capitalize">${season}</span>`;
+  return `<span class="capitalize">${season}</span> ${day}<sup>${renderNth(day)}</sup>`;
 };
 
 const renderCash = (cash) => {
