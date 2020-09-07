@@ -212,13 +212,19 @@ const enqueue = (farm, action) => {
   return farm;
 };
 
-const update = (farm, action) => {
+const dequeue = (farm) => {
   const actions = farm.actions.slice().filter(({tool}) => tool !== 'update');
   farm.actions = [];
 
   actions.forEach((action) => {
     farm = Farm.dispatch(farm, action);
   });
+
+  return farm;
+};
+
+const update = (farm, action) => {
+  farm = dequeue(farm);
 
   farm.time += action.dt;
   farm.bunny -= action.dt;
@@ -680,13 +686,15 @@ Farm.dispatch = (farm, action) => {
 
 Farm.save = (farm, localStorage) => {
   try {
-    const data = JSON.stringify(farm);
+    let farmCopy = Utils.clone(farm);
+    farmCopy = dequeue(farmCopy);
+    const data = JSON.stringify(farmCopy);
 
     localStorage.setItem('farm', data);
 
-    return true;
+    return [farmCopy, true];
   } catch {
-    return false;
+    return [farm, false];
   }
 };
 

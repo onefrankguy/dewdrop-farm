@@ -102,8 +102,8 @@ const onUpdate = (dt) => {
   };
 
   farm = Rules.dispatch(farm, action);
-  Renderer.invalidate(farm, tool, screen);
   Game.save();
+  Renderer.invalidate(farm, tool, screen);
 };
 
 const onRender = () => {
@@ -152,7 +152,10 @@ Game.save = () => {
       farm.monetization = document.monetization && document.monetization.state === 'started';
     }
 
-    if (Farm.save(farm, window.localStorage)) {
+    let success = false;
+    [farm, success] = Farm.save(farm, window.localStorage);
+
+    if (success) {
       saved = day;
     }
   }
