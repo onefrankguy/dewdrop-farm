@@ -38,8 +38,10 @@ const getPlotList = (farm, type, test) => {
   const remaining = [];
 
   plotLists[type].plots.forEach((plot) => {
-    if (plot.time <= farmTime && test(plot)) {
-      plots.push(plot);
+    if (plot.time <= farmTime) {
+      if (test(plot)) {
+        plots.push(plot);
+      }
     } else {
       remaining.push(plot);
     }
@@ -108,12 +110,10 @@ const shouldGrass = (farm) => (action) => {
   if (tilled) {
     const dayTilled = Math.ceil(tilled.time / Farm.SECONDS_PER_DAY);
     const duration = day - dayTilled;
-    const adjacent = Farm.adjacent(farm, action, false);
-    const fallow = adjacent.filter((action) => !Farm.tilled(farm, action));
+    const level = 10 - Farm.level(farm);
+    const chance = 0.02 + (0.04 * level);
 
-    if (duration > adjacent.length - fallow.length) {
-      return true;
-    }
+    return duration > 1 && PRNG.random() < chance;
   }
 
   return false;

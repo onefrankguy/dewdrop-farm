@@ -269,6 +269,10 @@ const harvest = (farm, action) => {
 
   const info = Crops.info(plant.crop);
 
+  if (info.xp) {
+    farm.xp += info.xp;
+  }
+
   if (info.regrow) {
     const plantAction = {
       type: 'plant',
@@ -609,6 +613,7 @@ Farm.create = (options = {}) => {
     bunny: getBunnyTime(),
     version: 2,
     monetization: false,
+    xp: 0,
   };
 
   const farm = {
@@ -771,9 +776,6 @@ Farm.orthogonal = (farm, action, test = true) => {
   return test ? results.filter((plot) => valid(farm, plot)) : results;
 };
 
-Farm.adjacent = (farm, action, test = true) =>
-  Farm.diagonal(farm, action, test).concat(Farm.orthogonal(farm, action, test));
-
 Farm.crop = (farm, action) => getLand(farm, action, 'plant');
 
 Farm.watered = (farm, action) => getLand(farm, action, 'water');
@@ -826,6 +828,14 @@ Farm.store = (farm) => {
       cash: getBuyPrice(farm, item),
     };
   });
+};
+
+Farm.level = (farm) => {
+  const xp = (farm && farm.xp) ? farm.xp : 0;
+  const levels = [15000, 10000, 6900, 4800, 3300, 2150, 1300, 770, 380, 100];
+  const index = levels.findIndex((level) => xp >= level);
+
+  return ~index ? (levels.length - index) : 0;
 };
 
 module.exports = Farm;

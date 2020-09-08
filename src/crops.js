@@ -12,6 +12,7 @@ const dictionary = {
     },
     stages: [0, 1, 1, 1, 0, 1],
     regrow: 0,
+    xp: 8,
   },
   chile: {
     seed: 'seed',
@@ -22,6 +23,7 @@ const dictionary = {
     },
     stages: [0, 1, 1, 1, 1, 1],
     regrow: 3,
+    xp: 9,
   },
   tomato: {
     seed: 'seed',
@@ -32,6 +34,7 @@ const dictionary = {
     },
     stages: [0, 2, 2, 2, 2, 3],
     regrow: 4,
+    xp: 12,
   },
   eggplant: {
     seed: 'seed',
@@ -42,6 +45,7 @@ const dictionary = {
     },
     stages: [0, 1, 1, 1, 1, 1],
     regrow: 5,
+    xp: 12,
   },
   strawberry: {
     seed: 'seed',
@@ -52,6 +56,7 @@ const dictionary = {
     },
     stages: [0, 1, 1, 2, 2, 2],
     regrow: 4,
+    xp: 18,
   },
   potato: {
     seed: '',
@@ -62,6 +67,7 @@ const dictionary = {
     },
     stages: [0, 1, 1, 1, 2, 1],
     regrow: 0,
+    xp: 14,
   },
   corn: {
     seed: 'seed',
@@ -72,6 +78,7 @@ const dictionary = {
     },
     stages: [0, 2, 3, 3, 3, 3],
     regrow: 4,
+    xp: 10,
   },
   grape: {
     seed: 'seed',
@@ -82,6 +89,7 @@ const dictionary = {
     },
     stages: [0, 1, 1, 2, 3, 3],
     regrow: 3,
+    xp: 14,
   },
   cassava: {
     seed: '',
@@ -92,6 +100,7 @@ const dictionary = {
     },
     stages: [0, 1, 3, 3, 0, 3],
     regrow: 0,
+    xp: 22,
   },
   avocado: {
     seed: 'pit',
@@ -102,6 +111,7 @@ const dictionary = {
     },
     stages: [0, 2, 2, 3, 2, 1],
     regrow: 0,
+    xp: 15,
   },
   sprinkler: {
     seed: '',
@@ -112,6 +122,7 @@ const dictionary = {
     },
     stages: [0, 0, 0, 0, 0, 0],
     regrow: 0,
+    xp: 0,
   },
 };
 
