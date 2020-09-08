@@ -88,6 +88,7 @@ a, a:visited {
 
 .farm {
   flex-grow: 1;
+  user-select: none;
 }
 
 .farm > .row {
@@ -228,7 +229,6 @@ a, a:visited {
   display: flex;
   flex-direction: row;
   align-items: center;
-  user-select: none;
   @include textWithShadow();
 }
 
@@ -382,7 +382,6 @@ $itemDetailBackground: rgb(219, 164, 99);
   height: 1.2rem;
 	font-family: 'Lucida Grande', Lucida, Arial, sans-serif;
 	cursor: default;
-  user-select: none;
   /*
 	border-radius: .2rem;
   background: rgb(255, 255, 255);
@@ -402,6 +401,7 @@ $itemDetailBackground: rgb(219, 164, 99);
   background: $storeBackground;
   border: 0.1rem solid $storeBorder;
   padding: 0.1rem;
+  user-select: none;
 
   $itemShadow: rgb(160, 134, 98);
   $itemHighlight: rgb(254, 243, 192);
@@ -459,6 +459,7 @@ $buttonShadowDark: rgba(20, 16, 19, 0.5);
   border-left: 0.1rem solid $buttonEdgeLight;
   box-shadow: 0.2rem 0.2rem $buttonShadowDark, 0.4rem 0.4rem $buttonShadowLight;
   transition: all 0.1s ease;
+  user-select: none;
 
   &:before {
     content: '';
@@ -507,6 +508,7 @@ $registerShadowDark: rgba(20, 16, 19, 0.5);
   border-radius: $registerBorderRadius;
   box-shadow: 0.2rem 0.2rem $registerShadowDark, 0.4rem 0.4rem $registerShadowLight;
   transition: all 0.1s ease;
+  user-select: none;
 
   > .cash {
     margin: (-0.125 * $tileWidth);
