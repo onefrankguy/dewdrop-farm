@@ -37,6 +37,7 @@ const getCropData = (crop, season) => {
     profit: profitPerDay,
     regrow: info.regrow,
     seasons: info.seasons,
+    xp: info.xp,
   };
 };
 
@@ -47,7 +48,7 @@ const crops = Crops.seasonal(season).map((crop) => getCropData(crop, season));
 crops.sort((a, b) => b.profit - a.profit);
 
 crops.forEach((crop) => {
-  const {days, sales, profit, seasons, regrow, price, value} = crop;
+  const {days, sales, profit, seasons, regrow, price, value, xp} = crop;
   const regrowth = regrow ? `(${regrow} to regrow)` : '';
 
   console.log(`${crop.crop}:`);
@@ -55,5 +56,6 @@ crops.forEach((crop) => {
   console.log(`- takes ${days} days to grow ${regrowth}`);
   console.log(`- can sell ${sales} per year`);
   console.log(`- buy for ${price}, sell for ${value}`);
-  console.log(`- ${profit.toFixed(2)} per day`);
+  console.log(`- ${profit.toFixed(2)} cash per day`);
+  console.log(`- ${xp * sales} XP per year`);
 });

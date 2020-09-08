@@ -30,6 +30,12 @@ const renderTime = (farm) => {
   return `<span class="capitalize">${season}</span> ${day}<sup>${renderNth(day)}</sup>`;
 };
 
+const renderLevel = (farm) => {
+  const level = Farm.level(farm);
+
+  return `<span class="level">Level ${level}</span>`;
+};
+
 const renderCash = (cash) => {
   const value = new Intl.NumberFormat().format(cash);
   let html = '';
@@ -327,6 +333,7 @@ Renderer.render = (farm, tool, screen) => {
   renderTool(tool, screen);
   renderInventory(farm);
   renderIfChanged('#time', renderTime(farm));
+  renderIfChanged('#level', renderLevel(farm));
   renderIfChanged('#cash', renderCash(farm.cash));
   renderIfChanged('#farm', renderFarm(farm));
   renderIfChanged('#store', renderStore(farm));

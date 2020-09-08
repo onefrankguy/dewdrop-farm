@@ -14,7 +14,6 @@ $tileHeight: 4.8rem;
 
 @mixin textWithShadow() {
   font-size: 1.6rem;
-  font-weight: bold;
 }
 
 /* RESET */
@@ -33,7 +32,7 @@ $tileHeight: 4.8rem;
 html {
   font-weight: normal;
   font-size: 62.5%;
-  font-family: 'Goudy Old Style', 'Garamond', 'Big Caslon', 'Times New Roman', serif;
+  font-family: Georgia, Times, 'Times New Roman', serif;
   background: $plotColor;
   color: $fontColor;
 }
@@ -545,8 +544,7 @@ $registerShadowDark: rgba(20, 16, 19, 0.5);
 }
 
 abbr[title="and"] {
-  font-family: 'Adobe Caslon Pro', 'Baskerville', 'Goudy Old Style', 'Palatino',
-  'Palatino Linotype', 'Book Antiqua', 'Georgia', 'Times New Roman', 'Times', serif;
+  font-family: 'Adobe Caslon Pro', Baskerville, 'Goudy Old Style', Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, Times, 'Times New Roman', serif;
   font-style: italic;
   text-decoration: none;
   font-size: 110%;
