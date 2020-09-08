@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const season = process.argv[2] || 'spring';
+const SEASONS = ['spring', 'summer', 'fall', 'winter'];
 
 const Crops = require('./src/crops');
 
@@ -12,10 +13,14 @@ const getCropData = (crop, season) => {
   const regrow = info.regrow ? Crops.days({crop, stage: 5, regrow: info.regrow}, adjust) : 0;
 
   let growingDays = 0;
-  for (let i = 0; i < info.seasons.length; i += 1) {
-    if (info.seasons[i] === season) {
-      growingDays = 1;
-    } else if (growingDays) {
+  if (info.seasons.includes(season)) {
+    growingDays += 1;
+
+    if (season === 'spring' && info.seasons.includes('summer')) {
+      growingDays += 1;
+    }
+
+    if (season === 'summer' && info.seasons.includes('fall')) {
       growingDays += 1;
     }
   }
@@ -54,8 +59,8 @@ crops.forEach((crop) => {
   console.log(`${crop.crop}:`);
   console.log(`- grows in ${seasons.join(', ')}`);
   console.log(`- takes ${days} days to grow ${regrowth}`);
-  console.log(`- can sell ${sales} per year`);
+  console.log(`- can sell ${sales} this year`);
   console.log(`- buy for ${price}, sell for ${value}`);
   console.log(`- ${profit.toFixed(2)} cash per day`);
-  console.log(`- ${xp * sales} XP per year`);
+  console.log(`- ${xp * sales} XP this year`);
 });

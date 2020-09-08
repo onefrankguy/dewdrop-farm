@@ -5,7 +5,7 @@ const Crops = {};
 const dictionary = {
   turnip: {
     seed: 'bulb',
-    seasons: ['spring'],
+    seasons: ['spring', 'fall'],
     prices: {
       crop: 35,
       seed: 20,
@@ -13,17 +13,6 @@ const dictionary = {
     stages: [0, 1, 1, 1, 0, 1],
     regrow: 0,
     xp: 8,
-  },
-  chile: {
-    seed: 'seed',
-    seasons: ['summer'],
-    prices: {
-      crop: 40,
-      seed: 40,
-    },
-    stages: [0, 1, 1, 1, 1, 1],
-    regrow: 3,
-    xp: 9,
   },
   tomato: {
     seed: 'seed',
@@ -60,47 +49,14 @@ const dictionary = {
   },
   potato: {
     seed: '',
-    seasons: ['spring'],
+    seasons: ['summer', 'fall'],
     prices: {
-      crop: 80,
+      crop: 60,
       seed: 50,
     },
     stages: [0, 1, 1, 1, 2, 1],
     regrow: 0,
     xp: 14,
-  },
-  corn: {
-    seed: 'seed',
-    seasons: ['summer', 'fall'],
-    prices: {
-      crop: 55,
-      seed: 150,
-    },
-    stages: [0, 2, 3, 3, 3, 3],
-    regrow: 4,
-    xp: 10,
-  },
-  grape: {
-    seed: 'seed',
-    seasons: ['fall'],
-    prices: {
-      crop: 80,
-      seed: 60,
-    },
-    stages: [0, 1, 1, 2, 3, 3],
-    regrow: 3,
-    xp: 14,
-  },
-  cassava: {
-    seed: '',
-    seasons: ['fall'],
-    prices: {
-      crop: 120,
-      seed: 60,
-    },
-    stages: [0, 1, 3, 3, 0, 3],
-    regrow: 0,
-    xp: 22,
   },
   avocado: {
     seed: 'pit',

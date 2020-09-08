@@ -80,7 +80,7 @@ a, a:visited {
   display: inline-flex;
   width: $tileHeight;
   height: $tileHeight;
-  background-size: (6 * $tileWidth) (15 * $tileHeight);
+  background-size: (6 * $tileWidth) (11 * $tileHeight);
   background-image: url('../img/tiles2.png');
   background-position-x: (0 * $tileWidth);
   background-position-y: (-3 * $tileHeight);
@@ -209,15 +209,11 @@ a, a:visited {
 }
 
 @include crop('turnip', 5);
-@include crop('chile', 6);
-@include crop('tomato', 7);
-@include crop('eggplant', 8);
-@include crop('strawberry', 9);
-@include crop('potato', 10);
-@include crop('corn', 11);
-@include crop('grape', 12);
-@include crop('cassava', 13);
-@include crop('avocado', 14);
+@include crop('tomato', 6);
+@include crop('eggplant', 7);
+@include crop('strawberry', 8);
+@include crop('potato', 9);
+@include crop('avocado', 10);
 
 /* STATS */
 .stats {
