@@ -67,7 +67,7 @@ const getLand = (farm, {row, col}, type) => {
 
 const hasLand = (farm, action, type) => !!getLand(farm, action, type);
 
-const addLand = (farm, {row, col, crop, stage, time, regrow, rotate, variety}, type) => {
+const addLand = (farm, {row, col, crop, stage, time, regrow, rotate}, type) => {
   const land = {
     time: time || farm.time,
   };
@@ -80,7 +80,6 @@ const addLand = (farm, {row, col, crop, stage, time, regrow, rotate, variety}, t
     land.crop = crop;
     land.stage = stage || MIN_CROP_STAGE;
     land.regrow = regrow;
-    land.variety = variety;
   }
 
   farm.land[row][col][type] = land;
@@ -411,18 +410,22 @@ const plant = (farm, action) => {
       index: action.slot,
     };
 
-    if (item.type === 'wildflower') {
-      if (Farm.skilled(farm, 0.02, 0.04)) {
-        const season = Farm.season(farm);
-        const seasonalCrops = Crops.seasonal(season);
-
-        item.type = PRNG.pick(seasonalCrops);
-      }
-    }
-
     if (removeItem(farm, item)) {
       action.type = 'plant';
       action.crop = item.type;
+
+      if (action.crop === 'wildflower') {
+        action.crop = PRNG.pick(['rose', 'tulip', 'sunflower']);
+        action.rotate = PRNG.pick(['X', 0]);
+
+        if (Farm.skilled(farm, 0.02, 0.04)) {
+          const season = Farm.season(farm);
+          const seasonalCrops = Crops.seasonal(season);
+
+          action.type = PRNG.pick(seasonalCrops);
+          action.rotate = 0;
+        }
+      }
 
       addLand(farm, action, 'plant');
     }
@@ -464,14 +467,6 @@ const grow = (farm, action) => {
   } else {
     action.stage = DEAD_CROP_STAGE;
     action.rotate = getRotation(plant, ['X', 0]);
-  }
-
-  if (action.crop === 'wildflower') {
-    if (action.stage >= MAX_CROP_STAGE) {
-      action.variety = PRNG.pick(['rose', 'tulip', 'sunflower']);
-    } else if (action.stage >= MIN_CROP_STAGE) {
-      action.rotate = getRotation(plant, ['X', 0]);
-    }
   }
 
   removeLand(farm, action, 'plant');
@@ -638,7 +633,7 @@ Farm.create = (options = {}) => {
     inventory: [],
     cash: STARTING_CASH,
     bunny: getBunnyTime(),
-    version: 2,
+    version: 3,
     monetization: false,
     xp: 0,
   };

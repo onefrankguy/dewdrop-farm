@@ -176,9 +176,8 @@ const renderFarmPlotCrop = (farm, row, col) => {
 
   if (crop) {
     const stage = crop.stage ? `stage${crop.stage}` : '';
-    const variety = crop.variety ? crop.variety : '';
     const rotate = crop.rotate ? `rotate${crop.rotate}` : '';
-    const klasses = renderClasses(['tile', 'crop', crop.crop, stage, variety, rotate]);
+    const klasses = renderClasses(['tile', 'crop', crop.crop, stage, rotate]);
     html += `<div class="${klasses}"></div>`;
   }
 

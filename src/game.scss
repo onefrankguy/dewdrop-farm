@@ -216,36 +216,44 @@ a, a:visited {
 @include crop('potato', 9);
 @include crop('avocado', 10);
 
-.wildflower.stage1 {
+.rose.stage1,
+.tulip.stage1,
+.sunflower.stage1 {
   background-position-x: (-5 * $tileWidth);
   background-position-y: (-6 * $tileHeight);
 }
-.wildflower.stage2 {
+.rose.stage2,
+.tulip.stage2,
+.sunflower.stage2 {
   background-position-x: (-4 * $tileWidth);
   background-position-y: (-7 * $tileHeight);
 }
-.wildflower.stage3 {
+.rose.stage3,
+.tulip.stage3,
+.sunflower.stage3 {
   background-position-x: (-3 * $tileWidth);
   background-position-y: (-10 * $tileHeight);
 }
-.wildflower.stage4 {
-  background-position-x: (-4 * $tileWidth);
+.rose.stage4,
+.tulip.stage4,
+.sunflower.stage4 {
+  background-position-x: (-2 * $tileWidth);
   background-position-y: (-10 * $tileHeight);
 }
-.wildflower.stage5 {
-  background-position-x: (-2 * $tileWidth);
-  background-position-y: (-4 * $tileHeight);
-}
-.wildflower.stage6 {
-  background-position-x: (-2 * $tileWidth);
-  background-position-y: (-4 * $tileHeight);
-}
-.wildflower.stage5.rose {
+.rose.stage5,
+.rose.stage6 {
   background-position-x: (0 * $tileWidth);
   background-position-y: (-4 * $tileHeight);
 }
-.wildflower.stage5.tulip {
+.tulip.stage5,
+.tulip.stage6 {
   background-position-x: (-1 * $tileWidth);
+  background-position-y: (-4 * $tileHeight);
+}
+.sunflower.stage5,
+.sunflower.stage6,
+.wildflower.stage6 {
+  background-position-x: (-2 * $tileWidth);
   background-position-y: (-4 * $tileHeight);
 }
 
