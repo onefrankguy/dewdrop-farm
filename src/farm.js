@@ -833,7 +833,7 @@ Farm.market = (farm) => {
         amount: 0,
         cash: getSellPrice(farm, item),
       })
-    };
+    }
   });
 
   return items;

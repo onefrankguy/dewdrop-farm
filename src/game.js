@@ -20,7 +20,7 @@ const offFarm = (_, event) => {
   }
 
   if (element && element.dataset.crop) {
-    const [_, row, col] = element.dataset.crop.split('');
+    const [row, col] = element.dataset.crop.split('');
 
     const action = {
       tool,
@@ -139,7 +139,7 @@ const onKeyDown = ({isComposing, keyCode}) => {
 Game.reset = () => {
   farm = Farm.create();
   tool = 'hoe';
-  crop = undefined;
+  slot = undefined;
   screen = 'tend';
   saved = 0;
 };

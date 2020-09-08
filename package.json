@@ -4,6 +4,7 @@
   "license": "MIT",
   "version": "1.0.0",
   "scripts": {
+    "lint": "eslint src test *.js 2>&1",
     "test": "jest",
     "predev": "rm -f dist/*",
     "dev": "webpack-dev-server --mode development",
@@ -17,6 +18,7 @@
   },
   "devDependencies": {
     "css-loader": "4.2.1",
+    "eslint": "7.8.1",
     "file-loader": "6.0.0",
     "html-inline-css-webpack-plugin": "1.8.1",
     "html-webpack-plugin": "4.3.0",
@@ -34,5 +36,6 @@
     "webpack": "4.44.1",
     "webpack-cli": "3.3.12",
     "webpack-dev-server": "3.11.0"
-  }
+  },
+  "dependencies": {}
 }

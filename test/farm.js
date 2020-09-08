@@ -1,3 +1,5 @@
+/* global test, expect */
+
 const Farm = require('../src/farm');
 
 test('Farm#create creates a new farm', () => {

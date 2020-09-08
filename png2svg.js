@@ -9,7 +9,7 @@ const inputFile = process.argv[3];
 const data = fs.readFileSync(inputFile);
 const png = PNG.sync.read(data);
 
-const [tileWidth, tileHeight] = inputSize
+const tileHeight = inputSize[1]
   .split('x')
   .map((value) => parseInt(value, 10));
 

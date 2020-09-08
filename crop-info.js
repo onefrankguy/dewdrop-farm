@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const season = process.argv[2] || 'spring';
-const SEASONS = ['spring', 'summer', 'fall', 'winter'];
 
 const Crops = require('./src/crops');
 
