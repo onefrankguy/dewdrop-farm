@@ -324,6 +324,7 @@ const hoe = (farm, action) => {
     tool: 'poke',
     row: action.row,
     col: action.col,
+    with: 'hoe',
   };
 
   farm = enqueue(farm, pokeAction);
@@ -360,6 +361,7 @@ const water = (farm, action) => {
     tool: 'poke',
     row: action.row,
     col: action.col,
+    with: 'water',
   };
 
   farm = enqueue(farm, pokeAction);
@@ -398,29 +400,28 @@ const drain = (farm, action) => {
 };
 
 const plant = (farm, action) => {
-  if (hasLand(farm, action, 'till') && !hasLand(farm, action, 'plant')) {
-    const slot = farm.inventory[action.slot];
+  const slot = farm.inventory[action.slot];
 
-    if (slot) {
-      const item = {
-        type: slot.type,
-        amount: 1,
-        seed: true,
-        index: action.slot,
-      };
+  if (slot && hasLand(farm, action, 'till') && !hasLand(farm, action, 'plant')) {
+    const item = {
+      type: slot.type,
+      amount: 1,
+      seed: true,
+      index: action.slot,
+    };
 
-      if (removeItem(farm, item)) {
-        action.type = 'plant';
-        action.crop = slot.type;
+    if (removeItem(farm, item)) {
+      action.type = 'plant';
+      action.crop = slot.type;
 
-        addLand(farm, action, 'plant');
-      }
+      addLand(farm, action, 'plant');
     }
   }
 
   const pokeAction = {
     ...action,
     tool: 'poke',
+    with: slot ? slot.type : 'hand',
   };
 
   farm = enqueue(farm, pokeAction);
@@ -567,6 +568,10 @@ const poke = (farm, action) => {
     farm.bunny = getBunnyTime();
 
     return farm;
+  }
+
+  if (action.with === 'hand') {
+    farm.xp += 5;
   }
 
   const edges = PRNG.shuffle(getEdges(farm));

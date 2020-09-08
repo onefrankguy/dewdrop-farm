@@ -228,6 +228,7 @@ a, a:visited {
   display: flex;
   flex-direction: row;
   align-items: center;
+  user-select: none;
   @include textWithShadow();
 }
 
