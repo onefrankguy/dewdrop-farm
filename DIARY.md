@@ -1,5 +1,19 @@
 # Development Diary #
 
+## 7 September 2020 ##
+
+Day 26 of 31. 14,023 bytes used (105.34%).
+
+Store buttons are clickable! I'm not a fan of the blue color (too bright?) but
+I like how the clickable look turned out.
+
+The grass texture is now rotated, so that creates some nice variation. And the
+stats are swapped (cash on the left, time on the right) for better readability.
+
+I've still got too many bytes. Tried to do a PNG to code to generated SVG
+conversion. It still came out too big (and took way to long to load). So
+getting the file size smaller needs to be tomorrow's project.
+
 ## 6 September 2020 ##
 
 Day 25 of 31. 13,797 bytes used (103.64%).
