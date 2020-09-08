@@ -371,7 +371,11 @@ const sprinkler = (farm, action) => {
   const crop = Farm.crop(farm, action);
 
   if (crop && crop.crop === 'sprinkler') {
-    const plots = [action].concat(Farm.orthogonal(farm, action));
+    let plots = [action].concat(Farm.orthogonal(farm, action));
+
+    if (Farm.level(farm) >= 6) {
+      plots = plots.concat(Farm.diagonal(farm, action));
+    }
 
     plots.forEach(({row, col}) => {
       const waterAction = {
@@ -813,8 +817,14 @@ Farm.market = (farm) => {
 };
 
 Farm.store = (farm) => {
+  const level = Farm.level(farm);
   const season = Farm.season(farm);
-  const seasonalCrops = Crops.seasonal(season);
+  const seasonalCrops = Crops.seasonal(season)
+    .filter((type) => {
+      const info = Crops.info(type);
+
+      return info.level <= level;
+    });
 
   return seasonalCrops.map((type) => {
     const item = {
