@@ -75,6 +75,18 @@ const dictionary = {
     xp: 15,
     level: 0,
   },
+  wildflower: {
+    seed: 'seed',
+    seasons: ['spring', 'summer', 'fall'],
+    prices: {
+      crop: 1,
+      seed: 0,
+    },
+    stages: [0, 1, 1, 2, 3, 2],
+    regrow: 0,
+    xp: 0,
+    level: 99,
+  },
   sprinkler: {
     seed: '',
     seasons: ['spring'],

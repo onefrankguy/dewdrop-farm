@@ -110,10 +110,9 @@ const shouldGrass = (farm) => (action) => {
   if (tilled) {
     const dayTilled = Math.ceil(tilled.time / Farm.SECONDS_PER_DAY);
     const duration = day - dayTilled;
-    const level = 10 - Farm.level(farm);
-    const chance = 0.02 + (0.04 * level);
+    const skilled = Farm.skilled(farm, 0.02, 0.04, true);
 
-    return duration > 1 && PRNG.random() < chance;
+    return duration > 1 && skilled;
   }
 
   return false;

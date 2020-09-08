@@ -67,7 +67,7 @@ const getLand = (farm, {row, col}, type) => {
 
 const hasLand = (farm, action, type) => !!getLand(farm, action, type);
 
-const addLand = (farm, {row, col, crop, stage, time, regrow, rotate}, type) => {
+const addLand = (farm, {row, col, crop, stage, time, regrow, rotate, variety}, type) => {
   const land = {
     time: time || farm.time,
   };
@@ -80,6 +80,7 @@ const addLand = (farm, {row, col, crop, stage, time, regrow, rotate}, type) => {
     land.crop = crop;
     land.stage = stage || MIN_CROP_STAGE;
     land.regrow = regrow;
+    land.variety = variety;
   }
 
   farm.land[row][col][type] = land;
@@ -410,9 +411,18 @@ const plant = (farm, action) => {
       index: action.slot,
     };
 
+    if (item.type === 'wildflower') {
+      if (Farm.skilled(farm, 0.02, 0.04)) {
+        const season = Farm.season(farm);
+        const seasonalCrops = Crops.seasonal(season);
+
+        item.type = PRNG.pick(seasonalCrops);
+      }
+    }
+
     if (removeItem(farm, item)) {
       action.type = 'plant';
-      action.crop = slot.type;
+      action.crop = item.type;
 
       addLand(farm, action, 'plant');
     }
@@ -454,6 +464,14 @@ const grow = (farm, action) => {
   } else {
     action.stage = DEAD_CROP_STAGE;
     action.rotate = getRotation(plant, ['X', 0]);
+  }
+
+  if (action.crop === 'wildflower') {
+    if (action.stage >= MAX_CROP_STAGE) {
+      action.variety = PRNG.pick(['rose', 'tulip', 'sunflower']);
+    } else if (action.stage >= MIN_CROP_STAGE) {
+      action.rotate = getRotation(plant, ['X', 0]);
+    }
   }
 
   removeLand(farm, action, 'plant');
@@ -831,6 +849,10 @@ Farm.store = (farm) => {
       return info.level <= level;
     });
 
+  if (season === 'winter') {
+    seasonalCrops.push('wildflower');
+  }
+
   return seasonalCrops.map((type) => {
     const item = {
       type,
@@ -851,6 +873,14 @@ Farm.level = (farm) => {
   const index = levels.findIndex((level) => xp >= level);
 
   return ~index ? (levels.length - index) : 0;
+};
+
+Farm.skilled = (farm, base, addition, invert = false) => {
+  const farmLevel = Farm.level(farm);
+  const level = invert ? 10 - farmLevel : farmLevel;
+  const chance = base + (addition * level);
+
+  return PRNG.random() < chance;
 };
 
 module.exports = Farm;

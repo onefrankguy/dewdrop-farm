@@ -216,6 +216,39 @@ a, a:visited {
 @include crop('potato', 9);
 @include crop('avocado', 10);
 
+.wildflower.stage1 {
+  background-position-x: (-5 * $tileWidth);
+  background-position-y: (-6 * $tileHeight);
+}
+.wildflower.stage2 {
+  background-position-x: (-4 * $tileWidth);
+  background-position-y: (-7 * $tileHeight);
+}
+.wildflower.stage3 {
+  background-position-x: (-3 * $tileWidth);
+  background-position-y: (-10 * $tileHeight);
+}
+.wildflower.stage4 {
+  background-position-x: (-4 * $tileWidth);
+  background-position-y: (-10 * $tileHeight);
+}
+.wildflower.stage5 {
+  background-position-x: (-2 * $tileWidth);
+  background-position-y: (-4 * $tileHeight);
+}
+.wildflower.stage6 {
+  background-position-x: (-2 * $tileWidth);
+  background-position-y: (-4 * $tileHeight);
+}
+.wildflower.stage5.rose {
+  background-position-x: (0 * $tileWidth);
+  background-position-y: (-4 * $tileHeight);
+}
+.wildflower.stage5.tulip {
+  background-position-x: (-1 * $tileWidth);
+  background-position-y: (-4 * $tileHeight);
+}
+
 /* STATS */
 .stats {
   justify-content: space-between;
