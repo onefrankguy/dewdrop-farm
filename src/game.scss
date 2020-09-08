@@ -82,8 +82,8 @@ a, a:visited {
   height: $tileHeight;
   background-size: (6 * $tileWidth) (11 * $tileHeight);
   background-image: url('../img/tiles2.png');
-  background-position-x: (0 * $tileWidth);
-  background-position-y: (-3 * $tileHeight);
+  background-position-x: (-4 * $tileWidth);
+  background-position-y: (0 * $tileHeight);
 }
 
 .farm {
@@ -181,7 +181,7 @@ a, a:visited {
   background-position-y: (-1 * $tileHeight);
 }
 .tile.water {
-  background-position-x: (-4 * $tileWidth);
+  background-position-x: (-5 * $tileWidth);
   background-position-y: (-3 * $tileHeight);
 }
 .tile.seeds {
@@ -189,7 +189,7 @@ a, a:visited {
   background-position-y: (-3 * $tileHeight);
 }
 .tile.hoe {
-  background-position-x: (-2 * $tileWidth);
+  background-position-x: (0 * $tileWidth);
   background-position-y: (-3 * $tileHeight);
 }
 .tile.can {
@@ -197,15 +197,15 @@ a, a:visited {
   background-position-y: (-3 * $tileHeight);
 }
 .tile.sprinkler {
-  background-position-x: (-5 * $tileWidth);
-  background-position-y: (-4 * $tileHeight);
+  background-position-x: (-4 * $tileWidth);
+  background-position-y: (-3 * $tileHeight);
 }
 .tile.bunny {
-  background-position-x: (-4 * $tileWidth);
-  background-position-y: (-4 * $tileHeight);
+  background-position-x: (-2 * $tileWidth);
+  background-position-y: (-3 * $tileHeight);
 }
 .tile.crop.stage-1 {
-  background-position-x: (-3 * $tileWidth);
+  background-position-x: (-5 * $tileWidth);
   background-position-y: (-4 * $tileHeight);
 }
 
@@ -242,8 +242,8 @@ a, a:visited {
 
 .tile.cash {
   transform: scale(0.75);
-  background-position-x: (-5 * $tileWidth);
-  background-position-y: (-3 * $tileHeight);
+  background-position-x: (-4 * $tileWidth);
+  background-position-y: (-4 * $tileHeight);
 }
 
 $storeBorder: rgb(113, 65, 59);
