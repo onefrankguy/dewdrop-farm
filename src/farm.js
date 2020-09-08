@@ -29,8 +29,8 @@ const getDistance = (plot1, plot2) => {
   return Math.abs(dx) + Math.abs(dy);
 };
 
-const getRotation = (item) =>
-  (item && item.rotate) ? item.rotate : PRNG.pick([90, 180, 270, 360]);
+const getRotation = (item, values = [90, 180, 270, 360]) =>
+  (item && item.rotate) ? item.rotate : PRNG.pick(values);
 
 const isEdge = (farm) => ({row, col}) =>
   row <= 0 || row >= farm.rows - 1 || col <= 0 || col >= farm.cols - 1;
@@ -453,7 +453,7 @@ const grow = (farm, action) => {
     action.stage = plant.stage + 1;
   } else {
     action.stage = DEAD_CROP_STAGE;
-    action.rotate = getRotation(plant);
+    action.rotate = getRotation(plant, ['X', 0]);
   }
 
   removeLand(farm, action, 'plant');
