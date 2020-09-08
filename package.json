@@ -11,9 +11,9 @@
     "prebuild": "rm -f dist/*",
     "build": "webpack --mode production",
     "postbuild": "npm run zip",
-    "zip": "cd dist && advzip -a -4 ../game.zip *",
+    "zip": "cd dist && advzip -a -4 ../game.zip $(cat ../manifest.txt)",
     "postzip": "npm run check-size",
-    "sync": "rsync -avz --delete dist/ frankmitchell.org:/home/public/js13k2020",
+    "sync": "cd dist && rsync -avz --delete --files-from=../manifest.txt ./ frankmitchell.org:/home/public/js13k2020/",
     "check-size": "node ./check-size.js; exit 0"
   },
   "devDependencies": {
