@@ -405,8 +405,9 @@ const drain = (farm, action) => {
 
 const plant = (farm, action) => {
   const slot = farm.inventory[action.slot];
+  const tilled = hasLand(farm, action, 'till') || (slot && slot.type === 'sprinkler');
 
-  if (slot && hasLand(farm, action, 'till') && !hasLand(farm, action, 'plant')) {
+  if (slot && tilled && !hasLand(farm, action, 'plant')) {
     const item = {
       type: slot.type,
       amount: 1,
