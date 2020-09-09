@@ -168,12 +168,12 @@ const renderFarmPlotWater = (farm, row, col) => {
 const renderFarmPlotCrop = (farm, row, col) => {
   let html = '';
 
-  const crop = Farm.crop(farm, {row, col});
+  const plant = Farm.planted(farm, {row, col});
 
-  if (crop) {
-    const stage = crop.stage ? `stage${crop.stage}` : '';
-    const rotate = crop.rotate ? `rotate${crop.rotate}` : '';
-    const klasses = renderClasses(['tile', 'crop', crop.crop, stage, rotate]);
+  if (plant) {
+    const stage = plant.stage ? `stage${plant.stage}` : '';
+    const rotate = plant.rotate ? `rotate${plant.rotate}` : '';
+    const klasses = renderClasses(['tile', 'crop', plant.crop, stage, rotate]);
     html += `<div class="${klasses}"></div>`;
   }
 

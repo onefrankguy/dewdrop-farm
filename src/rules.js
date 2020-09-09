@@ -120,9 +120,9 @@ const shouldGrass = (farm) => (action) => {
 
 const shouldSprinkler = (farm) => (action) => {
   const day = Math.ceil(farm.time / Farm.SECONDS_PER_DAY);
-  const crop = Farm.crop(farm, action);
+  const plant = Farm.planted(farm, action);
 
-  if (crop && crop.crop === 'sprinkler') {
+  if (plant && plant.crop === 'sprinkler') {
     const watered = Farm.watered(farm, action);
     const dayWatered = watered ? Math.ceil(watered.time / Farm.SECONDS_PER_DAY) : 0;
     const duration = day - dayWatered;
@@ -149,22 +149,22 @@ const shouldDrain = (farm) => (action) => {
 
 const shouldGrow = (farm) => (action) => {
   const day = Math.ceil(farm.time / Farm.SECONDS_PER_DAY);
-  const crop = Farm.crop(farm, action);
+  const plant = Farm.planted(farm, action);
   const watered = Farm.watered(farm, action);
   let adjust = watered && Math.ceil(watered.time / Farm.SECONDS_PER_DAY) >= day ? -1 : 0;
 
-  if (crop) {
+  if (plant) {
     const diagonalCrops = Farm.diagonal(farm, action)
-      .map((plot) => Farm.crop(farm, plot))
+      .map((plot) => Farm.planted(farm, plot))
       .filter((plant) => plant)
       .map(({crop}) => crop);
-    const anyDiagonal = diagonalCrops.find((type) => crop.crop === type);
+    const anyDiagonal = diagonalCrops.find((type) => plant.crop === type);
 
     const orthogonalCrops = Farm.orthogonal(farm, action)
-      .map((plot) => Farm.crop(farm, plot))
+      .map((plot) => Farm.planted(farm, plot))
       .filter((plant) => plant)
       .map(({crop}) => crop)
-      .filter((type) => crop.crop === type);
+      .filter((type) => plant.crop === type);
     const allOrthogonal = orthogonalCrops.length === 4;
 
     if (anyDiagonal || allOrthogonal) {
@@ -173,9 +173,9 @@ const shouldGrow = (farm) => (action) => {
       adjust -= 1;
     }
 
-    const plantedOn = Math.ceil(crop.time / Farm.SECONDS_PER_DAY);
+    const plantedOn = Math.ceil(plant.time / Farm.SECONDS_PER_DAY);
     const aliveFor = day - plantedOn;
-    const needsToBeAliveFor = Crops.days(crop, (value) => value - adjust);
+    const needsToBeAliveFor = Crops.days(plant, (value) => value - adjust);
 
     return aliveFor >= needsToBeAliveFor;
   }

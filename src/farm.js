@@ -66,8 +66,6 @@ const getLand = (farm, {row, col}, type) => {
   return undefined;
 };
 
-const hasLand = (farm, action, type) => !!getLand(farm, action, type);
-
 const addLand = (farm, {row, col, crop, stage, time, regrow, rotate}, type) => {
   const land = {
     time: time || farm.time,
@@ -91,9 +89,9 @@ const removeLand = (farm, {row, col}, type) =>
 
 const getBunny = (farm) => {
   const plots = getPlots(farm);
-  const action = plots.find((plot) => hasLand(farm, plot, 'bunny'));
+  const action = plots.find((plot) => !!Farm.bunny(farm, plot));
 
-  return action ? getLand(farm, action, 'bunny') : undefined;
+  return action ? Farm.bunny(farm, action) : undefined;
 };
 
 const getBunnyTime = () => 1 * PRNG.between(1 * SECONDS_PER_DAY, 2 * SECONDS_PER_DAY);
@@ -250,7 +248,7 @@ const update = (farm, action) => {
 };
 
 const harvest = (farm, action) => {
-  const plant = getLand(farm, action, 'plant');
+  const plant = Farm.planted(farm, action);
 
   if (!plant || plant.crop === 'sprinkler' || plant.stage < MAX_CROP_STAGE) {
     return farm;
@@ -291,7 +289,7 @@ const harvest = (farm, action) => {
 };
 
 const hoe = (farm, action) => {
-  const plant = getLand(farm, action, 'plant');
+  const plant = Farm.planted(farm, action);
   if (plant) {
     removeLand(farm, action, 'plant');
 
@@ -337,7 +335,7 @@ const hoe = (farm, action) => {
 };
 
 const grass = (farm, action) => {
-  if (!hasLand(farm, action, 'plant')) {
+  if (!Farm.planted(farm, action)) {
     removeLand(farm, action, 'till');
     removeLand(farm, action, 'grass');
 
@@ -354,7 +352,7 @@ const grass = (farm, action) => {
 };
 
 const water = (farm, action) => {
-  const watered = getLand(farm, action, 'water');
+  const watered = Farm.watered(farm, action);
 
   action.rotate = getRotation(watered);
 
@@ -373,9 +371,9 @@ const water = (farm, action) => {
 };
 
 const sprinkler = (farm, action) => {
-  const crop = Farm.crop(farm, action);
+  const plant = Farm.planted(farm, action);
 
-  if (crop && crop.crop === 'sprinkler') {
+  if (plant && plant.crop === 'sprinkler') {
     let plots = [action].concat(Farm.orthogonal(farm, action));
 
     if (Farm.level(farm) >= 6) {
@@ -404,9 +402,9 @@ const drain = (farm, action) => {
 
 const plant = (farm, action) => {
   const slot = farm.inventory[action.slot];
-  const tilled = hasLand(farm, action, 'till') || (slot && slot.type === 'sprinkler');
+  const tilled = !!Farm.tilled(farm, action) || (slot && slot.type === 'sprinkler');
 
-  if (slot && tilled && !hasLand(farm, action, 'plant')) {
+  if (slot && tilled && !Farm.planted(farm, action)) {
     const item = {
       type: slot.type,
       amount: 1,
@@ -454,7 +452,7 @@ const plant = (farm, action) => {
 };
 
 const grow = (farm, action) => {
-  const plant = getLand(farm, action, 'plant');
+  const plant = Farm.planted(farm, action);
 
   if (!plant || plant.stage < MIN_CROP_STAGE || plant.stage >= MAX_CROP_STAGE) {
     return farm;
@@ -540,9 +538,9 @@ const move = (farm, action) => {
 
     addLand(farm, action, 'bunny');
 
-    const crop = Farm.crop(farm, action);
+    const plant = Farm.planted(farm, action);
 
-    if (crop && crop.crop !== 'sprinkler' && crop.stage > MIN_CROP_STAGE && crop.stage < MAX_CROP_STAGE) {
+    if (plant && plant.crop !== 'sprinkler' && plant.stage > MIN_CROP_STAGE && plant.stage < MAX_CROP_STAGE) {
       removeLand(farm, action, 'plant');
     }
   }
@@ -802,7 +800,7 @@ Farm.orthogonal = (farm, action, test = true) => {
   return test ? results.filter((plot) => valid(farm, plot)) : results;
 };
 
-Farm.crop = (farm, action) => getLand(farm, action, 'plant');
+Farm.planted = (farm, action) => getLand(farm, action, 'plant');
 
 Farm.watered = (farm, action) => getLand(farm, action, 'water');
 
