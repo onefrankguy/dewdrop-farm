@@ -82,7 +82,7 @@ const dictionary = {
       crop: 1,
       seed: 0,
     },
-    stages: [0, 0, 0, 0, 0, 0],
+    stages: [],
     regrow: 0,
     xp: 0,
     level: 99,
@@ -125,15 +125,15 @@ const dictionary = {
   },
   sprinkler: {
     seed: '',
-    seasons: ['spring', 'summer'],
+    seasons: ['spring'],
     prices: {
       crop: 450,
-      seed: 0,
+      seed: 1350,
     },
-    stages: [0, 0, 0, 0, 0, 0],
+    stages: [],
     regrow: 0,
     xp: 0,
-    level: 0,
+    level: 2,
   },
 };
 

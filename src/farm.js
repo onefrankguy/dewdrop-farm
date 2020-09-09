@@ -464,6 +464,10 @@ const grow = (farm, action) => {
   const info = Crops.info(plant.crop);
   const season = Farm.season(farm);
 
+  if (info.stages.length < 1) {
+    return farm;
+  }
+
   action.crop = plant.crop;
   action.time = plant.time;
 
