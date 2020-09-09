@@ -81,7 +81,7 @@ a, a:visited {
   width: $tileHeight;
   height: $tileHeight;
   background-size: (6 * $tileWidth) (11 * $tileHeight);
-  background-image: url('../img/tiles2.png');
+  background-image: url('tiles2.png');
   background-position-x: (-4 * $tileWidth);
   background-position-y: (0 * $tileHeight);
 }
