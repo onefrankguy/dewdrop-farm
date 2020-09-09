@@ -42,7 +42,7 @@ const renderCash = (cash) => {
 
   html += '<div class="cash">';
   html += `<span class="value">${value}</span>`;
-  html += '<span class="tile cash"></span>';
+  html += '<span class="tile coins"></span>';
   html += '</div>';
 
   return html;

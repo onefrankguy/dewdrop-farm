@@ -12,10 +12,6 @@ $tileHeight: 4.8rem;
   }
 }
 
-@mixin textWithShadow() {
-  font-size: 1.6rem;
-}
-
 /* RESET */
 * {
   cursor: default;
@@ -261,8 +257,8 @@ a, a:visited {
 .stats {
   justify-content: space-between;
   align-items: center;
-  font-size: 1.6rem;
   margin: 0 0.8rem;
+  font-size: 1.6rem;
 }
 
 /* STORE */
@@ -270,18 +266,16 @@ a, a:visited {
   display: flex;
   flex-direction: row;
   align-items: center;
-  @include textWithShadow();
+  justify-content: flex-end;
 }
 
 .time {
-  @include textWithShadow();
-
   > sup {
     font-size: (1.6rem / 1.618);
   }
 }
 
-.tile.cash {
+.tile.coins {
   transform: scale(0.75);
   background-position-x: (-4 * $tileWidth);
   background-position-y: (-4 * $tileHeight);
@@ -299,6 +293,7 @@ $itemDetailBackground: rgb(219, 164, 99);
 .market {
   background: $storeBackground;
   border: 0.1rem solid $storeBorder;
+  font-size: 1.6rem;
 
   > .slot {
     margin: 0.1rem;
@@ -314,7 +309,6 @@ $itemDetailBackground: rgb(219, 164, 99);
 
       > .name {
         margin-left: 0.4rem;
-        @include textWithShadow();
       }
     }
   }
@@ -379,9 +373,9 @@ $itemDetailBackground: rgb(219, 164, 99);
   align-items: center;
   width: ($tileWidth / 2);
   height: ($tileHeight / 2);
-  @include textWithShadow();
   background: rgb(18, 32, 32);
   border-radius: 50%;
+  font-size: 1.6rem;
 
   > .inner {
     display: flex;
@@ -488,7 +482,7 @@ $buttonShadowDark: rgba(20, 16, 19, 0.5);
   display: grid;
   place-items: center;
   font-variant: small-caps;
-  @include textWithShadow();
+  font-size: 1.6rem;
   width: $tileWidth;
   height: ($tileWidth / 1.618);
   margin: 0.4rem 0.6rem 0.6rem 0.4rem;
@@ -536,11 +530,8 @@ $registerShadowDark: rgba(20, 16, 19, 0.5);
 
 .register {
   position: relative;
-  display: grid;
-  place-items: center;
-  width: ($tileWidth * 1.618);
   margin: 0 1rem 0.2rem 0;
-  padding-left: 0.8rem;
+  min-width: 8.8rem;
   background: $registerBackground;
   border-top: $registerInnerBorderWidth solid $registerEdgeLight;
   border-right: $registerInnerBorderWidth solid $registerEdgeDark;
@@ -553,7 +544,7 @@ $registerShadowDark: rgba(20, 16, 19, 0.5);
 
   > .cash {
     margin: (-0.125 * $tileWidth);
-    margin-left: 0;
+    margin-left: (0.125 * $tileWidth);
   }
 
   &:before {
