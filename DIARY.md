@@ -1,5 +1,25 @@
 # Development Diary #
 
+## 8 September 2020 ##
+
+Day 27 of 31. 13,468 bytes used (101.17%).
+
+I tuned the crops. There are now only three crops per season, but two of them
+are multi-season crops. The profits for them still work out, so there's a
+"most profitable" crop for each play style. But the most profitable crop is
+not necessarily the one that generates the most experience.
+
+Speaking of experience... There's now an XP and leveling system! You earn XP by
+harvesting crops and petting the bunny. XP translates into levels, and more
+levels gets you better farming equipment. I think I might have monetization
+and a luck factor that's a boost to the base percentage for stuff. That way its
+more a boon than a "pay to win" system.
+
+I tuned the water color so it's a little brighter. It should be easier to see
+on small screens now. I also fixed the "double tap zooms" bug, but it's not
+an elegant fix. I just disabled zooming. I doubt I'll have enough bytes left
+for a real fix.
+
 ## 7 September 2020 ##
 
 Day 26 of 31. 14,023 bytes used (105.34%).
