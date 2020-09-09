@@ -8,16 +8,32 @@ import postcss from 'rollup-plugin-postcss';
 import postcssClean from 'postcss-clean';
 import imagemin from 'rollup-plugin-imagemin';
 import imageminOptiPng from 'imagemin-optipng';
+import {minify} from 'html-minifier-terser';
+
+const htmlMinifierTerserConfig = {
+  collapseBooleanAttributes: true,
+  collapseWhitespace: true,
+  collapseInlineTagWhitespace: true,
+  decodeEntities: true,
+  removeAttributeQuotes: true,
+  removeComments: true,
+  removeEmptyAttributes: true,
+  removeOptionalTags: true,
+  removeRedundantAttributes: true,
+  sortAttributes: true,
+  sortClassName: true,
+  useShortDoctype: true,
+};
 
 const htmlConfig = {
   template: ({files}) => {
     const scripts = files.js.map(({code}) => `<script>${code.toString().trim()}</script>`).join(`\n`);
-    const styles = files.css.map(({source}) => `<style type="text/css">${source.toString().trim()}</style>`).join(`\n`);
+    const styles = files.css.map(({source}) => `<style>${source.toString().trim()}</style>`).join(`\n`);
     const htmlTemplate = fs.readFileSync('./src/index.html');
     const templateWithJs = htmlTemplate.toString().replace('</body>', `${scripts}</body>`);
     const templateWithCss = templateWithJs.toString().replace('</head>', `${styles}</head>`);
 
-    return templateWithCss;
+    return minify(templateWithCss, htmlMinifierTerserConfig);
   },
 };
 
