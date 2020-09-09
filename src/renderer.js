@@ -269,9 +269,11 @@ const renderInformation = (farm) => {
 
   const level = Farm.level(farm);
   const [xp, needed] = Farm.xp(farm);
+  const luck = Math.floor(Farm.luck(farm) * 100);
 
   html += `<div>Level: ${level}</div>`;
   html += `<div>Experience: ${xp} / ${needed}</div>`;
+  html += `<div>Luck: ${luck}%</div>`;
 
   return html;
 };

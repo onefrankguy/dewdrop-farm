@@ -882,12 +882,15 @@ Farm.xp = (farm) => {
   return [Math.min(xp, max), needed];
 };
 
-Farm.skilled = (farm, base, addition, invert = false) => {
-  const farmLevel = Farm.level(farm);
-  const level = invert ? 10 - farmLevel : farmLevel;
-  const chance = base + (addition * level);
+Farm.luck = (farm, base = 0.01, addition = 0.02, invert = false) => {
+  const level = Farm.level(farm);
+  const farmLevel = invert ? LEVELS.length - level : level;
+  const luckLevel = farm.monetization ? 0.01 : 0;
 
-  return PRNG.random() < chance;
+  return base + luckLevel + (addition * farmLevel);
 };
+
+Farm.skilled = (farm, base, addition, invert = true) =>
+  PRNG.random() < Farm.luck(farm, base, addition, invert);
 
 module.exports = Farm;
