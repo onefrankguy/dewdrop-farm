@@ -321,7 +321,6 @@ const hoe = (farm, action) => {
     }
   }
 
-  removeLand(farm, action, 'till');
   addLand(farm, action, 'till');
 
   const pokeAction = {
@@ -358,7 +357,6 @@ const water = (farm, action) => {
 
   action.rotate = getRotation(watered);
 
-  removeLand(farm, action, 'water');
   addLand(farm, action, 'water');
 
   const pokeAction = {
@@ -468,18 +466,14 @@ const grow = (farm, action) => {
     return farm;
   }
 
-  action.crop = plant.crop;
-  action.time = plant.time;
-
   if (info.seasons.includes(season)) {
-    action.stage = plant.stage + 1;
+    plant.stage += 1;
   } else {
-    action.stage = DEAD_CROP_STAGE;
-    action.rotate = getRotation(plant, ['X', 0]);
+    plant.stage = DEAD_CROP_STAGE;
+    plant.rotate = getRotation(plant, ['X', 0]);
   }
 
-  removeLand(farm, action, 'plant');
-  addLand(farm, action, 'plant');
+  addLand(farm, plant, 'plant');
 
   return farm;
 };
