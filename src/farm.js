@@ -542,7 +542,7 @@ const move = (farm, action) => {
 
     const crop = Farm.crop(farm, action);
 
-    if (crop && crop.crop !== 'sprinkler') {
+    if (crop && crop.crop !== 'sprinkler' && crop.stage > MIN_CROP_STAGE && crop.stage < MAX_CROP_STAGE) {
       removeLand(farm, action, 'plant');
     }
   }

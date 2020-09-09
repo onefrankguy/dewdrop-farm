@@ -30,12 +30,14 @@ const renderTime = (farm) => {
   return `<span class="capitalize">${season}</span> ${day}<sup>${renderNth(day)}</sup>`;
 };
 
+const renderNumber = (value) =>
+  new Intl.NumberFormat().format(value);
+
 const renderCash = (cash) => {
-  const value = new Intl.NumberFormat().format(cash);
   let html = '';
 
   html += '<div class="cash">';
-  html += `<span class="value">${value}</span>`;
+  html += `<span class="value">${renderNumber(cash)}</span>`;
   html += '<span class="tile coins"></span>';
   html += '</div>';
 
@@ -268,7 +270,7 @@ const renderInformation = (farm) => {
   let html = '';
 
   const level = Farm.level(farm);
-  const [xp, needed] = Farm.xp(farm);
+  const [xp, needed] = Farm.xp(farm).map(renderNumber);
   const luck = Math.floor(Farm.luck(farm) * 100);
 
   html += `<div>Level: ${level}</div>`;
