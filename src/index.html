@@ -11,13 +11,20 @@
     <div class="world col">
       <div class="stats row">
         <div id="cash"></div>
-        <div id="level"></div>
         <div class="time" id="time"></div>
       </div>
       <div class="buffer col">
          <div class="farm col" id="farm"></div>
          <div class="store col" id="store"></div>
          <div class="market col" id="market"></div>
+         <div class="info col" id="info">
+           <div class="slot">
+             <div class="message" id="information"></div>
+             <div class="controls row">
+               <div class="button" id="reset" data-crop="reset">New Game</div>
+             </div>
+           </div>
+         </div>
       </div>
       <div class="center inventory">
         <div class="center slot">
@@ -40,9 +47,10 @@
         </div>
       </div>
       <div class="controls row">
-        <div class="button" id="tend"><span class="label">Farm</span></div>
-        <div class="button" id="buy"><span class="label">Buy</span></div>
-        <div class="button" id="sell"><span class="label">Sell</span></div>
+        <div class="button" id="tend">Farm</div>
+        <div class="button" id="buy">Buy</div>
+        <div class="button" id="sell">Sell</div>
+        <div class="button" id="geek">Info</div>
       </div>
       <div class="colophon">Design <abbr title="and">&amp;</abbr> dev by <a href="https://www.frankmitchell.org/"
           title="Frank by name and nature.">Frank Mitchell</a> for <a href="https://2020.js13kgames.com/"

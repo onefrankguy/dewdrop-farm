@@ -30,12 +30,6 @@ const renderTime = (farm) => {
   return `<span class="capitalize">${season}</span> ${day}<sup>${renderNth(day)}</sup>`;
 };
 
-const renderLevel = (farm) => {
-  const level = Farm.level(farm);
-
-  return `<span class="level">Level ${level}</span>`;
-};
-
 const renderCash = (cash) => {
   const value = new Intl.NumberFormat().format(cash);
   let html = '';
@@ -228,7 +222,7 @@ const renderFarm = (farm) => {
 
 const renderNotFound = (type) => {
   let html = '';
-  let message = `The store is closed right now. Come back again later!`;
+  let message = '';
 
   if (type === 'market') {
     message = `It looks like you don't have any crops to sell. You can use seeds to grow crops.`;
@@ -270,6 +264,18 @@ const renderMarket = (farm) => {
   return html;
 };
 
+const renderInformation = (farm) => {
+  let html = '';
+
+  const level = Farm.level(farm);
+  const [xp, needed] = Farm.xp(farm);
+
+  html += `<div>Level: ${level}</div>`;
+  html += `<div>Experience: ${xp} / ${needed}</div>`;
+
+  return html;
+};
+
 const renderTool = (tool, screen) => {
   $(`#${tool}`).addClass('active');
   $(`#${screen}`).addClass('active');
@@ -278,6 +284,7 @@ const renderTool = (tool, screen) => {
     $('#farm').removeClass('hidden');
     $('#store').addClass('hidden');
     $('#market').addClass('hidden');
+    $('#info').addClass('hidden');
     return;
   }
 
@@ -285,6 +292,7 @@ const renderTool = (tool, screen) => {
     $('#farm').addClass('hidden');
     $('#store').removeClass('hidden');
     $('#market').addClass('hidden');
+    $('#info').addClass('hidden');
     return;
   }
 
@@ -292,6 +300,15 @@ const renderTool = (tool, screen) => {
     $('#farm').addClass('hidden');
     $('#store').addClass('hidden');
     $('#market').removeClass('hidden');
+    $('#info').addClass('hidden');
+    return;
+  }
+
+  if (screen === 'geek') {
+    $('#farm').addClass('hidden');
+    $('#store').addClass('hidden');
+    $('#market').addClass('hidden');
+    $('#info').removeClass('hidden');
     return;
   }
 };
@@ -326,6 +343,7 @@ Renderer.clear = () => {
   $('#tend').removeClass('active');
   $('#buy').removeClass('active');
   $('#sell').removeClass('active');
+  $('#geek').removeClass('active');
 };
 
 Renderer.render = (farm, tool, screen) => {
@@ -333,11 +351,11 @@ Renderer.render = (farm, tool, screen) => {
   renderTool(tool, screen);
   renderInventory(farm);
   renderIfChanged('#time', renderTime(farm));
-  renderIfChanged('#level', renderLevel(farm));
   renderIfChanged('#cash', renderCash(farm.cash));
   renderIfChanged('#farm', renderFarm(farm));
   renderIfChanged('#store', renderStore(farm));
   renderIfChanged('#market', renderMarket(farm));
+  renderIfChanged('#information', renderInformation(farm));
 };
 
 Renderer.invalidate = (farm, tool, screen) => {

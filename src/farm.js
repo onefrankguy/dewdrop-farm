@@ -9,6 +9,7 @@ const DEAD_CROP_STAGE = -1;
 const MAX_INVENTORY_SIZE = 4;
 const MAX_STACK_SIZE = 16;
 
+const LEVELS = [100, 380, 770, 1300, 2150, 3300, 4800, 6900, 10000, 15000];
 const SEASONS = ['spring', 'summer', 'fall', 'winter'];
 const DAYS_PER_SEASON = 28;
 const SECONDS_PER_DAY = (14 * 60 * 3) / SEASONS.length / DAYS_PER_SEASON;
@@ -867,10 +868,18 @@ Farm.store = (farm) => {
 
 Farm.level = (farm) => {
   const xp = (farm && farm.xp) ? farm.xp : 0;
-  const levels = [15000, 10000, 6900, 4800, 3300, 2150, 1300, 770, 380, 100];
-  const index = levels.findIndex((level) => xp >= level);
+  const index = LEVELS.findIndex((level) => xp < level);
 
-  return ~index ? (levels.length - index) : 0;
+  return ~index ? index : LEVELS.length;
+};
+
+Farm.xp = (farm) => {
+  const xp = (farm && farm.xp) ? farm.xp : 0;
+  const max = LEVELS[LEVELS.length - 1];
+  const index = LEVELS.findIndex((level) => xp < level);
+  const needed = ~index ? LEVELS[index] : max;
+
+  return [Math.min(xp, max), needed];
 };
 
 Farm.skilled = (farm, base, addition, invert = false) => {

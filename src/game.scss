@@ -290,7 +290,8 @@ $itemDetailBackground: rgb(219, 164, 99);
 
 /* MARKET */
 .store,
-.market {
+.market,
+.info {
   background: $storeBackground;
   border: 0.1rem solid $storeBorder;
   font-size: 1.6rem;
@@ -483,9 +484,10 @@ $buttonShadowDark: rgba(20, 16, 19, 0.5);
   place-items: center;
   font-variant: small-caps;
   font-size: 1.6rem;
-  width: $tileWidth;
+  min-width: $tileWidth;
   height: ($tileWidth / 1.618);
   margin: 0.4rem 0.6rem 0.6rem 0.4rem;
+  padding: 0 0.8rem;
   background: $buttonBackground;
   border-radius: 0.4rem;
   border-top: 0.1rem solid $buttonEdgeLight;
@@ -505,10 +507,6 @@ $buttonShadowDark: rgba(20, 16, 19, 0.5);
     left: -0.15rem;
     border: 0.1rem solid $buttonBorder;
     border-radius: 0.4rem;
-  }
-
-  > .label {
-    grid-area: 1 / 1 / -1 / -1;
   }
 
   &:active,

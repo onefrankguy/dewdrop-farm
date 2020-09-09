@@ -76,6 +76,18 @@ const offMarket = (_, event) => {
   }
 };
 
+const offInfo = (_, event) => {
+  let element = event.target;
+
+  while (element && !element.dataset.crop) {
+    element = element.parentElement;
+  }
+
+  if (element && element.dataset.crop === 'reset') {
+    Game.reset();
+  }
+};
+
 const onTool = (aTool) => () => {
   tool = aTool;
   slot = ['slot0', 'slot1', 'slot2', 'slot3'].findIndex((type) => type === tool);
@@ -177,8 +189,10 @@ Game.play = () => {
   $('#tend').click(onScreen('tend'));
   $('#buy').click(onScreen('buy'));
   $('#sell').click(onScreen('sell'));
+  $('#geek').click(onScreen('geek'));
   $('#store').click(undefined, undefined, offStore);
   $('#market').click(undefined, undefined, offMarket);
+  $('#info').click(undefined, undefined, offInfo);
   $('#farm').click(offFarm, offFarm);
 
   Game.reset();

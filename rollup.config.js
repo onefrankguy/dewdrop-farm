@@ -47,7 +47,7 @@ const serveConfig = {
 };
 
 const livereloadConfig = {
-  watch: './dist',
+  watch: ['./src', './img'],
   verbose: true,
 };
 
