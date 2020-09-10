@@ -193,7 +193,7 @@ Game.play = () => {
   $('#store').click(undefined, undefined, offStore);
   $('#market').click(undefined, undefined, offMarket);
   $('#info').click(undefined, undefined, offInfo);
-  $('#farm').click(offFarm, offFarm, offFarm);
+  $('#farm').click(offFarm, offFarm);
 
   Game.reset();
   Game.load();

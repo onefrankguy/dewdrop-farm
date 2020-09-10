@@ -627,7 +627,7 @@ const poke = (farm, action) => {
   }
 
   if (action.with === 'hand') {
-    farm.xp += 5;
+    farm.xp += 15;
   }
 
   const edges = PRNG.shuffle(getEdges(farm));
