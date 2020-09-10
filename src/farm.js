@@ -384,7 +384,7 @@ const sprinkler = (farm, action) => {
   if (plant && plant.crop === 'sprinkler') {
     let plots = [action].concat(Farm.orthogonal(farm, action));
 
-    if (Farm.level(farm) >= 6) {
+    if (Farm.level(farm) >= 4) {
       plots = plots.concat(Farm.diagonal(farm, action));
     }
 
