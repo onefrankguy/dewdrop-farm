@@ -472,8 +472,9 @@ $itemDetailBackground: rgb(219, 164, 99);
   }
 }
 .controls {
-  margin-top: 0.4rem;
+  margin: 0.4rem 0;
   justify-content: space-around;
+  align-items: center;
 }
 
 $buttonBackground: rgb(255, 213, 65);

@@ -309,7 +309,7 @@ const hoe = (farm, action) => {
       };
 
       addItem(farm, item);
-    } else if (plant.stage > MIN_CROP_STAGE && PRNG.pick([true, false])) {
+    } else if (plant.stage > MIN_CROP_STAGE && Farm.skilled(farm, 0.3, 0.01)) {
       const item = {
         type: plant.crop,
         amount: 1,
@@ -886,12 +886,12 @@ Farm.xp = (farm) => {
 Farm.luck = (farm, base = 0.01, addition = 0.02, invert = false) => {
   const level = Farm.level(farm);
   const farmLevel = invert ? LEVELS.length - level : level;
-  const luckLevel = farm.monetization ? 0.01 : 0;
+  const luckLevel = farm.monetization ? 0.06 : 0;
 
   return base + luckLevel + (addition * farmLevel);
 };
 
-Farm.skilled = (farm, base, addition, invert = true) =>
+Farm.skilled = (farm, base, addition, invert = false) =>
   PRNG.random() < Farm.luck(farm, base, addition, invert);
 
 module.exports = Farm;
