@@ -53,9 +53,12 @@ Fn.prototype.click = function click(start, move, end) {
     const contextEventName = 'contextmenu';
 
     const onMove = (moveEvent) => {
-      if (that.canHandleMove && move) {
+      if (that.canHandleMove) {
         moveEvent.preventDefault();
-        move(that, moveEvent);
+
+        if (move) {
+          move(that, moveEvent);
+        }
       }
     };
 
