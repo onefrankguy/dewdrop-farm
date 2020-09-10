@@ -370,6 +370,7 @@ Renderer.clear = () => {
   $('#buy').removeClass('active');
   $('#sell').removeClass('active');
   $('#geek').removeClass('active');
+  $('#season').removeClass('spring').removeClass('summer').removeClass('fall').removeClass('winter');
 };
 
 Renderer.render = (farm, tool, screen) => {
@@ -382,6 +383,7 @@ Renderer.render = (farm, tool, screen) => {
   renderIfChanged('#store', renderStore(farm));
   renderIfChanged('#market', renderMarket(farm));
   renderIfChanged('#information', renderInformation(farm));
+  $('#season').addClass(Farm.season(farm));
 };
 
 Renderer.invalidate = (farm, tool, screen) => {

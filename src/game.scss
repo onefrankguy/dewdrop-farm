@@ -41,6 +41,22 @@ a:visited {
   color: rgb(115, 23, 45);
 }
 
+.spring {
+  background: radial-gradient(rgb(89, 193, 53), rgb(20, 160, 46));
+}
+
+.summer {
+  background: radial-gradient(rgb(214, 242, 100), rgb(156, 219, 67));
+}
+
+.fall {
+  background: radial-gradient(rgb(244, 210, 156), rgb(219, 164, 99));
+}
+
+.winter {
+  background: radial-gradient(rgb(227, 230, 255), rgb(185, 191, 251));
+}
+
 /* SCREEN */
 .world {
   /* Usable area on an iPhone SE is 320x444 pixels */
@@ -88,7 +104,8 @@ a:visited {
 .farm {
   display: grid;
   grid-template: repeat(6, $tileWidth) / repeat(6, $tileHeight);
-  place-content: center;
+  width: fit-content;
+  align-self: center;
   user-select: none;
   touch-action: manipulation;
 }
