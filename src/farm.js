@@ -172,22 +172,24 @@ const removeItem = (farm, item) => {
 
 const getSellPrice = (farm, item) => {
   const season = Farm.season(farm);
-  const seasonIndex = SEASONS.indexOf(season);
   const info = Crops.info(item.type);
   let price = 0;
 
   if (info) {
     if (item.seed) {
-      price = Math.ceil(info.prices.seed * 0.5);
+      const luck = Farm.luck(farm, 0.15, 0.04);
+      price = Math.ceil(info.prices.seed * luck);
     } else {
       price = info.prices.crop;
+
       if (!info.seasons.includes(season)) {
-        const lastSeason = info.seasons[info.seasons.length - 1];
-        const lastSeasonIndex = SEASONS.indexOf(lastSeason);
-        if (~seasonIndex && ~lastSeasonIndex && lastSeasonIndex + 1 === seasonIndex) {
-          price = Math.ceil(info.prices.crop * 1.5);
-        }
+        const luck = Farm.luck(farm, 0.4, 0.04);
+        price = Math.ceil(info.prices.crop * luck);
       }
+    }
+
+    if (item.type === 'sprinkler' || item.type === 'fertilizer') {
+      price = info.prices.crop;
     }
   }
 
@@ -519,18 +521,18 @@ const buy = (farm, action) => {
     return farm;
   }
 
-  if (farm.cash < crop.prices.seed) {
+  if (farm.cash < info.prices.seed) {
     return farm;
   }
 
   const item = {
-    type: crop.type,
+    type: info.type,
     amount: 1,
     seed: true,
   };
 
   if (addItem(farm, item)) {
-    farm.cash -= crop.prices.seed;
+    farm.cash -= info.prices.seed;
   }
 
   return farm;
