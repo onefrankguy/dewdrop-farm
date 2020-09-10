@@ -104,10 +104,11 @@ const renderStoreItem = (item) => {
   html += '</div>';
 
   html += '<div class="col">';
-  html += `<span class="capitalize name">${name}</span>`;
-
   if (item.disabled) {
-    html += `<span class="unlock">Buyable at Level ${item.disabled}</span>`;
+    html += '<span class="capitalize name">404 Not Found</span>';
+    html += `<span class="unlock"><span class="capitalize">${name}</span> available at Level&nbsp;${item.disabled}</span>`;
+  } else {
+    html += `<span class="capitalize name">${name}</span>`;
   }
   html += '</div>';
 
