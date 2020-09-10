@@ -338,6 +338,7 @@ const grass = (farm, action) => {
   if (!Farm.planted(farm, action)) {
     removeLand(farm, action, 'till');
     removeLand(farm, action, 'grass');
+    removeLand(farm, action, 'water');
 
     const grassAction = {
       row: action.row,
@@ -352,11 +353,13 @@ const grass = (farm, action) => {
 };
 
 const water = (farm, action) => {
-  const watered = Farm.watered(farm, action);
+  if (Farm.tilled(farm, action)) {
+    const watered = Farm.watered(farm, action);
 
-  action.rotate = getRotation(watered);
+    action.rotate = getRotation(watered);
 
-  addLand(farm, action, 'water');
+    addLand(farm, action, 'water');
+  }
 
   const pokeAction = {
     tool: 'poke',

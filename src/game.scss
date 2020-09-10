@@ -90,6 +90,7 @@ a:visited {
   grid-template: repeat(6, $tileWidth) / repeat(6, $tileHeight);
   place-content: center;
   user-select: none;
+  touch-action: manipulation;
 }
 
 .plot {
@@ -103,8 +104,8 @@ a:visited {
   grid-area: 1 / 1 / -1 / -1;
 }
 
-.plot > .crop,
-.plot > .animal {
+.plot > .animal,
+.plot > .water {
   z-index: 1;
 }
 

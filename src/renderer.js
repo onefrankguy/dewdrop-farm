@@ -198,9 +198,9 @@ const renderFarmPlot = (farm, row, col) => {
 
   html += `<div class="tile plot" data-crop="${row}${col}">`;
   html += renderFarmPlotGround(farm, row, col);
+  html += renderFarmPlotCrop(farm, row, col);
   html += renderFarmPlotWater(farm, row, col);
   html += renderFarmPlotBunny(farm, row, col);
-  html += renderFarmPlotCrop(farm, row, col);
   html += '</div>';
 
   return html;
