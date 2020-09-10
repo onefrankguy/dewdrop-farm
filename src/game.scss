@@ -296,6 +296,7 @@ $itemDetailBackground: rgb(219, 164, 99);
   background: $storeBackground;
   border: 0.1rem solid $storeBorder;
   font-size: 1.6rem;
+  touch-action: manipulation;
 
   > .slot {
     margin: 0.1rem;
