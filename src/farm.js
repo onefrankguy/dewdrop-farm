@@ -517,7 +517,7 @@ const buy = (farm, action) => {
   const level = Farm.level(farm);
   const info = Crops.info(action.crop);
 
-  if (level < info.level) {
+  if (level < info.level && info.type !== 'wildflower') {
     return farm;
   }
 
@@ -895,6 +895,8 @@ Farm.store = (farm) => {
 
   return seasonalCrops.map((type) => {
     const info = Crops.info(type);
+    const disabled = (info.level <= level || type === 'wildflower') ? 0 : info.level;
+
     const item = {
       type,
       amount: 0,
@@ -904,7 +906,7 @@ Farm.store = (farm) => {
     return {
       ...item,
       cash: getBuyPrice(farm, item),
-      disabled: info.level > level ? info.level : 0,
+      disabled,
     };
   });
 };
