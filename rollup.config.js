@@ -13,7 +13,6 @@ import {minify} from 'html-minifier-terser';
 const htmlMinifierTerserConfig = {
   collapseBooleanAttributes: true,
   collapseWhitespace: true,
-  collapseInlineTagWhitespace: true,
   decodeEntities: true,
   removeAttributeQuotes: true,
   removeComments: true,

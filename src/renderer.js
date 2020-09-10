@@ -210,13 +210,9 @@ const renderFarm = (farm) => {
   let html = '';
 
   for (let row = 0; row < farm.rows; row += 1) {
-    html += '<div class="row">';
-
     for (let col = 0; col < farm.cols; col += 1) {
       html += renderFarmPlot(farm, row, col);
     }
-
-    html += '</div>';
   }
 
   return html;
