@@ -11,7 +11,7 @@
     "prebuild": "rm -f dist/*",
     "build": "rollup -c",
     "postbuild": "npm run zip",
-    "zip": "cd dist && advzip -a -4 ../game.zip $(cat ../manifest.txt)",
+    "zip": "cd dist && advzip -a -4 -i 1000 ../game.zip $(cat ../manifest.txt)",
     "postzip": "npm run check-size",
     "sync": "cd dist && rsync -avz --delete --files-from=../manifest.txt ./ frankmitchell.org:/home/public/js13k2020/",
     "check-size": "node ./check-size.js; exit 0"
