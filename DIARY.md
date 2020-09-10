@@ -1,5 +1,18 @@
 # Development Diary #
 
+## 9 September 2020 ##
+
+Day 28 of 31. 13,006 bytes used (97.70%).
+
+I swapped out [webpack][] for [Rollup][]. Combined with inlining the CSS and
+JavaScript into the HTML file, I saved 564 bytes. That's enough for more
+features!
+
+I added an "Info" page and a "New Game" button. Color tweaks to the seeds and
+water made it stand out a bit more. Grass can't be watered, since it doesn't
+have crops. Sprinklers can be planted on grass now. I also tweaked the bunny
+so it doesn't eat seeds or mature crops.
+
 ## 8 September 2020 ##
 
 Day 27 of 31. 13,468 bytes used (101.17%).
@@ -298,3 +311,5 @@ Maybe some kind of [idle clicker][] or farming simulation?
 [DawnLike]: https://opengameart.org/content/dawnlike-16x16-universal-rogue-like-tileset-v181 "Dragon DePlatino (OpenGameArt.org): DawnLike - 16x16 Universal Rogue-like tileset v1.81"
 [Jerom]: https://opengameart.org/content/32x32-fantasy-tileset "Jerom (OpenGameArt.org): 32x32 Fantasy Tileset"
 [key.css]: https://github.com/michaelhue/keyscss "Michael Hue (GitHub): A simple stylesheet to render beautiful keyboard-styled elements"
+[webpack]: https://webpack.js.org/ "Various (webpack): webpack is a module bundler for JavaScript"
+[Rollup]: https://rollupjs.org/ "Various (rollup.js): Rollup is a module bundler for JavaScript"
