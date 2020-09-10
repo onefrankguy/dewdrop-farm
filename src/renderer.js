@@ -86,10 +86,11 @@ const renderInventoryItem = (item) => {
 };
 
 const renderStoreItem = (item) => {
-  const crop = Crops.info(item.type);
-  const name = item.seed ? `${crop.type} ${crop.seed}` : crop.type;
+  const info = Crops.info(item.type);
+  const name = item.seed ? `${info.type} ${info.seed}` : info.type;
 
   let html = '';
+
   html += '<div class="row crop">';
   html += '<div class="picture">';
   if (item.seed) {
@@ -101,16 +102,26 @@ const renderStoreItem = (item) => {
     html += renderSticker(item.amount);
   }
   html += '</div>';
+
+  html += '<div class="col">';
   html += `<span class="capitalize name">${name}</span>`;
+
+  if (item.disabled) {
+    html += `<span class="unlock">Buyable at Level ${item.disabled}</span>`;
+  }
   html += '</div>';
+
+  html += '</div>';
+
   return html;
 };
 
-const renderStoreCash = ({type, seed, cash}) => {
+const renderStoreCash = ({type, seed, cash, disabled}) => {
   let html = '';
+  const klasses = ['register', disabled ? 'disabled' : ''];
 
   html += '<span class="col center">';
-  html += `<span class="register" data-crop="${type}" data-seed="${seed}">`;
+  html += `<span class="${renderClasses(klasses)}" data-crop="${type}" data-seed="${seed}">`;
   html += renderCash(cash);
   html += '</span>';
   html += '</span>';

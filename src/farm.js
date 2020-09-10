@@ -512,7 +512,12 @@ const grow = (farm, action) => {
 };
 
 const buy = (farm, action) => {
-  const crop = Crops.info(action.crop);
+  const level = Farm.level(farm);
+  const info = Crops.info(action.crop);
+
+  if (level < info.level) {
+    return farm;
+  }
 
   if (farm.cash < crop.prices.seed) {
     return farm;
@@ -879,7 +884,7 @@ Farm.store = (farm) => {
     .filter((type) => {
       const info = Crops.info(type);
 
-      return info.level <= level;
+      return info.level <= LEVELS.length;
     });
 
   if (season === 'winter') {
@@ -887,6 +892,7 @@ Farm.store = (farm) => {
   }
 
   return seasonalCrops.map((type) => {
+    const info = Crops.info(type);
     const item = {
       type,
       amount: 0,
@@ -896,6 +902,7 @@ Farm.store = (farm) => {
     return {
       ...item,
       cash: getBuyPrice(farm, item),
+      disabled: info.level > level ? info.level : 0,
     };
   });
 };

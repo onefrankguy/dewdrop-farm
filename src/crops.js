@@ -125,7 +125,7 @@ const dictionary = {
   },
   sprinkler: {
     seed: '',
-    seasons: ['spring'],
+    seasons: ['summer'],
     prices: {
       crop: 450,
       seed: 1350,

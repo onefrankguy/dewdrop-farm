@@ -317,8 +317,12 @@ $itemDetailBackground: rgb(219, 164, 99);
       position: relative;
       padding: 0.2rem 0 0.2rem 0.4rem;
 
-      > .name {
+      > .col {
         margin-left: 0.4rem;
+      }
+
+      .unlock {
+        font-size: 1.2rem;
       }
     }
   }
@@ -530,6 +534,7 @@ $buttonShadowDark: rgba(20, 16, 19, 0.5);
 }
 
 $registerBackground: rgb(32, 214, 199);
+$registerDisabled: rgb(179, 185, 209);
 $registerEdgeLight: rgb(36, 159, 222);
 $registerEdgeDark: rgb(40, 92, 196);
 $registerBorder: rgb(115, 23, 45);
@@ -574,6 +579,10 @@ $registerShadowDark: rgba(20, 16, 19, 0.5);
     box-shadow: 0 0 $registerShadowDark, 0 0 $registerShadowLight;
   }
 }
+
+.register.disabled {
+  background-color: $registerDisabled;
+};
 
 /* COLOPHON */
 .colophon {
