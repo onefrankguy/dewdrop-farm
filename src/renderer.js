@@ -152,6 +152,19 @@ const renderFarmPlotGround = (farm, row, col) => {
   return `<div class="${renderClasses(klasses)}"></div>`
 };
 
+const renderFarmPlotFertilizer = (farm, row, col) => {
+  const fertilizer = Farm.fertilized(farm, {row, col});
+
+  if (fertilizer) {
+    const rotate = fertilizer.rotate ? `rotate${fertilizer.rotate}` : '';
+    const klasses = ['tile', 'fertilizer', rotate];
+
+    return `<div class="${renderClasses(klasses)}"></div>`
+  }
+
+  return '';
+};
+
 const renderFarmPlotWater = (farm, row, col) => {
   let html = '';
   const water = Farm.watered(farm, {row, col});
@@ -198,6 +211,7 @@ const renderFarmPlot = (farm, row, col) => {
 
   html += `<div class="tile plot" data-crop="${row}${col}">`;
   html += renderFarmPlotGround(farm, row, col);
+  html += renderFarmPlotFertilizer(farm, row, col);
   html += renderFarmPlotCrop(farm, row, col);
   html += renderFarmPlotWater(farm, row, col);
   html += renderFarmPlotBunny(farm, row, col);

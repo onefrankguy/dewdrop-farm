@@ -98,12 +98,14 @@ a:visited {
 }
 
 .plot > .ground,
-.plot > .water,
+.plot > .fertilizer,
 .plot > .crop,
-.plot > .animal {
+.plot > .animal,
+.plot > .water {
   grid-area: 1 / 1 / -1 / -1;
 }
 
+.plot > .crop,
 .plot > .animal,
 .plot > .water {
   z-index: 1;
@@ -205,6 +207,10 @@ a:visited {
   background-position-x: (-5 * $tileWidth);
   background-position-y: (-4 * $tileHeight);
 }
+.tile.fertilizer {
+  background-position-x: (-5 * $tileWidth);
+  background-position-y: (-6 * $tileHeight);
+}
 
 @include crop('turnip', 5);
 @include crop('tomato', 6);
@@ -213,11 +219,12 @@ a:visited {
 @include crop('potato', 9);
 @include crop('avocado', 10);
 
+.tomato.stage1,
 .rose.stage1,
 .tulip.stage1,
 .sunflower.stage1 {
   background-position-x: (-5 * $tileWidth);
-  background-position-y: (-6 * $tileHeight);
+  background-position-y: (-8 * $tileHeight);
 }
 .rose.stage2,
 .tulip.stage2,

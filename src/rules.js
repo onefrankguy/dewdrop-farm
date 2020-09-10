@@ -98,6 +98,10 @@ const update = (farm) => {
     };
 
     farm = Rules.dispatch(farm, growAction);
+
+    if (Farm.fertilized(farm, growAction) && Farm.skilled(farm, 0.04, 0.01)) {
+      farm = Rules.dispatch(farm, growAction);
+    }
   });
 
   return farm;

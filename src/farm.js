@@ -290,6 +290,7 @@ const harvest = (farm, action) => {
 
 const hoe = (farm, action) => {
   const plant = Farm.planted(farm, action);
+
   if (plant) {
     removeLand(farm, action, 'plant');
 
@@ -320,6 +321,7 @@ const hoe = (farm, action) => {
     }
   }
 
+  removeLand(farm, action, 'fertilizer');
   addLand(farm, action, 'till');
 
   const pokeAction = {
@@ -339,6 +341,7 @@ const grass = (farm, action) => {
     removeLand(farm, action, 'till');
     removeLand(farm, action, 'grass');
     removeLand(farm, action, 'water');
+    removeLand(farm, action, 'fertilizer');
 
     const grassAction = {
       row: action.row,
@@ -403,11 +406,32 @@ const drain = (farm, action) => {
   return farm;
 };
 
+const canPlant = (farm, action) => {
+  const slot = farm.inventory[action.slot];
+  const planted = !!Farm.planted(farm, action);
+  const tilled = !!Farm.tilled(farm, action);
+  const fertilized = !!Farm.fertilized(farm, action);
+
+  if (!slot) {
+    return false;
+  }
+
+  if (slot.type === 'sprinkler') {
+    return !planted;
+  }
+
+  if (slot.type === 'fertilizer') {
+    return tilled && !fertilized;
+  }
+
+  return tilled && !planted;
+};
+
 const plant = (farm, action) => {
   const slot = farm.inventory[action.slot];
-  const tilled = !!Farm.tilled(farm, action) || (slot && slot.type === 'sprinkler');
+  const plant = Farm.planted(farm, action);
 
-  if (slot && tilled && !Farm.planted(farm, action)) {
+  if (canPlant(farm, action)) {
     const item = {
       type: slot.type,
       amount: 1,
@@ -432,7 +456,13 @@ const plant = (farm, action) => {
         }
       }
 
-      addLand(farm, action, 'plant');
+      if (action.crop === 'fertilizer') {
+        action.type = 'fertilizer';
+        action.crop = undefined;
+        action.rotate = getRotation(plant);
+      }
+
+      addLand(farm, action, action.type);
     }
   }
 
@@ -473,6 +503,7 @@ const grow = (farm, action) => {
   } else {
     plant.stage = DEAD_CROP_STAGE;
     plant.rotate = getRotation(plant, ['X', 0]);
+    removeLand(farm, plant, 'fertilizer');
   }
 
   addLand(farm, plant, 'plant');
@@ -809,6 +840,8 @@ Farm.watered = (farm, action) => getLand(farm, action, 'water');
 
 Farm.tilled = (farm, action) => getLand(farm, action, 'till');
 
+Farm.fertilized = (farm, action) => getLand(farm, action, 'fertilizer');
+
 Farm.bunny = (farm, action) => getLand(farm, action, 'bunny');
 
 Farm.grass = (farm, action) => getLand(farm, action, 'grass');
@@ -886,7 +919,7 @@ Farm.xp = (farm) => {
 Farm.luck = (farm, base = 0.01, addition = 0.02, invert = false) => {
   const level = Farm.level(farm);
   const farmLevel = invert ? LEVELS.length - level : level;
-  const luckLevel = farm.monetization ? 0.06 : 0;
+  const luckLevel = farm.monetization ? 0.04 : 0;
 
   return base + luckLevel + (addition * farmLevel);
 };
