@@ -440,6 +440,8 @@ $itemDetailBackground: rgb(219, 164, 99);
   border: 0.1rem solid $storeBorder;
   padding: 0.1rem;
   user-select: none;
+  width: fit-content;
+  align-self: center;
 
   $itemShadow: rgb(160, 134, 98);
   $itemHighlight: rgb(254, 243, 192);
@@ -447,11 +449,12 @@ $itemDetailBackground: rgb(219, 164, 99);
   $itemActiveHighlight: rgb(180, 32, 42);
   $itemBorderSize: 0.2rem;
 
-  .slot {
-    flex-grow: 1;
+  > .row {
+    background-color: $itemBackground;
+    border: 0.1rem solid $itemBorder;
   }
 
-  .slot .item {
+  > .row .item {
     margin: 0.1rem;
     background: $storeBackground;
     border-top: $itemBorderSize solid $itemShadow;
@@ -461,7 +464,7 @@ $itemDetailBackground: rgb(219, 164, 99);
     border-radius: 0.4rem;
   }
 
-  .slot .item.active {
+  > .row .item.active {
     border-top: $itemBorderSize solid $itemActiveHighlight;
     border-right: $itemBorderSize solid $itemActiveShadow;
     border-bottom: $itemBorderSize solid $itemActiveShadow;
