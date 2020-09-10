@@ -569,12 +569,8 @@ $registerShadowDark: rgba(20, 16, 19, 0.5);
 
 /* COLOPHON */
 .colophon {
-  margin: $tileHeight 0 0.8rem 0;
-}
-
-.colophon > a:hover {
-  cursor: pointer;
-  text-decoration: underline;
+  font-size: 1rem;
+  text-align: right;
 }
 
 abbr[title="and"] {
