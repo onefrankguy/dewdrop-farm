@@ -6,8 +6,7 @@ import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 import postcss from 'rollup-plugin-postcss';
 import postcssClean from 'postcss-clean';
-import imagemin from 'rollup-plugin-imagemin';
-import imageminOptiPng from 'imagemin-optipng';
+import postcssUrl from 'postcss-url';
 import {minify} from 'html-minifier-terser';
 
 const htmlMinifierTerserConfig = {
@@ -54,32 +53,24 @@ const postcssCleanConfig = {
   level: 2,
 };
 
+const postcssUrlConfig = {
+  url: 'inline',
+};
+
 const postcssConfig = {
   extract: true,
   modules: false,
   use: ['sass'],
   plugins: [
+    postcssUrl(postcssUrlConfig),
     postcssClean(postcssCleanConfig),
   ],
-};
-
-const imageminOptiPngConfig = {
-  optimizationLevel: 7,
-};
-
-const imageminConfig = {
-  fileName: '[name][extname]',
-  imageminOptiPng: imageminOptiPng(imageminOptiPngConfig),
-  plugins: {
-    imageminOptiPng,
-  }
 };
 
 const defaultPlugins = () => [
   commonjs(),
   terser(),
   postcss(postcssConfig),
-  imagemin(imageminConfig),
   html(htmlConfig),
 ];
 
