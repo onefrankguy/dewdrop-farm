@@ -388,7 +388,8 @@ const sprinkler = (farm, action) => {
   const plant = Farm.planted(farm, action);
 
   if (plant && plant.crop === 'sprinkler') {
-    const plots = Farm.orthogonal(farm, action)
+    const plots = [action]
+      .concat(Farm.orthogonal(farm, action))
       .concat(Farm.diagonal(farm, action));
 
     plots.forEach(({row, col}) => {
@@ -419,10 +420,6 @@ const canPlant = (farm, action) => {
 
   if (!slot) {
     return false;
-  }
-
-  if (slot.type === 'sprinkler') {
-    return !planted;
   }
 
   if (slot.type === 'fertilizer') {
