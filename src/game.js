@@ -121,6 +121,7 @@ const onKeyDown = ({isComposing, keyCode}) => {
       70: 'tend',
       66: 'buy',
       83: 'sell',
+      73: 'geek',
     };
 
     if (toolKeys[keyCode]) {
