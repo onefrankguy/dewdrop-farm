@@ -102,7 +102,7 @@ a:visited {
   display: inline-flex;
   width: $tileHeight;
   height: $tileHeight;
-  background-size: (1 * $tileWidth) (67 * $tileHeight);
+  background-size: (1 * $tileWidth) (71 * $tileHeight);
   background-image: url('farm.png');
   background-position: 0 0;
   background-repeat: no-repeat;
@@ -189,33 +189,66 @@ a:visited {
 .tile.water {
   background-position: 0 (-18 * $tileHeight);
 }
-.tile.fertilizer {
+.rose.stage1,
+.tulip.stage1,
+.sunflower.stage1 {
+  background-position: 0 (-55 * $tileHeight);
+}
+.rose.stage2,
+.tulip.stage2,
+.sunflower.stage2 {
+  background-position: 0 (-56 * $tileHeight);
+}
+.rose.stage3,
+.tulip.stage3,
+.sunflower.stage3 {
+  background-position: 0 (-57 * $tileHeight);
+}
+.rose.stage4,
+.tulip.stage4,
+.sunflower.stage4 {
   background-position: 0 (-58 * $tileHeight);
 }
-.tile.crop.stage-1 {
+.sunflower.stage5,
+.sunflower.stage6,
+.wildflower.stage6 {
   background-position: 0 (-59 * $tileHeight);
+}
+.tulip.stage5,
+.tulip.stage6 {
+  background-position: 0 (-60 * $tileHeight);
+}
+.rose.stage5,
+.rose.stage6 {
+  background-position: 0 (-61 * $tileHeight);
+}
+.tile.fertilizer {
+  background-position: 0 (-62 * $tileHeight);
+}
+.tile.crop.stage-1 {
+  background-position: 0 (-63 * $tileHeight);
 }
 .tile.coins {
   transform: scale(0.75);
-  background-position: 0 (-60 * $tileHeight);
-}
-.tile.hoe {
-  background-position: 0 (-61 * $tileHeight);
-}
-.tile.can {
-  background-position: 0 (-62 * $tileHeight);
-}
-.tile.sprinkler {
-  background-position: 0 (-63 * $tileHeight);
-}
-.tile.seeds {
   background-position: 0 (-64 * $tileHeight);
 }
-.tile.bunny {
+.tile.hoe {
   background-position: 0 (-65 * $tileHeight);
 }
-.tile.cow {
+.tile.can {
   background-position: 0 (-66 * $tileHeight);
+}
+.tile.sprinkler {
+  background-position: 0 (-67 * $tileHeight);
+}
+.tile.seeds {
+  background-position: 0 (-68 * $tileHeight);
+}
+.tile.bunny {
+  background-position: 0 (-69 * $tileHeight);
+}
+.tile.cow {
+  background-position: 0 (-70 * $tileHeight);
 }
 
 @include crop('turnip', -19);
@@ -224,40 +257,6 @@ a:visited {
 @include crop('strawberry', -22);
 @include crop('potato', -23);
 @include crop('avocado', -24);
-
-.rose.stage1,
-.tulip.stage1,
-.sunflower.stage1 {
-  background-position: 0 (-20 * $tileHeight);
-}
-.rose.stage2,
-.tulip.stage2,
-.sunflower.stage2 {
-  background-position: 0 (-7 * $tileHeight);
-}
-.rose.stage3,
-.tulip.stage3,
-.sunflower.stage3 {
-  background-position: 0 (-10 * $tileHeight);
-}
-.rose.stage4,
-.tulip.stage4,
-.sunflower.stage4 {
-  background-position: 0 (-10 * $tileHeight);
-}
-.rose.stage5,
-.rose.stage6 {
-  background-position: 0 (-57 * $tileHeight);
-}
-.tulip.stage5,
-.tulip.stage6 {
-  background-position: 0 (-56 * $tileHeight);
-}
-.sunflower.stage5,
-.sunflower.stage6,
-.wildflower.stage6 {
-  background-position: 0 (-55 * $tileHeight);
-}
 
 /* STATS */
 .stats {
