@@ -171,6 +171,7 @@ const removeItem = (farm, item) => {
 };
 
 const getSellPrice = (farm, item) => {
+  const day = Farm.day(farm);
   const season = Farm.season(farm);
   const info = Crops.info(item.type);
   let price = 0;
@@ -182,7 +183,7 @@ const getSellPrice = (farm, item) => {
     } else {
       price = info.prices.crop;
 
-      if (!info.seasons.includes(season)) {
+      if (!info.seasons.includes(season) && day > 1) {
         const luck = Farm.luck(farm, 0.4, 0.04);
         price = Math.ceil(info.prices.crop * luck);
       }
