@@ -1,3 +1,4 @@
+$grassColor: rgb(20, 160, 46);
 $springColor: rgb(146, 220, 186);
 $summerColor: rgb(156, 219, 67);
 $fallColor: rgb(233, 181, 163);
@@ -31,7 +32,7 @@ html {
   font-weight: normal;
   font-size: 62.5%;
   font-family: Georgia, Times, 'Times New Roman', serif;
-  background: $springColor;
+  background: $grassColor;
   color: $fontColor;
 }
 
