@@ -118,9 +118,6 @@ const onUpdate = (dt) => {
   Renderer.invalidate(farm, tool, screen);
 };
 
-const onRender = () => {
-};
-
 const onKeyDown = ({isComposing, keyCode}) => {
   if (!isComposing && keyCode !== 229) {
     const toolKeys = {
@@ -197,7 +194,7 @@ Game.play = () => {
 
   Game.reset();
   Game.load();
-  Engine.run(onUpdate, onRender);
+  Engine.run(onUpdate);
 
   Renderer.invalidate(farm, tool, screen);
 };

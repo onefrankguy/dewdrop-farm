@@ -5,7 +5,7 @@ let dt = 0;
 let last = Utils.timestamp();
 let step = 1/20;
 
-const onFrame = (update, render) => {
+const onFrame = (update) => {
   const frame = () => {
     now = Utils.timestamp();
     dt += Math.min(1, (now - last) / 1000);
@@ -14,10 +14,6 @@ const onFrame = (update, render) => {
       if (update) {
         update(step);
       }
-    }
-
-    if (render) {
-      render(dt);
     }
 
     last = now;
@@ -29,8 +25,8 @@ const onFrame = (update, render) => {
 
 const Engine = {};
 
-Engine.run = (update, render) => {
-  requestAnimationFrame(onFrame(update, render));
+Engine.run = (update) => {
+  requestAnimationFrame(onFrame(update));
 };
 
 module.exports = Engine;
