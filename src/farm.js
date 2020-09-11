@@ -383,11 +383,8 @@ const sprinkler = (farm, action) => {
   const plant = Farm.planted(farm, action);
 
   if (plant && plant.crop === 'sprinkler') {
-    let plots = [action].concat(Farm.orthogonal(farm, action));
-
-    if (Farm.level(farm) >= 4) {
-      plots = plots.concat(Farm.diagonal(farm, action));
-    }
+    const plots = Farm.orthogonal(farm, action)
+      .concat(Farm.diagonal(farm, action));
 
     plots.forEach(({row, col}) => {
       const waterAction = {

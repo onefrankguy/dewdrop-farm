@@ -133,7 +133,7 @@ const dictionary = {
     stages: [],
     regrow: 0,
     xp: 0,
-    level: 2,
+    level: 4,
   },
   fertilizer: {
     seed: '',
@@ -145,7 +145,7 @@ const dictionary = {
     stages: [],
     regrow: 0,
     xp: 0,
-    level: 1,
+    level: 2,
   },
 };
 
