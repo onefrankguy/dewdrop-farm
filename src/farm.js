@@ -486,6 +486,7 @@ const plant = (farm, action) => {
     ...action,
     tool: 'poke',
     with: slot ? slot.type : 'hand',
+    crop: slot && slot.type && !slot.seed,
   };
 
   farm = enqueue(farm, pokeAction);
@@ -609,9 +610,11 @@ const hop = (farm) => {
   if (action) {
     const day = Math.ceil(farm.time / SECONDS_PER_DAY);
     const lastHop = Math.ceil(action.time / SECONDS_PER_DAY);
-    const duration = day - lastHop;
+    const hopDuration = day - lastHop;
+    const lastFood = Math.ceil(farm.food / SECONDS_PER_DAY) || 0;
+    const foodDuration = day - lastFood;
 
-    if (duration > 0) {
+    if (foodDuration > 1 && hopDuration > 0) {
       const plot = PRNG.pick(Farm.orthogonal(farm, action));
 
       const moveAction = {
@@ -630,6 +633,26 @@ const poke = (farm, action) => {
   const rabbit = Farm.bunny(farm, action);
 
   if (!rabbit) {
+    return farm;
+  }
+
+  if (farm.cow && action.crop) {
+    const day = Math.ceil(farm.time / SECONDS_PER_DAY);
+    const lastFood = Math.ceil(farm.food / SECONDS_PER_DAY) || 0;
+    const foodDuration = day - lastFood;
+
+    if (foodDuration > 0) {
+      const item = {
+        type: action.with,
+        amount: 1,
+        seed: false,
+      };
+
+      if (removeItem(farm, item)) {
+        farm.food = farm.time;
+      }
+    }
+
     return farm;
   }
 
@@ -714,6 +737,7 @@ Farm.create = (options = {}) => {
     monetization: false,
     xp: 0,
     cow: false,
+    food: 0,
   };
 
   const farm = {
