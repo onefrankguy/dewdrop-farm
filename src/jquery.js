@@ -53,7 +53,7 @@ Fn.prototype.click = function click(start, move, end) {
     const contextEventName = 'contextmenu';
 
     const onMove = (moveEvent) => {
-      if (that.canHandleMove) {
+      if (that.active) {
         moveEvent.preventDefault();
 
         if (move) {
@@ -62,28 +62,41 @@ Fn.prototype.click = function click(start, move, end) {
       }
     };
 
-    const onEnd = (endEvent) => {
-      that.canHandleMove = undefined;
+    const onContext = (contextEvent) => {
+      if (that.active) {
+        if (end) {
+          end(that, contextEvent);
+        }
 
-      if (end) {
+        delete that.active;
+      }
+    };
+
+    const onEnd = (endEvent) => {
+      if (that.active) {
         endEvent.preventDefault();
-        end(that, endEvent);
+
+        if (end) {
+          end(that, endEvent);
+        }
+
+        delete that.active;
       }
     };
 
     const onStart = (startEvent) => {
-      that.canHandleMove = true;
+      that.active = true;
+      startEvent.preventDefault();
 
       if (start) {
-        startEvent.preventDefault();
         start(that, startEvent);
       }
     };
 
     this.element.addEventListener(startEventName, onStart);
     this.element.addEventListener(moveEventName, onMove);
-    this.element.addEventListener(endEventName, onEnd);
-    this.element.addEventListener(contextEventName, onEnd);
+    document.addEventListener(endEventName, onEnd);
+    document.addEventListener(contextEventName, onContext);
   }
 
   return this;
