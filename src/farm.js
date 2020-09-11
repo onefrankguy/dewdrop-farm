@@ -453,15 +453,24 @@ const plant = (farm, action) => {
       action.crop = item.type;
 
       if (action.crop === 'wildflower') {
-        action.crop = PRNG.pick(['rose', 'tulip', 'sunflower']);
+        const flowers = ['rose', 'tulip', 'sunflower'];
+
+        action.crop = PRNG.pick(flowers);
         action.rotate = PRNG.pick(['X', 0]);
 
         if (Farm.skilled(farm, 0.02, 0.04)) {
           const season = Farm.season(farm);
-          const seasonalCrops = Crops.seasonal(season);
+          const seasonalCrops = Crops.seasonal(season)
+            .filter((type) => {
+              const info = Crops.info(type);
 
-          action.type = PRNG.pick(seasonalCrops);
-          action.rotate = 0;
+              return info.stages.length && !flowers.includes(type);
+            });
+
+          if (seasonalCrops.length) {
+            action.crop = PRNG.pick(seasonalCrops);
+            action.rotate = 0;
+          }
         }
       }
 
