@@ -147,6 +147,18 @@ const dictionary = {
     xp: 0,
     level: 2,
   },
+  cow: {
+    seed: '',
+    seasons: ['fall'],
+    prices: {
+      crop: 1500,
+      seed: 150000,
+    },
+    stages: [],
+    regrow: 0,
+    xp: 0,
+    level: 6,
+  },
 };
 
 Crops.seasonal = (season) =>

@@ -211,7 +211,9 @@ const renderFarmPlotBunny = (farm, row, col) => {
   const bunny = Farm.bunny(farm, {row, col});
 
   if (bunny) {
-    const klasses = ['tile', 'bunny', 'animal', bunny.rotate ? `rotate${bunny.rotate}` : ''];
+    const rotate = bunny.rotate ? `rotate${bunny.rotate}` : '';
+    const cow = farm.cow ? 'cow' : 'bunny';
+    const klasses = ['tile', cow, 'animal', rotate];
     html += `<div class="${renderClasses(klasses)}"></div>`;
   }
 

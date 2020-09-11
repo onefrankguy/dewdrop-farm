@@ -13,6 +13,7 @@ const LEVELS = [100, 380, 770, 1300, 2150, 3300, 4800, 6900, 10000, 15000];
 const SEASONS = ['spring', 'summer', 'fall', 'winter'];
 const DAYS_PER_SEASON = 28;
 const SECONDS_PER_DAY = (14 * 60 * 3) / SEASONS.length / DAYS_PER_SEASON;
+const MAX_XP = LEVELS[LEVELS.length - 1];
 
 const Farm = {
   SECONDS_PER_DAY,
@@ -102,6 +103,12 @@ const getBunnyDirection = (from, to) => {
   }
 
   return from.col < to.col ? 'X' : 0;
+};
+
+const adjustXp = (farm, value) => {
+  if (farm && value) {
+    farm.xp = Math.max(0, Math.min(farm.xp + value, MAX_XP));
+  }
 };
 
 const clearEmptyItems = (farm) => {
@@ -271,9 +278,7 @@ const harvest = (farm, action) => {
 
   const info = Crops.info(plant.crop);
 
-  if (info.xp) {
-    farm.xp += info.xp;
-  }
+  adjustXp(farm, info.xp);
 
   if (info.regrow) {
     const plantAction = {
@@ -424,6 +429,10 @@ const canPlant = (farm, action) => {
     return tilled && !fertilized;
   }
 
+  if (slot.type === 'cow') {
+    return true;
+  }
+
   return tilled && !planted;
 };
 
@@ -462,7 +471,14 @@ const plant = (farm, action) => {
         action.rotate = getRotation(plant);
       }
 
-      addLand(farm, action, action.type);
+      if (action.crop === 'cow') {
+        action.type = undefined;
+        farm.cow = true;
+      }
+
+      if (action.type) {
+        addLand(farm, action, action.type);
+      }
     }
   }
 
@@ -624,23 +640,28 @@ const poke = (farm, action) => {
     return farm;
   }
 
-  if (action.with === 'hoe' && Farm.skilled(farm, 0.01, 0.02)) {
-    removeLand(farm, action, 'bunny');
-    farm.bunny = getBunnyTime();
+  if (action.with === 'hoe')  {
+    adjustXp(farm, -20);
 
-    const item = {
-      type: 'fertilizer',
-      amount: 1,
-      seed: true,
-    };
+    if (Farm.skilled(farm, 0.01, 0.02)) {
+      removeLand(farm, action, 'bunny');
+      farm.bunny = getBunnyTime();
+      farm.cow = false;
 
-    addItem(farm, item);
+      const item = {
+        type: 'fertilizer',
+        amount: 1,
+        seed: true,
+      };
 
-    return farm;
+      addItem(farm, item);
+
+      return farm;
+    }
   }
 
   if (action.with === 'hand') {
-    farm.xp += 15;
+    adjustXp(farm, 15);
   }
 
   const edges = PRNG.shuffle(getEdges(farm));
@@ -692,6 +713,7 @@ Farm.create = (options = {}) => {
     version: 3,
     monetization: false,
     xp: 0,
+    cow: false,
   };
 
   const farm = {
@@ -933,11 +955,10 @@ Farm.level = (farm) => {
 
 Farm.xp = (farm) => {
   const xp = (farm && farm.xp) ? farm.xp : 0;
-  const max = LEVELS[LEVELS.length - 1];
   const index = LEVELS.findIndex((level) => xp < level);
-  const needed = ~index ? LEVELS[index] : max;
+  const needed = ~index ? LEVELS[index] : MAX_XP;
 
-  return [Math.min(xp, max), needed];
+  return [Math.min(xp, MAX_XP), needed];
 };
 
 Farm.luck = (farm, base = 0.01, addition = 0.02, invert = false) => {
