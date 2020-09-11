@@ -1,4 +1,7 @@
-$plotColor: rgb(20, 160, 46);
+$springColor: rgb(20, 160, 46);
+$summerColor: rgb(156, 219, 67);
+$fallColor: rgb(219, 164, 99);
+$winterColor: rgb(185, 191, 251);
 $fontColor: rgb(20, 16, 19);
 $tileWidth: 4.8rem;
 $tileHeight: 4.8rem;
@@ -29,7 +32,7 @@ html {
   font-weight: normal;
   font-size: 62.5%;
   font-family: Georgia, Times, 'Times New Roman', serif;
-  background: $plotColor;
+  background: $springColor;
   color: $fontColor;
 }
 
@@ -46,19 +49,19 @@ a:visited {
 }
 
 .spring {
-  background: rgb(20, 160, 46);
+  background: $springColor;
 }
 
 .summer {
-  background: rgb(156, 219, 67);
+  background: $summerColor;
 }
 
 .fall {
-  background: rgb(219, 164, 99);
+  background: $fallColor;
 }
 
 .winter {
-  background: rgb(185, 191, 251);
+  background: $winterColor;
 }
 
 /* SCREEN */
@@ -613,7 +616,7 @@ $registerShadowDark: rgba(20, 16, 19, 0.5);
 }
 
 abbr[title="and"] {
-  font-family: 'Adobe Caslon Pro', Baskerville, 'Goudy Old Style', Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, Times, 'Times New Roman', serif;
+  font-family: Baskerville, Constantia, inherit;
   font-style: italic;
   text-decoration: none;
   font-size: 110%;
