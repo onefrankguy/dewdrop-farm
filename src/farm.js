@@ -624,6 +624,21 @@ const poke = (farm, action) => {
     return farm;
   }
 
+  if (action.with === 'hoe' && Farm.skilled(farm, 0.01, 0.02)) {
+    removeLand(farm, action, 'bunny');
+    farm.bunny = getBunnyTime();
+
+    const item = {
+      type: 'fertilizer',
+      amount: 1,
+      seed: true,
+    };
+
+    addItem(farm, item);
+
+    return farm;
+  }
+
   if (action.with === 'hand') {
     farm.xp += 15;
   }
