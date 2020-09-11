@@ -594,6 +594,19 @@ const move = (farm, action) => {
 
     addLand(farm, action, 'bunny');
 
+    if (farm.cow) {
+      const fertilized = Farm.fertilized(farm, action);
+      action.rotate = getRotation(fertilized);
+
+      removeLand(farm, action, 'fertilizer');
+      removeLand(farm, action, 'plant');
+      addLand(farm, action, 'till');
+
+      if (Farm.skilled(farm, 0.01, 0.02)) {
+        addLand(farm, action, 'fertilizer');
+      }
+    }
+
     const plant = Farm.planted(farm, action);
 
     if (plant && plant.crop !== 'sprinkler' && plant.stage > MIN_CROP_STAGE && plant.stage < MAX_CROP_STAGE) {

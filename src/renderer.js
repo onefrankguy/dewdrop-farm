@@ -165,10 +165,10 @@ const renderFarmPlotGround = (farm, row, col) => {
 };
 
 const renderFarmPlotFertilizer = (farm, row, col) => {
-  const fertilizer = Farm.fertilized(farm, {row, col});
+  const fertilized = Farm.fertilized(farm, {row, col});
 
-  if (fertilizer) {
-    const rotate = fertilizer.rotate ? `rotate${fertilizer.rotate}` : '';
+  if (fertilized) {
+    const rotate = fertilized.rotate ? `rotate${fertilized.rotate}` : '';
     const klasses = ['tile', 'fertilizer', rotate];
 
     return `<div class="${renderClasses(klasses)}"></div>`
