@@ -1,5 +1,54 @@
 # Development Diary #
 
+## 10 September 2020 ##
+
+Day 29 of 31. 13,271 bytes used (99.69%).
+
+I think I fixed the "double tap to zoom" bug on Mobile Safari by using
+`event.preventDefault()`. It's hard to trigger a cache refresh on Mobile Safari
+so only more time spent testing will tell.
+
+I added a fertilizer mechanic. It makes crops grow faster, taking luck into
+account. So there's a chance fertilized land will trigger a double grow event.
+
+Selling crops out of season is now less profitable. This gives more of an active
+feel to farming, since you're always selling crops as soon as they harvest.
+
+I ditched the custom PRNG to save 110 bytes. I wasn't seeding it, so it wasn't
+very useful.
+
+Stuff you can't buy yet (because you're not at a high enough level) shows up
+as disabled and "404 Not Found" in the store.
+
+I replaced the watering can (that looked like a small elephant) with a gardening
+hose. I like it a lot more! It's my own design, so that was fun.
+
+I added a background color for each season, and made it transition on the first
+day of the season. It's probably my favorite effect of the game. I need to tweak
+the colors though so they're all a similar brightness level.
+
+There's an exploit with wildflowers in the winter. You can plant them and them
+immediately harvest them to figure out what kind they are and get seeds you can
+sell.
+
+I've got a list of things to fix and improve for tomorrow:
+
+* There should be a one day grace period for seasonal sales a the start of the
+  next season. That accounts for harvesting crops on the very last second of
+  the last day of this season but not being able to sell them quick enough.
+* Flowers should have a sale price that's more than 1 cash. You can't make
+  enough money with them to get out of debt. This is especially true given you
+  can only grab 64 of them during the winter. They should at least let you get
+  back up to your starting cash level.
+* There's a double plant bug with wildflowers. Sometimes two seeds get planted
+  on the same plot of land.
+* The sprinklers aren't very useful as is. They should do the full eight plots
+  around them, but unlock at level 4 instead of level 2.
+* The fertilizer should unlock at level 2 instead of level 1.
+* Hitting the bunny with the hoe should have a chance of killing it an giving
+  you fertilizer. I'm not sure how I feel about that, but it would give you
+  something to do during the winter.
+
 ## 9 September 2020 ##
 
 Day 28 of 31. 13,006 bytes used (97.70%).
