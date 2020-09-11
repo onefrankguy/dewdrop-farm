@@ -9,8 +9,7 @@ $tileHeight: 4.8rem;
 @mixin crop($name, $row) {
   @for $i from 1 through 6 {
     .#{$name}.stage#{$i} {
-      background-position-x: (($i - 6) * $tileWidth);
-      background-position-y: (-1 * $row * $tileHeight);
+      background-position: 0 (($row - (($i - 1) * 6)) * $tileHeight);
     }
   }
 }
@@ -103,10 +102,10 @@ a:visited {
   display: inline-flex;
   width: $tileHeight;
   height: $tileHeight;
-  background-size: (6 * $tileWidth) (11 * $tileHeight);
-  background-image: url('tiles2.png');
-  background-position-x: (-4 * $tileWidth);
-  background-position-y: (0 * $tileHeight);
+  background-size: (1 * $tileWidth) (65 * $tileHeight);
+  background-image: url('farm.png');
+  background-position: 0 0;
+  background-repeat: no-repeat;
 }
 
 .farm {
@@ -137,153 +136,125 @@ a:visited {
 }
 
 .tile.ground {
-  background-position-x: (-5 * $tileWidth);
-  background-position-y: (0 * $tileHeight);
+  background-position: 0 (-17 * $tileHeight);
 }
 .till.stage0000 {
-  background-position-x: (0 * $tileWidth);
-  background-position-y: (0 * $tileHeight);
+  background-position: 0 (-1 * $tileHeight);
 }
 .till.stage0001 {
-  background-position-x: (-2 * $tileWidth);
-  background-position-y: (-1 * $tileHeight);
+  background-position: 0 (-4 * $tileHeight);
 }
 .till.stage0010 {
-  background-position-x: (-1 * $tileWidth);
-  background-position-y: (-0 * $tileHeight);
+  background-position: 0 (-5 * $tileHeight);
 }
 .till.stage0011 {
-  background-position-x: (-5 * $tileWidth);
-  background-position-y: (-1 * $tileHeight);
+  background-position: 0 (-11 * $tileHeight);
 }
 .till.stage0100 {
-  background-position-x: (0 * $tileWidth);
-  background-position-y: (-1 * $tileHeight);
+  background-position: 0 (-2 * $tileHeight);
 }
 .till.stage0101 {
-  background-position-x: (0 * $tileWidth);
-  background-position-y: (-2 * $tileHeight);
+  background-position: 0 (-3 * $tileHeight);
 }
 .till.stage0110 {
-  background-position-x: (-4 * $tileWidth);
-  background-position-y: (-1 * $tileHeight);
+  background-position: 0 (-8 * $tileHeight);
 }
 .till.stage0111 {
-  background-position-x: (-3 * $tileWidth);
-  background-position-y: (-2 * $tileHeight);
+  background-position: 0 (-14 * $tileHeight);
 }
 .till.stage1000 {
-  background-position-x: (-1 * $tileWidth);
-  background-position-y: (-2 * $tileHeight);
+  background-position: 0 (-7 * $tileHeight);
 }
 .till.stage1001 {
-  background-position-x: (-5 * $tileWidth);
-  background-position-y: (-2 * $tileHeight);
+  background-position: 0 (-13 * $tileHeight);
 }
 .till.stage1010 {
-  background-position-x: (-2 * $tileWidth);
-  background-position-y: (-2 * $tileHeight);
+  background-position: 0 (-6 * $tileHeight);
 }
 .till.stage1011 {
-  background-position-x: (-2 * $tileWidth);
-  background-position-y: (0 * $tileHeight);
+  background-position: 0 (-12 * $tileHeight);
 }
 .till.stage1100 {
-  background-position-x: (-4 * $tileWidth);
-  background-position-y: (-2 * $tileHeight);
+  background-position: 0 (-10 * $tileHeight);
 }
 .till.stage1101 {
-  background-position-x: (-3 * $tileWidth);
-  background-position-y: (-1 * $tileHeight);
+  background-position: 0 (-16 * $tileHeight);
 }
 .till.stage1110 {
-  background-position-x: (-3 * $tileWidth);
-  background-position-y: (0 * $tileHeight);
+  background-position: 0 (-9 * $tileHeight);
 }
 .till.stage1111 {
-  background-position-x: (-1 * $tileWidth);
-  background-position-y: (-1 * $tileHeight);
+  background-position: 0 (-15 * $tileHeight);
 }
 .tile.water {
-  background-position-x: (-5 * $tileWidth);
-  background-position-y: (-3 * $tileHeight);
+  background-position: 0 (-18 * $tileHeight);
 }
 .tile.seeds {
-  background-position-x: (-3 * $tileWidth);
-  background-position-y: (-3 * $tileHeight);
+  background-position: 0 (-63 * $tileHeight);
 }
 .tile.hoe {
-  background-position-x: (0 * $tileWidth);
-  background-position-y: (-3 * $tileHeight);
+  background-position: 0 (-60 * $tileHeight);
 }
 .tile.can {
-  background-position-x: (-1 * $tileWidth);
-  background-position-y: (-3 * $tileHeight);
+  background-position: 0 (-61 * $tileHeight);
 }
 .tile.sprinkler {
-  background-position-x: (-4 * $tileWidth);
-  background-position-y: (-3 * $tileHeight);
+  background-position: 0 (-62 * $tileHeight);
 }
 .tile.bunny {
-  background-position-x: (-2 * $tileWidth);
-  background-position-y: (-3 * $tileHeight);
+  background-position: 0 (-64 * $tileHeight);
 }
 .tile.crop.stage-1 {
-  background-position-x: (-5 * $tileWidth);
-  background-position-y: (-4 * $tileHeight);
+  background-position: 0 (-58 * $tileHeight);
 }
 .tile.fertilizer {
-  background-position-x: (-5 * $tileWidth);
-  background-position-y: (-6 * $tileHeight);
+  background-position: 0 (-20 * $tileHeight);
+}
+.tile.coins {
+  transform: scale(0.75);
+  background-position: 0 (-59 * $tileHeight);
 }
 
-@include crop('turnip', 5);
-@include crop('tomato', 6);
-@include crop('eggplant', 7);
-@include crop('strawberry', 8);
-@include crop('potato', 9);
-@include crop('avocado', 10);
+@include crop('turnip', -19);
+@include crop('tomato', -20);
+@include crop('eggplant',-21);
+@include crop('strawberry', -22);
+@include crop('potato', -23);
+@include crop('avocado', -24);
 
 .tomato.stage1,
 .rose.stage1,
 .tulip.stage1,
 .sunflower.stage1 {
-  background-position-x: (-5 * $tileWidth);
-  background-position-y: (-8 * $tileHeight);
+  background-position: 0 (-8 * $tileHeight);
 }
 .rose.stage2,
 .tulip.stage2,
 .sunflower.stage2 {
-  background-position-x: (-4 * $tileWidth);
-  background-position-y: (-7 * $tileHeight);
+  background-position: 0 (-7 * $tileHeight);
 }
 .rose.stage3,
 .tulip.stage3,
 .sunflower.stage3 {
-  background-position-x: (-3 * $tileWidth);
-  background-position-y: (-10 * $tileHeight);
+  background-position: 0 (-10 * $tileHeight);
 }
 .rose.stage4,
 .tulip.stage4,
 .sunflower.stage4 {
-  background-position-x: (-2 * $tileWidth);
-  background-position-y: (-10 * $tileHeight);
+  background-position: 0 (-10 * $tileHeight);
 }
 .rose.stage5,
 .rose.stage6 {
-  background-position-x: (0 * $tileWidth);
-  background-position-y: (-4 * $tileHeight);
+  background-position: 0 (-57 * $tileHeight);
 }
 .tulip.stage5,
 .tulip.stage6 {
-  background-position-x: (-1 * $tileWidth);
-  background-position-y: (-4 * $tileHeight);
+  background-position: 0 (-56 * $tileHeight);
 }
 .sunflower.stage5,
 .sunflower.stage6,
 .wildflower.stage6 {
-  background-position-x: (-2 * $tileWidth);
-  background-position-y: (-4 * $tileHeight);
+  background-position: 0 (-55 * $tileHeight);
 }
 
 /* STATS */
@@ -306,12 +277,6 @@ a:visited {
   > sup {
     font-size: (1.6rem / 1.618);
   }
-}
-
-.tile.coins {
-  transform: scale(0.75);
-  background-position-x: (-4 * $tileWidth);
-  background-position-y: (-4 * $tileHeight);
 }
 
 $storeBorder: rgb(113, 65, 59);

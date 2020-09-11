@@ -1,4 +1,4 @@
-require('../img/tiles2.png');
+require('../img/farm.png');
 require('./game.scss');
 
 const Game = require('./game');

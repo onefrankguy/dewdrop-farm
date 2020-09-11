@@ -1,2 +1,2 @@
 index.html
-tiles2.png
+farm.png
