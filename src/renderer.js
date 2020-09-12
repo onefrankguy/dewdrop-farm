@@ -296,7 +296,7 @@ const renderInformation = (farm) => {
   const year = Farm.year(farm);
   const level = Farm.level(farm);
   const [xp, needed] = Farm.xp(farm).map(renderNumber);
-  const luck = Math.floor(Farm.luck(farm) * 100);
+  const luck = Math.ceil(Farm.luck(farm) * 100);
 
   html += `<div class="center subtitle">${year}<sup>${renderNth(year)}</sup>&nbsp;Year</div>`;
   html += `<div>Level: ${level}</div>`;
