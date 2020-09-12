@@ -140,7 +140,7 @@ const dictionary = {
     seasons: ['spring'],
     prices: {
       crop: 20,
-      seed: 500,
+      seed: 50,
     },
     stages: [],
     regrow: 0,
