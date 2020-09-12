@@ -592,29 +592,26 @@ const bunny = (farm) => {
 
 const move = (farm, action) => {
   const rabbit = getBunny(farm);
+  const plant = Farm.planted(farm, action);
+  const fertilized = Farm.fertilized(farm, action);
 
   if (rabbit) {
     removeLand(farm, rabbit, 'bunny');
-
     action.rotate = getBunnyDirection(rabbit, action);
-
     addLand(farm, action, 'bunny');
 
     if (farm.cow) {
-      const fertilized = Farm.fertilized(farm, action);
-      action.rotate = getRotation(fertilized);
+      if (plant && plant.crop !== 'sprinkler') {
+        removeLand(farm, action, 'plant');
+      }
 
-      removeLand(farm, action, 'plant');
       addLand(farm, action, 'till');
 
       if (Farm.skilled(farm, 0.01, 0.02)) {
+        action.rotate = getRotation(fertilized);
         addLand(farm, action, 'fertilizer');
       }
-    }
-
-    const plant = Farm.planted(farm, action);
-
-    if (plant && plant.crop !== 'sprinkler' && plant.stage > MIN_CROP_STAGE && plant.stage < MAX_CROP_STAGE) {
+    } else if (plant && plant.crop !== 'sprinkler' && plant.stage > MIN_CROP_STAGE && plant.stage < MAX_CROP_STAGE) {
       removeLand(farm, action, 'plant');
     }
   }
