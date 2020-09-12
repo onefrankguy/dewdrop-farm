@@ -1,5 +1,37 @@
 # Development Diary #
 
+## 11 September 2020 ##
+
+Day 30 of 31. 12,668 bytes used (95.16%). 
+
+Fertilizer now restocks at level 2 and the sprinkler restocks at level 4. The
+sprinkler now waters the eight plots around it (but not itself) so that it's
+more useful. I also fixed a bug where the context menu was accidentally
+disabled.
+
+There's a one day grace period when selling crops. This allows you to harvest
+on the 28th and sell on the 1st. It was a feature asked for during beta
+testing, since crops sell for less out of season.
+
+I remove some unused code, like the render sync, and shrunk the font stack used
+for the ampersand. It doesn't use Baskerville on iOS and I'm not sure why. I
+tweaked the season colors so they all have the same relative brightness. I may
+recolor things post contest to improve accessibility.
+
+The major win in terms of bytes was moving all the sprites into a single
+vertical list, minifying them with ImageOptim, and embedding that in the HTML
+file. That saves a ton of bytes! Enough bytes to add more graphics and features. So now there is...
+
+A cow! If you feed the cow every day, it won't walk around and destroy crops.
+The cow will till fields as it walks and has a chance of fertilizing them too.
+It's pretty destructive though. It will destroy all the plants and any
+fertilizer it walks over.
+
+I fixed the double plant bug with wildflowers, and fixed a bug where the
+sprinklers stopped working. But that means you can't plant sprinklers on grass
+any more. I aslo fixed a bug with the links not being clickabled and addded a
+hotkey "I" for the info screen.
+
 ## 10 September 2020 ##
 
 Day 29 of 31. 13,271 bytes used (99.69%).
