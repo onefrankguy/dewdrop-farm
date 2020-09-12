@@ -848,7 +848,7 @@ Farm.save = (farm, localStorage) => {
     farmCopy = dequeue(farmCopy);
     const data = JSON.stringify(farmCopy);
 
-    localStorage.setItem('farm', data);
+    localStorage.setItem('dewdropfarm', data);
 
     return [farmCopy, true];
   } catch {
@@ -858,7 +858,7 @@ Farm.save = (farm, localStorage) => {
 
 Farm.load = (farm, localStorage) => {
   try {
-    const data = localStorage.getItem('farm');
+    const data = localStorage.getItem('dewdropfarm');
     const savedFarm = JSON.parse(data);
 
     return savedFarm.version === farm.version ? savedFarm : farm;
