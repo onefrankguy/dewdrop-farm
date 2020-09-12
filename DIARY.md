@@ -1,5 +1,30 @@
 # Development Diary #
 
+## 12 September 2020 ##
+
+Day 31 of 31. 12,837 bytes used (96.43%). 
+
+It's done! I dropped the price of fertilizer to 50 make it more useful. I also
+tweaked the cow so it no longer tramples fertilizer and sprinklers. This means
+it's now possible to get fertilizer in all three growing seasons if you play
+carefully.
+
+I update the `localStorage` namespace, because "farm" was a little too generic.
+It's "dewdropfarm" now.
+
+Web monitization now gets a +3 level bonus to luck instead of a flat percentage.
+That doesn't unlock anything new, but it makes seed prices a bit higher and
+makes fertilizer a bit more likely to trigger growth.
+
+I made a new graphic for wildflower seedds and documented all the graphics info
+in the README. I also worked out an icon and a screenshot. Both were done in
+Aseprite, which is a first for me. I usually do those in the browser. But with
+the pixel art heavy look of this game, it found an actual image editor easier
+to use.
+
+Now it's in the submission queue. It's 10 pm in Berlin though, so my guess is it
+won't be live until tomorrow.
+
 ## 11 September 2020 ##
 
 Day 30 of 31. 12,668 bytes used (95.16%). 
@@ -31,6 +56,19 @@ I fixed the double plant bug with wildflowers, and fixed a bug where the
 sprinklers stopped working. But that means you can't plant sprinklers on grass
 any more. I aslo fixed a bug with the links not being clickabled and addded a
 hotkey "I" for the info screen.
+
+I've got a list of things to fix and improve for tomorrow:
+
+* Show the current year on the info screen.
+* Namespace `localStorage`.
+* Use a unique graphic for wildflower seeds.
+* Maybe add better flower graphics if I've got the space?
+* Make fertilizer more useful. Since you can only buy it in the spring, maybe
+  it should last all year?
+* Adjust the bonus luck that comes from monetization so it's a plus to levels
+  instead of a flat percentage.
+* Add some static grass around the edges of the farm.
+* Maybe add a static bunny at the edges of the farm?
 
 ## 10 September 2020 ##
 
