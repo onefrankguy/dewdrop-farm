@@ -103,7 +103,7 @@ a:visited {
   display: inline-flex;
   width: $tileHeight;
   height: $tileHeight;
-  background-size: (1 * $tileWidth) (71 * $tileHeight);
+  background-size: (1 * $tileWidth) (72 * $tileHeight);
   background-image: url('farm.png');
   background-position: 0 0;
   background-repeat: no-repeat;
@@ -211,8 +211,7 @@ a:visited {
   background-position: 0 (-58 * $tileHeight);
 }
 .sunflower.stage5,
-.sunflower.stage6,
-.wildflower.stage6 {
+.sunflower.stage6 {
   background-position: 0 (-59 * $tileHeight);
 }
 .tulip.stage5,
@@ -223,33 +222,36 @@ a:visited {
 .rose.stage6 {
   background-position: 0 (-61 * $tileHeight);
 }
-.tile.fertilizer {
+.wildflower.stage6 {
   background-position: 0 (-62 * $tileHeight);
 }
-.tile.crop.stage-1 {
+.tile.fertilizer {
   background-position: 0 (-63 * $tileHeight);
+}
+.tile.crop.stage-1 {
+  background-position: 0 (-64 * $tileHeight);
 }
 .tile.coins {
   transform: scale(0.75);
-  background-position: 0 (-64 * $tileHeight);
-}
-.tile.hoe {
   background-position: 0 (-65 * $tileHeight);
 }
-.tile.can {
+.tile.hoe {
   background-position: 0 (-66 * $tileHeight);
 }
-.tile.sprinkler {
+.tile.can {
   background-position: 0 (-67 * $tileHeight);
 }
-.tile.seeds {
+.tile.sprinkler {
   background-position: 0 (-68 * $tileHeight);
 }
-.tile.bunny {
+.tile.seeds {
   background-position: 0 (-69 * $tileHeight);
 }
-.tile.cow {
+.tile.bunny {
   background-position: 0 (-70 * $tileHeight);
+}
+.tile.cow {
+  background-position: 0 (-71 * $tileHeight);
 }
 
 @include crop('turnip', -19);
