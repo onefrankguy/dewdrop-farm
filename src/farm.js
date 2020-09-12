@@ -12,6 +12,7 @@ const MAX_STACK_SIZE = 16;
 const LEVELS = [100, 380, 770, 1300, 2150, 3300, 4800, 6900, 10000, 15000];
 const SEASONS = ['spring', 'summer', 'fall', 'winter'];
 const DAYS_PER_SEASON = 28;
+const DAYS_PER_YEAR = DAYS_PER_SEASON * SEASONS.length;
 const SECONDS_PER_DAY = (14 * 60 * 3) / SEASONS.length / DAYS_PER_SEASON;
 const MAX_XP = LEVELS[LEVELS.length - 1];
 
@@ -934,6 +935,8 @@ Farm.season = (farm) => {
 };
 
 Farm.day = (farm) => Math.ceil((farm.time / SECONDS_PER_DAY) % DAYS_PER_SEASON);
+
+Farm.year = (farm) => Math.ceil(farm.time / SECONDS_PER_DAY / DAYS_PER_YEAR);
 
 Farm.market = (farm) => {
   const items = [];

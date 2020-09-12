@@ -323,6 +323,14 @@ $itemDetailBackground: rgb(219, 164, 99);
     font-size: 2.4rem;
   }
 
+  .subtitle {
+    font-size: 1.2rem;
+
+    > sup {
+      font-size: (1.2rem / 1.618);
+    }
+  }
+
   .message {
     font-size: 1.6rem;
     padding: 0.8rem;
@@ -583,7 +591,7 @@ $registerShadowDark: rgba(20, 16, 19, 0.5);
 }
 
 abbr[title="and"] {
-  font-family: Baskerville, Constantia, inherit;
+  font-family: Baskerville, Constantia, Georgia, Times, 'Times New Roman', serif;;
   font-style: italic;
   text-decoration: none;
   font-size: 110%;
