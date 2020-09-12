@@ -50,6 +50,31 @@ for (let y = 0; y < png.height; y += 1) {
   }
 }
 
+const svg = [];
+const tileWidth = 32;
+const tileHeight = 32;
+const svgWidth = colors.length * tileWidth
+const svgHeight = tileHeight;
+
+svg.push('<?xml version="1.0" standalone="no"?>');
+svg.push(`<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg" version="1.1">`);
+
+colors
+  .sort((a, b) => b.luminance - a.luminance) 
+  .forEach((color, index) => {
+    const x = index * tileWidth;
+    const fill = toCssRgb(color);
+    const opacity = 1;
+
+    svg.push(`<rect x="${x}" y="0" width="${tileWidth}" height="${tileHeight}" fill="${fill}" fill-opacity="${opacity}" stroke="none"/>`);
+    svg.push(`<text x="${x}" y="${tileHeight / 2}" textLength="${tileWidth}" lengthAdjust="spacingAndGlyphs">${fill}</text>`);
+  });
+
+svg.push('</svg>');
+
+console.log(svg.join("\n"));
+
+/*
 const colorPairs = [];
 
 colors.forEach((foreground) => {
@@ -77,3 +102,4 @@ colorPairs.forEach((pair) => {
     console.log(`${toCssRgb(pair.foreground)} ${toCssRgb(pair.background)}`);
   }
 });
+*/
