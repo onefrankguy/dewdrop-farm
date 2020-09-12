@@ -1,8 +1,24 @@
 # Dewdrop Farm #
 
-This game was built for [js13kGames 2020][js13k].
+Welcome to Dewdrop Farm!
+
+Buy some seeds. Till the soil. Plant your crops. Water them daily.
+Pet the bunny. Harvest your crops. Sell for profit. Rinse and repeat.
+
+Buy new tools. Watch the seasons. Take a break. Exploit the market. Buy a cow.
+Feed your cow. Shovel cow poop. It's your farm!
+
+---
+
+If you're playing on desktop, keys <kbd>1</kbd> through <kbd>6</kbd> change 
+the active inventory slot. Keys <kbd>F</kbd>arm, <kbd>B</kbd>uy,
+<kbd>S</kbd>ell, and <kbd>I</kbd>nfo change the active screen.
+
+[Coil][] subscribers get a bonus to luck!
 
 ## Inspiration ##
+
+Dewdrop Farm was built for [js13kGames 2020][js13k].
 
 ## Graphics ##
 
@@ -21,8 +37,8 @@ The bunny, cow, coins, and sprinkler are edits and recolors of sprites from
 DragonDePlatino's [DawnLike][] tileset. They're licensed under the same
 [CC BY 4.0][cc4] license as that work.
 
-The seed envelope and garden hose are my own creations. They're licensed under
-the same [CC BY 4.0][cc4] license as the game itself.
+The seed envelope, watering can, and garden hose are my own creations. They're
+licensed under the same [CC BY 4.0][cc4] license as the game itself.
 
 ## Development ##
 
@@ -53,6 +69,7 @@ See the "Graphics" section of this README for more details. The game and text
 are licensed under a [Creative Commons Attribution 4.0 International License][cc4].
 
 
+[Coil]: https://coil.com/ "Various (Coil): Experience web monetized content in your browser while supporting sites you love in real time"
 [js13k]: https://2020.js13kgames.com/ "Andrzej Mazur (js13kGames): HTML5 and JavaScript game development competition in just 13 kB"
 [Aseprite]: https://www.aseprite.org/ "David Capello (Aseprite): Animated Sprite Editor and Pixel Art Tool"
 [ImageOptim]: https://imageoptim.com/ "Kornel Lesinski: (ImageOptim): Save disk space & bandwidth by compressing images without losing quality"
