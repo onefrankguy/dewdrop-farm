@@ -604,7 +604,6 @@ const move = (farm, action) => {
       const fertilized = Farm.fertilized(farm, action);
       action.rotate = getRotation(fertilized);
 
-      removeLand(farm, action, 'fertilizer');
       removeLand(farm, action, 'plant');
       addLand(farm, action, 'till');
 
