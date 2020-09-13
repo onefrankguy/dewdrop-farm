@@ -20,10 +20,10 @@ keys <kbd>1</kbd> through <kbd>6</kbd> change the active inventory slot. Keys
 ## Game ##
 
 Dewdrop Farm was built for [js13kGames 2020][js13k]. The version submitted to
-competition was [v1.0.0][]. It's playable at
+competition was [v1.0.0][]. It's playable at:
 [https://js13kgames.com/entries/dewdrop-farm][comp].
 
-Any updates to the game that I make after the competition will be playable at
+Any updates to the game I make after the competition will be playable at:
 [https://www.frankmitchell.org/dewdrop-farm][home]. If you want to read about
 the development process, I kept a journal in [DIARY.md][].
 
@@ -70,7 +70,7 @@ npm run build
 
 ## License ##
 
-All code is licensed under a MIT license. See the LICENSE.md file for more
+All code is licensed under a MIT license. See the [LICENSE.md][] file for more
 details. Most graphics are licensed under some form of Creative Commons license.
 See the "Graphics" section of this README for more details. The game and text
 are licensed under a [Creative Commons Attribution 4.0 International License][cc4].
