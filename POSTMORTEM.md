@@ -4,25 +4,95 @@ until the competition started. That's a departure from previous games, where
 I've spent the month leading up to the competition playing various indie
 games, looking for interesting engines and inspiring mechanics.
 
-The only real idea I had going into Dewdrop Farm, was "Make a game where the
+_Dewdrop Farm_ was my entry into the js13kGames competition for 2020. It's a
+tiny farming simulator, with an intentionally addictive compulsion loop. You can
+play it online at: [https://2020.js13kgames.com/entries/dewdrop-farm]. This is
+the 9<sup>th</sup> year I've entered the competition. The challenge of creating
+a game in a month, and fitting it all in a 13 kilobyte zip file, is always fun.
+
+The only real idea I had going into the competition, was "Make a game where the
 passage of time matters." I usually pick some technical topic I want to learn
-about during the competition, and having never done a game where the simulation
-ran independent of the player's interactions with it, I thought that would be
-an interesting thing to build.
+about during the competition, and build a game around that. Having never done a
+game where the world runs independent of the player's actions, I thought that
+would be an interesting thing to build.
 
-I was playing a lot of [Drop7] on my phone in the days leading up to the
-competition start. The designer of that, [???], also made Universal Paperclips,
-an idle clicker game. So I ended up reading the paper [???], and thinking a lot
-about idle games. I was also playing a lot of Minecraft, thanks to the new
-1.16 Nether update, so I also had my mind on [villager trading mechanics] and
-I kind of figured something with an economy would be interesting.
+I was playing _Drop7_ on my phone in the days leading up to the competition. The
+designer of that game, [Frank Lantz][], also made _Universal Paperclips_, an
+incremental game. So I played that, and read the paper [Playing to Wait][], and
+thought a lot about idle games. The 1.16 Nether update to _Minecraft_ had also
+recently been released. So I had piglin trading mechanics on my mind, and I
+figured making a game with an economy would be interesting.
 
-That combination of ideas reminded me of [SimFarm], a game I loved as a kid.
-And I got it in my head that I would build a mini version of Minicraft, just the
+That combination of ideas reminded me of [SimFarm][], a game I loved as a kid.
+I got it in my head that I would build a mini version of _Minicraft_, just the
 farming and trading bits, rendering with a top down view so I didn't have to
 also learn 3D maths while learning about game economies.
 
 15 Aug - 21 Aug
+
+Starting Off
+
+I start all my games off the same way, with 616 bytes of mobile friendly HTML
+and CSS. The template below does a handful of useful things.
+
+First, it assumes the world is 320 pixels wide and 444 pixels tall, and it hides
+everything that doesn't fit in that. Hiding stuff from the start helps me catch
+layout issues early. I don't want to put critical UI elements on areas of the
+screen that won't be visible. That resolution is the usable browser space on an
+iPhone 5/SE, assuming the browser is showing a query bar and tabs at the top and
+buttons at the bottom.
+
+Second, it sets the base font size to 62.5% and sizes everthing with rems.
+This makes 0.1rem equal to 1px. A viewport meta tag scales everything to fit the
+device's width, and a media query scales the font size up for desktops. This
+means I can think about things in pixels and still have them scale nicely at
+various screen resolutions.
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <style>
+    * {
+      cursor: default;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-weight: normal;
+      font-size: 62.5%;
+    }
+
+    .world {
+      width: 32rem;
+      height: 44.4rem;
+      margin: 0 auto;
+      border: 0.1rem solid black;
+      overflow: hidden;
+    }
+
+    @media screen and (min-width:40em) {
+      html {
+        font-size: 120%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="world"></div>
+</body>
+</html>
+```
+
+There are a few gotchas with this template. First, it only has one breakpoint.
+So games tend to look small on some screens that are between a mobile and a
+desktop in size, like the iPad Pro. Second, text has to be explicitly sized.
+1.6rem is (16 pixels) is about as small as you want for game text that needs to
+be read. Though I usually to go down to 1.0rem (10 pixels) for copyright text.
 
 - growing crops
 
@@ -218,6 +288,8 @@ Controls
 Rendering
 
 
+[Frank Lantz]: https://en.wikipedia.org/wiki/Frank_Lantz "Wikipedia: Frank Lantz"
+[Playing to Wait]: https://pixl.nmsu.edu/files/2018/02/2018-chi-idle.pdf ""
 [Eric Barone]: https://www.gq.com/story/stardew-valley-eric-barone-profile "Sam White & Chona Kasinger (GQ): Valley Forged - How One Man Made the Indie Video Game Sensation Stardew Valley"
 [Rachel Wenitsky]: https://twitter.com/RachelWenitsky/status/1296236032803864583 "Rachel Wenitsky (Twitter): are there video games where I just get to walk around?"
 
