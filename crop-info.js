@@ -30,7 +30,7 @@ const getCropData = (crop, season) => {
   const maxActiveDays = days + ((maxHarvests - 1) * regrow);
   const price = info.prices.seed
   const baseValue = info.prices.crop;
-  const profitPerDay = ((maxHarvests * baseValue) - (minPurchases * price)) / maxActiveDays;
+  const profitPerDay = ((maxHarvests * baseValue) - (minPurchases * price)) / growingDays;
 
   return {
     crop,
@@ -39,7 +39,7 @@ const getCropData = (crop, season) => {
     value: baseValue,
     sales: maxHarvests,
     profit: profitPerDay,
-    regrow: info.regrow,
+    regrow,
     seasons: info.seasons,
     xp: info.xp,
   };
