@@ -1,11 +1,64 @@
 #!/usr/bin/env node
 
-const season = process.argv[2] || 'spring';
+const options = {
+  season: 'spring',
+  crops: true,
+  flowers: false,
+  tools: false,
+  growingDays: 28,
+  water: false,
+  rows: false,
+};
+
+process.argv.forEach((arg) => {
+  if (arg.startsWith('--season')) {
+    options.season = arg.split('=')[1];
+  }
+  if (arg.startsWith('--crops')) {
+    options.crops = true;
+  }
+  if (arg.startsWith('--no-crops')) {
+    options.crops = false;
+  }
+  if (arg.startsWith('--flowers')) {
+    options.flowers = true;
+  }
+  if (arg.startsWith('--no-flowers')) {
+    options.flowers = false;
+  }
+  if (arg.startsWith('--tools')) {
+    options.tools = true;
+  }
+  if (arg.startsWith('--no-tools')) {
+    options.tools = false;
+  }
+  if (arg.startsWith('--growing-days')) {
+    options.growingDays = arg.split('=')[1];
+  }
+  if (arg.startsWith('--water')) {
+    options.water = true;
+  }
+  if (arg.startsWith('--no-water')) {
+    options.water = false;
+  }
+  if (arg.startsWith('--rows')) {
+    options.rows = true;
+  }
+  if (arg.startsWith('--no-rows')) {
+    options.rows = false;
+  }
+});
 
 const Crops = require('./src/crops');
 
 const getCropData = (crop, season) => {
-  const x = Math.max(0, parseInt(process.argv[3], 10));
+  let x = 0;
+  if (options.water) {
+    x += 1;
+  }
+  if (options.rows) {
+    x += 1;
+  }
   const adjust = (value) => value - x;
   const info = Crops.info(crop);
   const days = Crops.days({crop, stage: 5, regrow: 0}, adjust);
@@ -24,6 +77,10 @@ const getCropData = (crop, season) => {
     }
   }
   growingDays *= 28;
+
+  if (options.growingDays !== 'max') {
+    growingDays = parseInt(options.growingDays, 10);
+  }
 
   const maxHarvests = regrow ? Math.ceil((growingDays - days) / regrow) : Math.ceil((growingDays - days) / days);
   const minPurchases = regrow ? 1 : maxHarvests;
@@ -46,9 +103,22 @@ const getCropData = (crop, season) => {
 };
 
 
-console.log(`\n= ${season.toUpperCase()} =`);
+console.log(`\n= ${options.season.toUpperCase()} =`);
 
-const crops = Crops.seasonal(season).map((crop) => getCropData(crop, season));
+const crops = Crops.seasonal(options.season)
+  .filter((crop) => {
+    if (['sprinkler', 'fertilizer', 'cow'].includes(crop)) {
+      return options.tools;
+    }
+
+    if (['rose', 'tulip', 'sunflower', 'wildflower'].includes(crop)) {
+      return options.flowers;
+    }
+
+    return options.crops;
+  })
+  .map((crop) => getCropData(crop, options.season));
+
 crops.sort((a, b) => b.profit - a.profit);
 
 crops.forEach((crop) => {
